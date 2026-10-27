@@ -659,8 +659,8 @@ What routes to IMAP when an account is IMAP-configured:
 
 - **Read:** `search-messages`, `list-messages` (server-side `SEARCH`, typically sub-second), and `get-message`.
 - **Folder ops:** `create-mailbox`, `rename-mailbox`, `delete-mailbox` — IMAP's `CREATE`/`RENAME`/`DELETE` succeed on the iCloud/Gmail/Workspace/Exchange mailboxes Mail.app's AppleScript bridge can't touch (#42).
-- **Message mutations:** `mark-as-read`/`unread`, `flag-message`/`unflag-message`, `move-message`, `delete-message`.
-- **Batch mutations (2.1):** `batch-mark-as-read`/`unread`, `batch-flag`/`unflag-messages`, `batch-move-messages`, `batch-delete-messages` — `imap:` ids are grouped by mailbox and applied as a single `UID STORE`/`UID MOVE`; numeric ids in the same batch still use AppleScript.
+- **Message mutations:** `mark-as-read`/`unread`, `flag-message`/`unflag-message`, `move-message`.
+- **Batch mutations (2.1):** `batch-mark-as-read`/`unread`, `batch-flag`/`unflag-messages`, `batch-move-messages` — `imap:` ids are grouped by mailbox and applied as a single `UID STORE`/`UID MOVE`; numeric ids in the same batch still use AppleScript.
 - **Counts & stats (2.1):** `get-unread-count` and `list-mailboxes` use `STATUS`; `get-mail-stats` uses `STATUS` + `SEARCH SINCE` — authoritative and fast even on huge mailboxes. As of v2.6.0 these prefer IMAP whenever it's configured (see _Read routing_ below), merging across accounts when no `account` is given.
 - **Attachments (2.1):** `list-attachments`, `save-attachment`, `fetch-attachment` use `BODYSTRUCTURE` + `FETCH BODY[part]` for `imap:` ids — faster and able to see MIME-embedded attachments AppleScript misses.
 - **Threading (2.1):** `get-thread` links a conversation via `References`/`Message-ID` (`HEADER SEARCH`) for an `imap:` seed, falling back to subject grouping otherwise.
@@ -1087,21 +1087,6 @@ carries the raw 0-6 `flagColorIndex` for back-compat.
 
 ---
 
-#### `delete-message`
-
-Delete a message (move to trash).
-
-| Parameter | Type   | Required | Description |
-| --------- | ------ | -------- | ----------- |
-| `id`      | string | Yes      | Message ID  |
-
-`structuredContent` carries `countDelta` — what the delete actually did to the
-source mailbox. See [Auditing destructive operations](#auditing-destructive-operations).
-
-**⚠️ Safety:** Destructive. Requires explicit user confirmation; search/list first to confirm the message id.
-
----
-
 #### `move-message`
 
 Move a message to a different mailbox.
@@ -1204,19 +1189,6 @@ their own account, mailbox, and UID identity.
 **A repeated id is one message.** `ids` is treated as a set: a duplicate names the same message,
 so it is operated on once, and the batch returns **one result per distinct id**. `success` is
 therefore a count of messages, not of list positions.
-
-#### `batch-delete-messages`
-
-| Parameter       | Type     | Required | Description                                                                                                      |
-| --------------- | -------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
-| `ids`           | string[] | Yes      | Message IDs to delete (max 100)                                                                                  |
-| `sourceMailbox` | string   | No       | Mailbox the **numeric** ids were listed from — pins them to it. Ignored for `imap:` ids.                         |
-| `sourceAccount` | string   | No       | Account the numeric ids were listed from. Required when `sourceMailbox` is supplied; on its own it pins nothing. |
-
-`structuredContent` carries `countDelta` — what the batch actually did to each
-source mailbox. See [Auditing destructive operations](#auditing-destructive-operations).
-
-**⚠️ Safety:** Destructive. Requires explicit user confirmation; search/list first to confirm the message ids.
 
 #### `batch-move-messages`
 
@@ -1678,7 +1650,7 @@ Check Mail.app sync activity.
 
 ## Auditing destructive operations
 
-`delete-message`, `move-message`, `batch-delete-messages` and
+`move-message` and
 `batch-move-messages` report what they actually did, not merely that Mail.app did
 not raise an error. This exists because of
 [#155](https://github.com/sweetrb/apple-mail-mcp/issues/155): a batch delete was
@@ -1823,8 +1795,8 @@ Three more honesty rules:
   than list positions — and `expected` stays comparable with the mailbox instead
   of double-counting a duplicate into a false `over`.
 
-**`imap:` ids are reconciled too, as of 2.15.0.** `batch-delete-messages` and
-`batch-move-messages` return the same `countDelta` structure on the IMAP path, so
+**`imap:` ids are reconciled too, as of 2.15.0.**
+`batch-move-messages` returns the same `countDelta` structure on the IMAP path, so
 one shape covers both backends and a mixed batch reports an entry per source
 mailbox from whichever backend handled it. The entries are **concatenated, never
 summed** — Mail's own count can lag (#155) while the server's `STATUS` cannot, and
@@ -1839,8 +1811,8 @@ Note the mis-targeting class `countDelta` was originally built for cannot occur
 on the IMAP path — a UID names exactly one message in exactly one mailbox — so
 there the value is effect confirmation rather than target confirmation.
 
-Single-message tools carry a post-condition check instead. `delete-message` and
-`move-message` on an `imap:` id return a **`verification`** object in
+Single-message tools carry a post-condition check instead. `move-message` on an
+`imap:` id returns a **`verification`** object in
 `structuredContent`:
 
 ```json
@@ -2147,7 +2119,7 @@ The entrypoint is written as:
 | Attachment read path restrictions                                            | Outbound file attachments must use full absolute paths inside the default home-directory, `/Volumes`, or temporary roots, except hidden files and protected credential/configuration locations. Set `APPLE_MAIL_MCP_ATTACHMENT_READ_ROOTS` to add an explicit absolute root for another deliberate location; symlink escapes are rejected.                                                                                                                                                                                                                                                           |
 | Smart mailboxes need Mail quit                                               | Smart mailboxes are supported (see [Smart Mailbox Operations](#smart-mailbox-operations-intelligente-postfächer)), but `create-`/`delete-smart-mailbox` edit `SyncedSmartMailboxes.plist` directly — a running Mail may not show a new one until relaunched, and can overwrite plist edits it didn't make. Quit Mail first. Reading them needs Full Disk Access for the Node runtime                                                                                                                                                                                                                 |
 | Very large mailboxes not searchable _via AppleScript_                        | Apple Mail's AppleScript bridge times out on mailboxes with tens of thousands of messages, so unscoped `search-messages` skips mailboxes above `APPLE_MAIL_MAX_SEARCH_MAILBOX` (default 5000) and reports them as a partial result. Scope with `mailbox` + a date window — or configure the [IMAP backend](#imap-backend--opt-in), which searches these server-side in well under a second. ([#24](https://github.com/sweetrb/apple-mail-mcp/issues/24))                                                                                                                                             |
-| Can't delete/rename server-side mailboxes or mutate drafts _via AppleScript_ | Mail.app's AppleScript bridge can only `delete`/`rename` **local "On My Mac"** mailboxes and cannot delete/move drafts — it throws `AppleEvent handler failed` for IMAP/Gmail/Workspace/iCloud/Exchange mailboxes (the GUI can do it). Without IMAP configured, `delete-mailbox`/`rename-mailbox`/`delete-message`/`move-message` return a clear "do it in Mail.app directly" error instead of a generic failure. With the [IMAP backend](#imap-backend--opt-in) configured for the account, these operations run via IMAP and succeed. ([#42](https://github.com/sweetrb/apple-mail-mcp/issues/42)) |
+| Can't delete/rename server-side mailboxes or mutate drafts _via AppleScript_ | Mail.app's AppleScript bridge can only `delete`/`rename` **local "On My Mac"** mailboxes and cannot delete/move drafts — it throws `AppleEvent handler failed` for IMAP/Gmail/Workspace/iCloud/Exchange mailboxes (the GUI can do it). Without IMAP configured, `delete-mailbox`/`rename-mailbox`/`move-message` return a clear "do it in Mail.app directly" error instead of a generic failure. With the [IMAP backend](#imap-backend--opt-in) configured for the account, these operations run via IMAP and succeed. ([#42](https://github.com/sweetrb/apple-mail-mcp/issues/42)) |
 | Message ID format                                                            | Message IDs must be numeric (AppleScript ids) or `imap:…` tokens from the IMAP read path (validated by schema)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | Batch size cap                                                               | Batch operations are limited to 100 messages per request                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | Date filter format                                                           | Date filters must be valid parseable dates (e.g., "January 1, 2026" or "2026-03-15"); bare numbers or non-date strings are rejected                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |

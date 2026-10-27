@@ -105745,36 +105745,6 @@ function mergeCountDeltas(apple, imap) {
   const all = [...apple ?? [], ...imap ?? []];
   return all.length ? { countDelta: all } : {};
 }
-async function runBatchDelete(deps, args) {
-  const { ids, sourceMailbox, sourceAccount } = args;
-  let forensics = { warnings: [] };
-  const counts = await hybridBatchCounts(
-    ids,
-    (n) => {
-      const res = deps.batchDeleteMessages(n, toManagerScope({ sourceAccount, sourceMailbox }));
-      forensics = deps.collectForensics("batch-delete-messages", {
-        ids,
-        sourceMailbox,
-        sourceAccount
-      });
-      return res;
-    },
-    (im) => deps.imapBatchDelete(im)
-  );
-  return batchResponse(
-    counts,
-    {
-      allSucceeded: (n) => `Successfully deleted ${n} message(s)`,
-      allFailed: (n) => `Failed to delete all ${n} message(s)`,
-      partial: (ok, failed) => `Deleted ${ok} message(s), ${failed} failed`
-    },
-    // #181: merge both backends' reconciliation. An AppleScript-only batch is
-    // unchanged; an IMAP-only one now reports a delta where it previously
-    // reported nothing; a mixed batch reports both, per source mailbox.
-    mergeCountDeltas(forensics.countDelta, counts.countDelta),
-    forensics.warnings
-  );
-}
 async function runBatchMove(deps, args) {
   const { ids, mailbox, account, sourceMailbox, sourceAccount } = args;
   let forensics = { warnings: [] };
@@ -107739,44 +107709,6 @@ registerTool(
   )
 );
 registerTool(
-  "delete-message",
-  {
-    description: "Use when: deleting a single message by id (moves it to Trash).\nReturns: a confirmation that the message was deleted.\nDo not use when: deleting several at once (use batch-delete-messages) or just filing it away (use move-message).\nSafety: destructive \u2014 require explicit user confirmation, and search-messages/list-messages first to confirm you have the right id before deleting.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      id: external_exports.string().optional(),
-      countDelta: COUNT_DELTA_OUTPUT_SCHEMA,
-      verification: VERIFICATION_OUTPUT_SCHEMA
-    }
-  },
-  withErrorHandling(
-    ({ id }) => routeMessage(id, {
-      imap: () => imapDeleteMessageById(id),
-      apple: () => {
-        const { success: success2, error: error63 } = mailManager.deleteMessage(id);
-        const { countDelta, warnings } = collectForensics("delete-message", { id });
-        return success2 ? successResponse(
-          `Message deleted${warnings.length ? `
-
-${warnings.join("\n")}` : ""}`,
-          {
-            ok: true,
-            id,
-            ...countDelta ? { countDelta } : {}
-          }
-        ) : errorResponse(error63 || `Failed to delete message "${id}"`);
-      },
-      ok: "Message deleted",
-      fail: `Failed to delete message "${id}"`,
-      structured: { ok: true, id }
-    }),
-    "Error deleting message"
-  )
-);
-registerTool(
   "move-message",
   {
     description: "Use when: moving a single message (by id) into another mailbox/folder, e.g. archiving or filing.\nReturns: a confirmation naming the destination mailbox.\nDo not use when: moving several at once (use batch-move-messages) or deleting (use delete-message). Use list-mailboxes to confirm the destination name exists.\nSafety: moves a real message between folders \u2014 confirm the destination mailbox, and search-messages/list-messages first to confirm the id.",
@@ -107824,22 +107756,6 @@ var batchMutationDeps = {
   imapBatchMove: (ids, mailbox, opts) => imapBatchMove(ids, mailbox, opts),
   collectForensics: (tool, args) => collectForensics(tool, args)
 };
-registerTool(
-  "batch-delete-messages",
-  {
-    description: "Use when: deleting multiple messages in one call (1\u2013100 ids; moves them to Trash).\nReturns: counts of how many were deleted and how many failed, plus the distinct reasons for any failures.\nDo not use when: deleting just one (use delete-message) or filing messages away (use batch-move-messages).\nSafety: destructive and applies to many messages at once \u2014 require explicit user confirmation, and search-messages/list-messages first to confirm every id is correct before deleting. Pass sourceMailbox/sourceAccount (the mailbox you listed the ids from) so each numeric id is pinned to that mailbox; an id that matches in several mailboxes is refused, not guessed.",
-    inputSchema: {
-      ids: BATCH_IDS_SCHEMA,
-      sourceMailbox: BATCH_SOURCE_MAILBOX_SCHEMA,
-      sourceAccount: BATCH_SOURCE_ACCOUNT_SCHEMA
-    },
-    outputSchema: { ...BATCH_COUNT_OUTPUT_SCHEMA, countDelta: COUNT_DELTA_OUTPUT_SCHEMA }
-  },
-  withErrorHandling(
-    async ({ ids, sourceMailbox, sourceAccount }) => runBatchDelete(batchMutationDeps, { ids, sourceMailbox, sourceAccount }),
-    "Error batch deleting messages"
-  )
-);
 registerTool(
   "batch-move-messages",
   {

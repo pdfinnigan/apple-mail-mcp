@@ -102,7 +102,6 @@ list-messages mailbox="INBOX"
 # Use ID for all subsequent operations
 get-message id="12345"
 mark-as-read id="12345"
-delete-message id="12345"
 reply-to-message id="12345" body="Thanks!"
 ```
 
@@ -253,9 +252,7 @@ IMAP connections are capped: **Gmail allows at most 15 simultaneous IMAP connect
 
 ```text
 1. search-messages query="old" → find messages to clean up
-2. batch-delete-messages ids=["123", "456", "789"] → delete multiple
-   OR
-   batch-move-messages ids=["123", "456"] mailbox="Archive" → archive multiple
+2. batch-move-messages ids=["123", "456"] mailbox="Archive" → archive multiple
    OR
    batch-mark-as-read ids=["123", "456"] → mark multiple as read
    OR

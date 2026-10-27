@@ -91,7 +91,6 @@ import {
   imapFlagMessage,
   imapUnflagMessage,
   imapMoveMessageById,
-  imapDeleteMessageById,
   imapFetchMessageId,
   decodeImapId,
   imapAppendDraft,
@@ -109,7 +108,7 @@ import {
 import { unlistableStoreError } from "@/tools/mailboxListing.js";
 import { createCallStop, searchDeadlineMs, stoppedByDeadline } from "@/utils/callStop.js";
 import { hybridBatchCounts, batchResponse } from "@/tools/batchResults.js";
-import { runBatchDelete, runBatchMove } from "@/tools/batchMutations.js";
+import { runBatchMove } from "@/tools/batchMutations.js";
 import {
   fanOutImapMessages,
   mergeMessages,
@@ -2033,49 +2032,6 @@ registerTool(
   )
 );
 
-// --- delete-message ---
-
-registerTool(
-  "delete-message",
-  {
-    description:
-      "Use when: deleting a single message by id (moves it to Trash).\nReturns: a confirmation that the message was deleted.\nDo not use when: deleting several at once (use batch-delete-messages) or just filing it away (use move-message).\nSafety: destructive — require explicit user confirmation, and search-messages/list-messages first to confirm you have the right id before deleting.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA,
-    },
-    outputSchema: {
-      ok: z.boolean().optional(),
-      id: z.string().optional(),
-      countDelta: COUNT_DELTA_OUTPUT_SCHEMA,
-      verification: VERIFICATION_OUTPUT_SCHEMA,
-    },
-  },
-  withErrorHandling(
-    ({ id }) =>
-      routeMessage(id, {
-        imap: () => imapDeleteMessageById(id),
-        apple: () => {
-          const { success, error } = mailManager.deleteMessage(id);
-          const { countDelta, warnings } = collectForensics("delete-message", { id });
-          return success
-            ? successResponse(
-                `Message deleted${warnings.length ? `\n\n${warnings.join("\n")}` : ""}`,
-                {
-                  ok: true,
-                  id,
-                  ...(countDelta ? { countDelta } : {}),
-                }
-              )
-            : errorResponse(error || `Failed to delete message "${id}"`);
-        },
-        ok: "Message deleted",
-        fail: `Failed to delete message "${id}"`,
-        structured: { ok: true, id },
-      }),
-    "Error deleting message"
-  )
-);
-
 // --- move-message ---
 
 registerTool(
@@ -2142,27 +2098,6 @@ const batchMutationDeps = {
     imapBatchMove(ids, mailbox, opts),
   collectForensics: (tool: string, args: Record<string, unknown>) => collectForensics(tool, args),
 };
-
-// --- batch-delete-messages ---
-
-registerTool(
-  "batch-delete-messages",
-  {
-    description:
-      "Use when: deleting multiple messages in one call (1–100 ids; moves them to Trash).\nReturns: counts of how many were deleted and how many failed, plus the distinct reasons for any failures.\nDo not use when: deleting just one (use delete-message) or filing messages away (use batch-move-messages).\nSafety: destructive and applies to many messages at once — require explicit user confirmation, and search-messages/list-messages first to confirm every id is correct before deleting. Pass sourceMailbox/sourceAccount (the mailbox you listed the ids from) so each numeric id is pinned to that mailbox; an id that matches in several mailboxes is refused, not guessed.",
-    inputSchema: {
-      ids: BATCH_IDS_SCHEMA,
-      sourceMailbox: BATCH_SOURCE_MAILBOX_SCHEMA,
-      sourceAccount: BATCH_SOURCE_ACCOUNT_SCHEMA,
-    },
-    outputSchema: { ...BATCH_COUNT_OUTPUT_SCHEMA, countDelta: COUNT_DELTA_OUTPUT_SCHEMA },
-  },
-  withErrorHandling(
-    async ({ ids, sourceMailbox, sourceAccount }) =>
-      runBatchDelete(batchMutationDeps, { ids, sourceMailbox, sourceAccount }),
-    "Error batch deleting messages"
-  )
-);
 
 // --- batch-move-messages ---
 
