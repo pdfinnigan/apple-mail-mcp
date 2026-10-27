@@ -70,7 +70,7 @@ describe("mailbox lookup by cached position", () => {
 
   it("get-unread-count uses the position too", () => {
     new AppleMailManager().getUnreadCount("Drafts", ACCOUNT);
-    expect(lastScript("unread count of theMailbox")).toContain("set _mbc to item 4 of (mailboxes)");
+    expect(lastScript("read status is false")).toContain("set _mbc to item 4 of (mailboxes)");
   });
 
   it("a mailbox that is not in the cached list gets no hint, only the full walk", () => {

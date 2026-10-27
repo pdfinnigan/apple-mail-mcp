@@ -6244,10 +6244,18 @@ ${this.errorEmit("              ")}
     // of its labels and got counted several times. INBOX is the meaningful
     // "unread messages" figure; this mirrors an explicit mailbox:"INBOX".
     const targetMailbox = this.resolveMailbox(mailbox || "INBOX", targetAccount);
+    // Was `unread count of theMailbox` — Mail.app's maintained badge-count
+    // property, which can drift far from the per-message `read status` flags
+    // it's supposed to summarize (observed: 8 vs the 26 messages search for
+    // `read status is false` actually finds, same account/mailbox). Computing
+    // it directly keeps this tool consistent with list-messages/search-messages,
+    // which already filter on `read status` rather than trust the cached
+    // count. Verified cheap enough even on a large mailbox (~3s / 24k messages,
+    // well inside the 60s timeout below) to not need the old property's speed.
     const command = `
       ${mailboxLookupFragment("mailboxes", targetMailbox, "theMailbox", this.mailboxIndexHint(targetAccount, targetMailbox))}
       if theMailbox is missing value then error "Mailbox \\"${escapeForAppleScript(targetMailbox)}\\" not found"
-      return unread count of theMailbox`;
+      return count of (messages of theMailbox whose read status is false)`;
 
     const script = buildAccountScopedScript(targetAccount, command);
     const result = executeAppleScript(script, { timeoutMs: 60000 });
