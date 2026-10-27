@@ -102199,8 +102199,8 @@ ${indent}end try${this.sanitizeFragment("_uacct", indent)}${this.sanitizeFragmen
    * @param limit - Maximum number of messages
    * @returns Array of messages
    */
-  listMessages(mailbox, account, limit = 50, from, offset = 0) {
-    return this.listMessagesWithDiagnostics(mailbox, account, limit, from, offset).messages;
+  listMessages(mailbox, account, limit = 50, from, offset = 0, unreadOnly) {
+    return this.listMessagesWithDiagnostics(mailbox, account, limit, from, offset, unreadOnly).messages;
   }
   /**
    * List messages, returning matches plus coverage diagnostics.
@@ -102214,7 +102214,7 @@ ${indent}end try${this.sanitizeFragment("_uacct", indent)}${this.sanitizeFragmen
    * partial result. (by-id lookups don't need this — `whose id is` is indexed
    * and returns instantly even on a 44k-message mailbox.)
    */
-  listMessagesWithDiagnostics(mailbox, account, limit = 50, from, offset = 0) {
+  listMessagesWithDiagnostics(mailbox, account, limit = 50, from, offset = 0, unreadOnly) {
     if (!account) {
       const accounts = this.listAccounts();
       const allMessages = [];
@@ -102228,7 +102228,14 @@ ${indent}end try${this.sanitizeFragment("_uacct", indent)}${this.sanitizeFragmen
         if (allMessages.length >= limit) break;
         const remaining = limit - allMessages.length;
         try {
-          const res = this.listMessagesWithDiagnostics(mailbox, acct.name, remaining, from, offset);
+          const res = this.listMessagesWithDiagnostics(
+            mailbox,
+            acct.name,
+            remaining,
+            from,
+            offset,
+            unreadOnly
+          );
           allMessages.push(...res.messages);
           mergeSearchDiagnostics(diagnostics, res.diagnostics);
         } catch (err) {
@@ -102241,8 +102248,10 @@ ${indent}end try${this.sanitizeFragment("_uacct", indent)}${this.sanitizeFragmen
     }
     const local = isLocalStoreLabel(account);
     const targetAccount = local ? LOCAL_STORE_LABEL : this.resolveAccount(account);
-    const safeFrom = from ? escapeForAppleScript(from) : "";
-    const fromFilter = from ? `whose sender contains "${safeFrom}"` : "";
+    const fromFilter = buildSearchCondition({
+      from,
+      isRead: unreadOnly ? false : void 0
+    });
     const scanThreshold = getMailboxScanThreshold();
     const mbIter = local ? "_mbs" : "mailboxes";
     let listCommand;
@@ -107243,7 +107252,7 @@ registerTool(
       );
       const apple = appleScanForAccounts(
         appleScriptOnly,
-        (acctName) => mailManager.listMessagesWithDiagnostics(mailbox, acctName, limit, from, offset)
+        (acctName) => mailManager.listMessagesWithDiagnostics(mailbox, acctName, limit, from, offset, unreadOnly)
       );
       return mergedMessageResponse(fan, apple, limit, "listed");
     }
@@ -107252,7 +107261,8 @@ registerTool(
       account,
       limit,
       from,
-      offset
+      offset,
+      unreadOnly
     );
     const coverageBlock = partialCoverageBlock(diagnostics);
     const structured = {
@@ -108167,7 +108177,7 @@ ${mailboxList}`, structured);
 registerTool(
   "get-unread-count",
   {
-    description: "Use when: you only need the number of unread messages \u2014 INBOX by default, or scoped to one mailbox and/or account \u2014 without listing the messages themselves.\nReturns: the unread count for the requested scope (INBOX when no mailbox is given). If a source cannot be read the result carries `partial: true` + `failedAccounts`, and a total AppleScript failure returns an ERROR \u2014 a plain count is never a disguised transport failure.\nDo not use when: you need the actual unread messages and their ids (use list-messages with unreadOnly, or search-messages with isRead=false) or broader totals across every mailbox (use get-mail-stats).",
+    description: "Use when: you only need the number of unread messages \u2014 INBOX by default, or scoped to one mailbox and/or account \u2014 without listing the messages themselves.\nReturns: the unread count for the requested scope (INBOX when no mailbox is given). If a source cannot be read the result carries `partial: true` + `failedAccounts`, and a total AppleScript failure returns an ERROR \u2014 a plain count is never a disguised transport failure.\nDo not use when: you need the actual unread messages and their ids (use list-messages with unreadOnly, or search-messages with isRead=false) or broader totals across every mailbox (use get-mail-stats).\nCaveat \u2014 scope mismatch with list-messages/search-messages: with no `mailbox` given, this counts INBOX only, while list-messages/search-messages with no `mailbox` scan every mailbox in the account (Sent, Archive, other folders included). A lower number here than an unscoped unreadOnly list/search is normal, not a transport discrepancy \u2014 pass the same `mailbox` (and `account`) to both calls to compare apples to apples.",
     inputSchema: {
       mailbox: external_exports.string().optional().describe("Mailbox to check (default: INBOX)"),
       account: external_exports.string().optional().describe("Account to check")

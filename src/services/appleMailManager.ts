@@ -3954,9 +3954,11 @@ ${indent}end try${this.sanitizeFragment("_uacct", indent)}${this.sanitizeFragmen
     account?: string,
     limit = 50,
     from?: string,
-    offset = 0
+    offset = 0,
+    unreadOnly?: boolean
   ): Message[] {
-    return this.listMessagesWithDiagnostics(mailbox, account, limit, from, offset).messages;
+    return this.listMessagesWithDiagnostics(mailbox, account, limit, from, offset, unreadOnly)
+      .messages;
   }
 
   /**
@@ -3976,7 +3978,8 @@ ${indent}end try${this.sanitizeFragment("_uacct", indent)}${this.sanitizeFragmen
     account?: string,
     limit = 50,
     from?: string,
-    offset = 0
+    offset = 0,
+    unreadOnly?: boolean
   ): SearchResult {
     // If no account specified, list across all accounts and merge diagnostics.
     if (!account) {
@@ -3995,7 +3998,14 @@ ${indent}end try${this.sanitizeFragment("_uacct", indent)}${this.sanitizeFragmen
         // ambiguous-leaf throw from resolveMailbox must degrade like every
         // other per-account failure, not discard accounts already gathered.
         try {
-          const res = this.listMessagesWithDiagnostics(mailbox, acct.name, remaining, from, offset);
+          const res = this.listMessagesWithDiagnostics(
+            mailbox,
+            acct.name,
+            remaining,
+            from,
+            offset,
+            unreadOnly
+          );
           allMessages.push(...res.messages);
           mergeSearchDiagnostics(diagnostics, res.diagnostics);
         } catch (err) {
@@ -4013,8 +4023,10 @@ ${indent}end try${this.sanitizeFragment("_uacct", indent)}${this.sanitizeFragmen
     const local = isLocalStoreLabel(account);
     const targetAccount = local ? LOCAL_STORE_LABEL : this.resolveAccount(account);
 
-    const safeFrom = from ? escapeForAppleScript(from) : "";
-    const fromFilter = from ? `whose sender contains "${safeFrom}"` : "";
+    const fromFilter = buildSearchCondition({
+      from,
+      isRead: unreadOnly ? false : undefined,
+    });
     const scanThreshold = getMailboxScanThreshold();
     // What the "every mailbox" loops iterate. Inside `tell account` the bare
     // `mailboxes` binds to the account's; at application level the local branch

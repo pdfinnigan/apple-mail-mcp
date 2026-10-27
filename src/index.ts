@@ -1355,7 +1355,7 @@ registerTool(
         resolveImapConfigs()
       );
       const apple = appleScanForAccounts(appleScriptOnly, (acctName) =>
-        mailManager.listMessagesWithDiagnostics(mailbox, acctName, limit, from, offset)
+        mailManager.listMessagesWithDiagnostics(mailbox, acctName, limit, from, offset, unreadOnly)
       );
       return mergedMessageResponse(fan, apple, limit, "listed");
     }
@@ -1365,7 +1365,8 @@ registerTool(
       account,
       limit,
       from,
-      offset
+      offset,
+      unreadOnly
     );
 
     const coverageBlock = partialCoverageBlock(diagnostics);
@@ -2626,7 +2627,7 @@ registerTool(
   "get-unread-count",
   {
     description:
-      "Use when: you only need the number of unread messages — INBOX by default, or scoped to one mailbox and/or account — without listing the messages themselves.\nReturns: the unread count for the requested scope (INBOX when no mailbox is given). If a source cannot be read the result carries `partial: true` + `failedAccounts`, and a total AppleScript failure returns an ERROR — a plain count is never a disguised transport failure.\nDo not use when: you need the actual unread messages and their ids (use list-messages with unreadOnly, or search-messages with isRead=false) or broader totals across every mailbox (use get-mail-stats).",
+      "Use when: you only need the number of unread messages — INBOX by default, or scoped to one mailbox and/or account — without listing the messages themselves.\nReturns: the unread count for the requested scope (INBOX when no mailbox is given). If a source cannot be read the result carries `partial: true` + `failedAccounts`, and a total AppleScript failure returns an ERROR — a plain count is never a disguised transport failure.\nDo not use when: you need the actual unread messages and their ids (use list-messages with unreadOnly, or search-messages with isRead=false) or broader totals across every mailbox (use get-mail-stats).\nCaveat — scope mismatch with list-messages/search-messages: with no `mailbox` given, this counts INBOX only, while list-messages/search-messages with no `mailbox` scan every mailbox in the account (Sent, Archive, other folders included). A lower number here than an unscoped unreadOnly list/search is normal, not a transport discrepancy — pass the same `mailbox` (and `account`) to both calls to compare apples to apples.",
     inputSchema: {
       mailbox: z.string().optional().describe("Mailbox to check (default: INBOX)"),
       account: z.string().optional().describe("Account to check"),
