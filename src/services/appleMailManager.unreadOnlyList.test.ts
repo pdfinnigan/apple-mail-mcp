@@ -89,4 +89,25 @@ describe("listMessages unreadOnly", () => {
     expect(listScript).not.toContain("read status is false");
     expect(listScript).not.toContain("read status is true");
   });
+
+  // The Gmail virtual-INBOX fan-out (BUG A1) is a structurally separate
+  // AppleScript template from the single-mailbox and all-mailboxes branches
+  // above — "All Mail" in the mailbox list routes mailbox:"INBOX" through it
+  // instead. It shares the same `fromFilter` variable, but that sharing is
+  // exactly what the original bug broke (the variable wasn't built from
+  // `unreadOnly` at all); covering it here means a future edit that gives
+  // this branch its own filter construction can't silently drop the field
+  // without a direct test failing.
+  it("adds `whose read status is false` on the Gmail virtual-INBOX fan-out", () => {
+    h.router.fn = makeRouter(["INBOX", "All Mail", "Important", "Sent", "Trash"]);
+    const mgr = new AppleMailManager();
+    mgr.listMessages("INBOX", "rob@gmail.com", 50, undefined, 0, true);
+
+    const listScript = h.calls.find((s) => s.includes("set outputText to"));
+    // Prove this actually took the Gmail fan-out branch (and not the
+    // all-mailboxes branch falling back to the same assertion by accident) —
+    // `_wantNames` only appears in that template.
+    expect(listScript).toContain("_wantNames");
+    expect(listScript).toContain("read status is false");
+  });
 });
