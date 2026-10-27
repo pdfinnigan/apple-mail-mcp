@@ -1648,6 +1648,18 @@ Check Mail.app sync activity.
 
 ---
 
+#### `check-for-new-mail`
+
+Ask Mail.app to check for new mail right now instead of waiting for its next automatic poll.
+
+| Parameter | Type   | Required | Description                                         |
+| --------- | ------ | -------- | ---------------------------------------------------- |
+| `account` | string | No       | Check only this account. Omit to check every account. |
+
+**Returns:** Whether the check was accepted. This only triggers the check — Mail.app fetches asynchronously in the background, so a success here means the request went through, not that new mail has already arrived. Follow up with `list-messages`/`search-messages` (after a short pause) to see what came in, or `get-sync-status` to confirm Mail.app is running.
+
+---
+
 ## Auditing destructive operations
 
 `move-message` and

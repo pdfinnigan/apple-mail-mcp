@@ -3848,6 +3848,36 @@ registerTool(
   }, "Error getting sync status")
 );
 
+// --- check-for-new-mail ---
+
+registerTool(
+  "check-for-new-mail",
+  {
+    description:
+      "Use when: new mail hasn't shown up yet and you want Mail.app to check right now instead of waiting for its next automatic poll.\nReturns: whether the check was accepted — Mail.app fetches asynchronously, so this does not wait for or report new messages. Follow up with list-messages/search-messages (after a short pause) to see what arrived, or get-sync-status to confirm Mail.app is running.\nDo not use when: you need the unread count or message list (use get-unread-count/list-messages) or to diagnose why mail isn't arriving at all (use doctor).",
+    inputSchema: {
+      account: z
+        .string()
+        .optional()
+        .describe("Account to check (omit to check every account, Mail's default)"),
+    },
+    outputSchema: {
+      account: z.string().optional(),
+      error: z.string().optional(),
+    },
+  },
+  withErrorHandling(({ account }) => {
+    const result = mailManager.checkForNewMail(account);
+
+    if (!result.success) {
+      return errorResponse(result.error || "Failed to check for new mail", { ...result });
+    }
+
+    const scope = account ? `account "${account}"` : "all accounts";
+    return successResponse(`Checking for new mail (${scope}).`, { ...result });
+  }, "Error checking for new mail")
+);
+
 // =============================================================================
 // Server Startup
 // =============================================================================

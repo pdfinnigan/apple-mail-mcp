@@ -105102,6 +105102,44 @@ ${actionStmts.join("\n")}
       secondsSinceLastChange: 0
     };
   }
+  /**
+   * Ask Mail.app to check for new mail right now, instead of waiting for its
+   * next automatic poll. Scoped to one account when given, else every
+   * account — Mail's own default for the bare `check for new mail` command.
+   *
+   * This only triggers the check; Mail.app fetches asynchronously in the
+   * background, so a success here means the request was accepted, not that
+   * new mail has already arrived.
+   */
+  checkForNewMail(account) {
+    if (account) {
+      const disabled = this.disabledAccountGuard(account);
+      if (disabled) {
+        return { success: false, account, error: disabled };
+      }
+    }
+    const command = account ? `check for new mail for account "${escapeForAppleScript(account)}"` : "check for new mail";
+    const result = executeAppleScript(
+      buildAppLevelScriptIfRunning(`
+        try
+          ${command}
+          return "ok"
+        on error errMsg
+          return "error:" & errMsg
+        end try
+      `)
+    );
+    if (!result.success) {
+      return { success: false, account, error: result.error };
+    }
+    if (result.output === MAIL_NOT_RUNNING_MARKER) {
+      return { success: false, account, error: "Mail.app is not running" };
+    }
+    if (result.output.startsWith("error:")) {
+      return { success: false, account, error: result.output.replace(/^error:/, "") };
+    }
+    return { success: true, account };
+  }
 };
 
 // src/index.ts
@@ -109074,6 +109112,27 @@ registerTool(
     }
     return successResponse(lines.join("\n"), { ...status });
   }, "Error getting sync status")
+);
+registerTool(
+  "check-for-new-mail",
+  {
+    description: "Use when: new mail hasn't shown up yet and you want Mail.app to check right now instead of waiting for its next automatic poll.\nReturns: whether the check was accepted \u2014 Mail.app fetches asynchronously, so this does not wait for or report new messages. Follow up with list-messages/search-messages (after a short pause) to see what arrived, or get-sync-status to confirm Mail.app is running.\nDo not use when: you need the unread count or message list (use get-unread-count/list-messages) or to diagnose why mail isn't arriving at all (use doctor).",
+    inputSchema: {
+      account: external_exports.string().optional().describe("Account to check (omit to check every account, Mail's default)")
+    },
+    outputSchema: {
+      account: external_exports.string().optional(),
+      error: external_exports.string().optional()
+    }
+  },
+  withErrorHandling(({ account }) => {
+    const result = mailManager.checkForNewMail(account);
+    if (!result.success) {
+      return errorResponse(result.error || "Failed to check for new mail", { ...result });
+    }
+    const scope = account ? `account "${account}"` : "all accounts";
+    return successResponse(`Checking for new mail (${scope}).`, { ...result });
+  }, "Error checking for new mail")
 );
 process.on("uncaughtException", (err) => {
   if (err?.code === "EPIPE") process.exit(0);

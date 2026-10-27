@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+### Added
+
+- `check-for-new-mail` tool: asks Mail.app to check for new mail now instead
+  of waiting for its next automatic poll, optionally scoped to one account.
+
 ## [2.20.37] - 2026-10-27
 
 ### Fixed

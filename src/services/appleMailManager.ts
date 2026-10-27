@@ -7757,4 +7757,49 @@ ${actionStmts.join("\n")}
       secondsSinceLastChange: 0,
     };
   }
+
+  /**
+   * Ask Mail.app to check for new mail right now, instead of waiting for its
+   * next automatic poll. Scoped to one account when given, else every
+   * account — Mail's own default for the bare `check for new mail` command.
+   *
+   * This only triggers the check; Mail.app fetches asynchronously in the
+   * background, so a success here means the request was accepted, not that
+   * new mail has already arrived.
+   */
+  checkForNewMail(account?: string): { success: boolean; account?: string; error?: string } {
+    if (account) {
+      const disabled = this.disabledAccountGuard(account);
+      if (disabled) {
+        return { success: false, account, error: disabled };
+      }
+    }
+
+    const command = account
+      ? `check for new mail for account "${escapeForAppleScript(account)}"`
+      : "check for new mail";
+
+    const result = executeAppleScript(
+      buildAppLevelScriptIfRunning(`
+        try
+          ${command}
+          return "ok"
+        on error errMsg
+          return "error:" & errMsg
+        end try
+      `)
+    );
+
+    if (!result.success) {
+      return { success: false, account, error: result.error };
+    }
+    if (result.output === MAIL_NOT_RUNNING_MARKER) {
+      return { success: false, account, error: "Mail.app is not running" };
+    }
+    if (result.output.startsWith("error:")) {
+      return { success: false, account, error: result.output.replace(/^error:/, "") };
+    }
+
+    return { success: true, account };
+  }
 }
