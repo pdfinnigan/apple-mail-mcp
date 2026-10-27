@@ -2999,7 +2999,7 @@ var require_compile = __commonJS({
       const schOrFunc = root.refs[ref];
       if (schOrFunc)
         return schOrFunc;
-      let _sch = resolve5.call(this, root, ref);
+      let _sch = resolve4.call(this, root, ref);
       if (_sch === void 0) {
         const schema = (_a3 = root.localRefs) === null || _a3 === void 0 ? void 0 : _a3[ref];
         const { schemaId } = this.opts;
@@ -3026,7 +3026,7 @@ var require_compile = __commonJS({
     function sameSchemaEnv(s1, s2) {
       return s1.schema === s2.schema && s1.root === s2.root && s1.baseId === s2.baseId;
     }
-    function resolve5(root, ref) {
+    function resolve4(root, ref) {
       let sch;
       while (typeof (sch = this.refs[ref]) == "string")
         ref = sch;
@@ -3277,8 +3277,8 @@ var require_utils = __commonJS({
       }
       return ind;
     }
-    function removeDotSegments(path3) {
-      let input2 = path3;
+    function removeDotSegments(path2) {
+      let input2 = path2;
       const output2 = [];
       let nextSlash = -1;
       let len = 0;
@@ -3352,11 +3352,11 @@ var require_utils = __commonJS({
       }
       return output2.join("");
     }
-    function removeDotSegmentsRelative(path3) {
-      if (path3 === "" || path3[0] === "/") {
-        return removeDotSegments(path3);
+    function removeDotSegmentsRelative(path2) {
+      if (path2 === "" || path2[0] === "/") {
+        return removeDotSegments(path2);
       }
-      const segments = path3.split("/");
+      const segments = path2.split("/");
       const last = segments.length - 1;
       const output2 = [];
       let trailingDirectory = false;
@@ -3719,8 +3719,8 @@ var require_schemes = __commonJS({
       }
       if (wsComponent.resourceName) {
         const queryIndex = wsComponent.resourceName.indexOf("?");
-        const path3 = queryIndex === -1 ? wsComponent.resourceName : wsComponent.resourceName.slice(0, queryIndex);
-        wsComponent.path = path3 && path3 !== "/" ? path3 : void 0;
+        const path2 = queryIndex === -1 ? wsComponent.resourceName : wsComponent.resourceName.slice(0, queryIndex);
+        wsComponent.path = path2 && path2 !== "/" ? path2 : void 0;
         wsComponent.query = queryIndex === -1 ? void 0 : wsComponent.resourceName.slice(queryIndex + 1);
         wsComponent.resourceName = void 0;
       }
@@ -3890,7 +3890,7 @@ var require_fast_uri = __commonJS({
       }
       return uri;
     }
-    function resolve5(baseURI, relativeURI, options) {
+    function resolve4(baseURI, relativeURI, options) {
       const schemelessOptions = options ? Object.assign({ scheme: "null" }, options) : { scheme: "null" };
       const {
         parsed: baseParsed,
@@ -4281,7 +4281,7 @@ var require_fast_uri = __commonJS({
     var fastUri = {
       SCHEMES,
       normalize,
-      resolve: resolve5,
+      resolve: resolve4,
       resolveComponent,
       equal,
       serialize,
@@ -7257,12 +7257,12 @@ var require_dist = __commonJS({
         throw new Error(`Unknown format "${name2}"`);
       return f;
     };
-    function addFormats(ajv, list, fs4, exportName) {
+    function addFormats(ajv, list, fs2, exportName) {
       var _a3;
       var _b;
       (_a3 = (_b = ajv.opts.code).formats) !== null && _a3 !== void 0 ? _a3 : _b.formats = (0, codegen_1._)`require("ajv-formats/dist/formats").${exportName}`;
       for (const f of list)
-        ajv.addFormat(f, fs4[f]);
+        ajv.addFormat(f, fs2[f]);
     }
     module.exports = exports = formatsPlugin;
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -7319,16 +7319,16 @@ function raceStop(work, signal) {
     work.catch(() => void 0);
     return Promise.resolve(STOPPED);
   }
-  return new Promise((resolve5, reject) => {
+  return new Promise((resolve4, reject) => {
     const onAbort = () => {
       work.catch(() => void 0);
-      resolve5(STOPPED);
+      resolve4(STOPPED);
     };
     signal.addEventListener("abort", onAbort, { once: true });
     work.then(
       (value) => {
         signal.removeEventListener("abort", onAbort);
-        resolve5(value);
+        resolve4(value);
       },
       (error63) => {
         signal.removeEventListener("abort", onAbort);
@@ -7611,8 +7611,8 @@ var require_req = __commonJS({
       if (req.originalUrl) {
         _req.url = req.originalUrl;
       } else {
-        const path3 = req.path;
-        _req.url = typeof path3 === "string" ? path3 : req.url ? req.url.path || req.url : void 0;
+        const path2 = req.path;
+        _req.url = typeof path2 === "string" ? path2 : req.url ? req.url.path || req.url : void 0;
       }
       if (req.query) {
         _req.query = req.query;
@@ -7777,14 +7777,14 @@ var require_redact = __commonJS({
       }
       return obj;
     }
-    function parsePath(path3) {
+    function parsePath(path2) {
       const parts = [];
       let current = "";
       let inBrackets = false;
       let inQuotes = false;
       let quoteChar = "";
-      for (let i = 0; i < path3.length; i++) {
-        const char = path3[i];
+      for (let i = 0; i < path2.length; i++) {
+        const char = path2[i];
         if (!inBrackets && char === ".") {
           if (current) {
             parts.push(current);
@@ -7915,10 +7915,10 @@ var require_redact = __commonJS({
       return current;
     }
     function redactPaths(obj, paths, censor, remove = false) {
-      for (const path3 of paths) {
-        const parts = parsePath(path3);
+      for (const path2 of paths) {
+        const parts = parsePath(path2);
         if (parts.includes("*")) {
-          redactWildcardPath(obj, parts, censor, path3, remove);
+          redactWildcardPath(obj, parts, censor, path2, remove);
         } else {
           if (remove) {
             removeKey(obj, parts);
@@ -8003,8 +8003,8 @@ var require_redact = __commonJS({
           }
         } else {
           if (afterWildcard.includes("*")) {
-            const wrappedCensor = typeof censor === "function" ? (value, path3) => {
-              const fullPath = [...pathArray.slice(0, pathLength), ...path3];
+            const wrappedCensor = typeof censor === "function" ? (value, path2) => {
+              const fullPath = [...pathArray.slice(0, pathLength), ...path2];
               return censor(value, fullPath);
             } : censor;
             redactWildcardPath(current, afterWildcard, wrappedCensor, originalPath, remove);
@@ -8039,8 +8039,8 @@ var require_redact = __commonJS({
         return null;
       }
       const pathStructure = /* @__PURE__ */ new Map();
-      for (const path3 of pathsToClone) {
-        const parts = parsePath(path3);
+      for (const path2 of pathsToClone) {
+        const parts = parsePath(path2);
         let current = pathStructure;
         for (let i = 0; i < parts.length; i++) {
           const part = parts[i];
@@ -8092,24 +8092,24 @@ var require_redact = __commonJS({
       }
       return cloneSelectively(obj, pathStructure);
     }
-    function validatePath(path3) {
-      if (typeof path3 !== "string") {
+    function validatePath(path2) {
+      if (typeof path2 !== "string") {
         throw new Error("Paths must be (non-empty) strings");
       }
-      if (path3 === "") {
+      if (path2 === "") {
         throw new Error("Invalid redaction path ()");
       }
-      if (path3.includes("..")) {
-        throw new Error(`Invalid redaction path (${path3})`);
+      if (path2.includes("..")) {
+        throw new Error(`Invalid redaction path (${path2})`);
       }
-      if (path3.includes(",")) {
-        throw new Error(`Invalid redaction path (${path3})`);
+      if (path2.includes(",")) {
+        throw new Error(`Invalid redaction path (${path2})`);
       }
       let bracketCount = 0;
       let inQuotes = false;
       let quoteChar = "";
-      for (let i = 0; i < path3.length; i++) {
-        const char = path3[i];
+      for (let i = 0; i < path2.length; i++) {
+        const char = path2[i];
         if ((char === '"' || char === "'") && bracketCount > 0) {
           if (!inQuotes) {
             inQuotes = true;
@@ -8123,20 +8123,20 @@ var require_redact = __commonJS({
         } else if (char === "]" && !inQuotes) {
           bracketCount--;
           if (bracketCount < 0) {
-            throw new Error(`Invalid redaction path (${path3})`);
+            throw new Error(`Invalid redaction path (${path2})`);
           }
         }
       }
       if (bracketCount !== 0) {
-        throw new Error(`Invalid redaction path (${path3})`);
+        throw new Error(`Invalid redaction path (${path2})`);
       }
     }
     function validatePaths(paths) {
       if (!Array.isArray(paths)) {
         throw new TypeError("paths must be an array");
       }
-      for (const path3 of paths) {
-        validatePath(path3);
+      for (const path2 of paths) {
+        validatePath(path2);
       }
     }
     function slowRedact(options = {}) {
@@ -8304,8 +8304,8 @@ var require_redaction = __commonJS({
         if (shape[k] === null) {
           o[k] = (value) => topCensor(value, [k]);
         } else {
-          const wrappedCensor = typeof censor === "function" ? (value, path3) => {
-            return censor(value, [k, ...path3]);
+          const wrappedCensor = typeof censor === "function" ? (value, path2) => {
+            return censor(value, [k, ...path2]);
           } : censor;
           o[k] = Redact({
             paths: shape[k],
@@ -8523,10 +8523,10 @@ var require_atomic_sleep = __commonJS({
 var require_sonic_boom = __commonJS({
   "node_modules/.pnpm/sonic-boom@4.2.1/node_modules/sonic-boom/index.js"(exports, module) {
     "use strict";
-    var fs4 = __require("fs");
-    var EventEmitter7 = __require("events");
+    var fs2 = __require("fs");
+    var EventEmitter = __require("events");
     var inherits = __require("util").inherits;
-    var path3 = __require("path");
+    var path2 = __require("path");
     var sleep2 = require_atomic_sleep();
     var assert2 = __require("assert");
     var BUSY_WRITE_TIMEOUT = 100;
@@ -8580,20 +8580,20 @@ var require_sonic_boom = __commonJS({
       const mode = sonic.mode;
       if (sonic.sync) {
         try {
-          if (sonic.mkdir) fs4.mkdirSync(path3.dirname(file2), { recursive: true });
-          const fd = fs4.openSync(file2, flags, mode);
+          if (sonic.mkdir) fs2.mkdirSync(path2.dirname(file2), { recursive: true });
+          const fd = fs2.openSync(file2, flags, mode);
           fileOpened(null, fd);
         } catch (err) {
           fileOpened(err);
           throw err;
         }
       } else if (sonic.mkdir) {
-        fs4.mkdir(path3.dirname(file2), { recursive: true }, (err) => {
+        fs2.mkdir(path2.dirname(file2), { recursive: true }, (err) => {
           if (err) return fileOpened(err);
-          fs4.open(file2, flags, mode, fileOpened);
+          fs2.open(file2, flags, mode, fileOpened);
         });
       } else {
-        fs4.open(file2, flags, mode, fileOpened);
+        fs2.open(file2, flags, mode, fileOpened);
       }
     }
     function SonicBoom(opts) {
@@ -8634,8 +8634,8 @@ var require_sonic_boom = __commonJS({
         this.flush = flushBuffer;
         this.flushSync = flushBufferSync;
         this._actualWrite = actualWriteBuffer;
-        fsWriteSync = () => fs4.writeSync(this.fd, this._writingBuf);
-        fsWrite = () => fs4.write(this.fd, this._writingBuf, this.release);
+        fsWriteSync = () => fs2.writeSync(this.fd, this._writingBuf);
+        fsWrite = () => fs2.write(this.fd, this._writingBuf, this.release);
       } else if (contentMode === void 0 || contentMode === kContentModeUtf8) {
         this._writingBuf = "";
         this.write = write;
@@ -8644,15 +8644,15 @@ var require_sonic_boom = __commonJS({
         this._actualWrite = actualWrite;
         fsWriteSync = () => {
           if (Buffer.isBuffer(this._writingBuf)) {
-            return fs4.writeSync(this.fd, this._writingBuf);
+            return fs2.writeSync(this.fd, this._writingBuf);
           }
-          return fs4.writeSync(this.fd, this._writingBuf, "utf8");
+          return fs2.writeSync(this.fd, this._writingBuf, "utf8");
         };
         fsWrite = () => {
           if (Buffer.isBuffer(this._writingBuf)) {
-            return fs4.write(this.fd, this._writingBuf, this.release);
+            return fs2.write(this.fd, this._writingBuf, this.release);
           }
-          return fs4.write(this.fd, this._writingBuf, "utf8", this.release);
+          return fs2.write(this.fd, this._writingBuf, "utf8", this.release);
         };
       } else {
         throw new Error(`SonicBoom supports "${kContentModeUtf8}" and "${kContentModeBuffer}", but passed ${contentMode}`);
@@ -8709,7 +8709,7 @@ var require_sonic_boom = __commonJS({
           }
         }
         if (this._fsync) {
-          fs4.fsyncSync(this.fd);
+          fs2.fsyncSync(this.fd);
         }
         const len = this._len;
         if (this._reopening) {
@@ -8761,7 +8761,7 @@ var require_sonic_boom = __commonJS({
       sonic._asyncDrainScheduled = false;
       sonic.emit("drain");
     }
-    inherits(SonicBoom, EventEmitter7);
+    inherits(SonicBoom, EventEmitter);
     function mergeBuf(bufs, len) {
       if (bufs.length === 0) {
         return kEmptyBuffer;
@@ -8823,7 +8823,7 @@ var require_sonic_boom = __commonJS({
       const onDrain = () => {
         if (!this._fsync) {
           try {
-            fs4.fsync(this.fd, (err) => {
+            fs2.fsync(this.fd, (err) => {
               this._flushPending = false;
               cb(err);
             });
@@ -8925,7 +8925,7 @@ var require_sonic_boom = __commonJS({
       const fd = this.fd;
       this.once("ready", () => {
         if (fd !== this.fd) {
-          fs4.close(fd, (err) => {
+          fs2.close(fd, (err) => {
             if (err) {
               return this.emit("error", err);
             }
@@ -8974,7 +8974,7 @@ var require_sonic_boom = __commonJS({
           buf = this._bufs[0];
         }
         try {
-          const n = Buffer.isBuffer(buf) ? fs4.writeSync(this.fd, buf) : fs4.writeSync(this.fd, buf, "utf8");
+          const n = Buffer.isBuffer(buf) ? fs2.writeSync(this.fd, buf) : fs2.writeSync(this.fd, buf, "utf8");
           const releasedBufObj = releaseWritingBuf(buf, this._len, n);
           buf = releasedBufObj.writingBuf;
           this._len = releasedBufObj.len;
@@ -8990,7 +8990,7 @@ var require_sonic_boom = __commonJS({
         }
       }
       try {
-        fs4.fsyncSync(this.fd);
+        fs2.fsyncSync(this.fd);
       } catch {
       }
     }
@@ -9011,7 +9011,7 @@ var require_sonic_boom = __commonJS({
           buf = mergeBuf(this._bufs[0], this._lens[0]);
         }
         try {
-          const n = fs4.writeSync(this.fd, buf);
+          const n = fs2.writeSync(this.fd, buf);
           buf = buf.subarray(n);
           this._len = Math.max(this._len - n, 0);
           if (buf.length <= 0) {
@@ -9039,13 +9039,13 @@ var require_sonic_boom = __commonJS({
       this._writingBuf = this._writingBuf.length ? this._writingBuf : this._bufs.shift() || "";
       if (this.sync) {
         try {
-          const written = Buffer.isBuffer(this._writingBuf) ? fs4.writeSync(this.fd, this._writingBuf) : fs4.writeSync(this.fd, this._writingBuf, "utf8");
+          const written = Buffer.isBuffer(this._writingBuf) ? fs2.writeSync(this.fd, this._writingBuf) : fs2.writeSync(this.fd, this._writingBuf, "utf8");
           release(null, written);
         } catch (err) {
           release(err);
         }
       } else {
-        fs4.write(this.fd, this._writingBuf, release);
+        fs2.write(this.fd, this._writingBuf, release);
       }
     }
     function actualWriteBuffer() {
@@ -9054,7 +9054,7 @@ var require_sonic_boom = __commonJS({
       this._writingBuf = this._writingBuf.length ? this._writingBuf : mergeBuf(this._bufs.shift(), this._lens.shift());
       if (this.sync) {
         try {
-          const written = fs4.writeSync(this.fd, this._writingBuf);
+          const written = fs2.writeSync(this.fd, this._writingBuf);
           release(null, written);
         } catch (err) {
           release(err);
@@ -9063,7 +9063,7 @@ var require_sonic_boom = __commonJS({
         if (kCopyBuffer) {
           this._writingBuf = Buffer.from(this._writingBuf);
         }
-        fs4.write(this.fd, this._writingBuf, release);
+        fs2.write(this.fd, this._writingBuf, release);
       }
     }
     function actualClose(sonic) {
@@ -9079,12 +9079,12 @@ var require_sonic_boom = __commonJS({
       sonic._lens = [];
       assert2(typeof sonic.fd === "number", `sonic.fd must be a number, got ${typeof sonic.fd}`);
       try {
-        fs4.fsync(sonic.fd, closeWrapped);
+        fs2.fsync(sonic.fd, closeWrapped);
       } catch {
       }
       function closeWrapped() {
         if (sonic.fd !== 1 && sonic.fd !== 2) {
-          fs4.close(sonic.fd, done);
+          fs2.close(sonic.fd, done);
         } else {
           done();
         }
@@ -9335,7 +9335,7 @@ var require_thread_stream = __commonJS({
   "node_modules/.pnpm/thread-stream@4.2.0/node_modules/thread-stream/index.js"(exports, module) {
     "use strict";
     var { version: version4 } = require_package();
-    var { EventEmitter: EventEmitter7 } = __require("events");
+    var { EventEmitter } = __require("events");
     var { Worker } = __require("worker_threads");
     var { join: join8 } = __require("path");
     var { pathToFileURL } = __require("url");
@@ -9509,7 +9509,7 @@ var require_thread_stream = __commonJS({
       stream.worker.off("exit", onWorkerExit);
       destroy(stream, code !== 0 ? new Error("the worker thread exited") : null);
     }
-    var ThreadStream = class extends EventEmitter7 {
+    var ThreadStream = class extends EventEmitter {
       constructor(opts = {}) {
         super();
         if (opts.bufferSize < 4) {
@@ -9920,15 +9920,15 @@ var require_transport = __commonJS({
       if (!unquoted) {
         return false;
       }
-      let path3 = unquoted;
-      if (path3.startsWith("file://")) {
+      let path2 = unquoted;
+      if (path2.startsWith("file://")) {
         try {
-          path3 = fileURLToPath(path3);
+          path2 = fileURLToPath(path2);
         } catch {
           return false;
         }
       }
-      return isAbsolute2(path3) && !existsSync5(path3);
+      return isAbsolute2(path2) && !existsSync5(path2);
     }
     function stripQuotes(value) {
       const first = value[0];
@@ -9998,7 +9998,7 @@ var require_transport = __commonJS({
       stream.flushSync();
     }
     function transport2(fullOptions) {
-      const { pipeline: pipeline3, targets, levels, dedupe: dedupe2, worker = {}, caller = getCallers(), sync = false } = fullOptions;
+      const { pipeline: pipeline2, targets, levels, dedupe, worker = {}, caller = getCallers(), sync = false } = fullOptions;
       const options = {
         ...fullOptions.options
       };
@@ -10026,9 +10026,9 @@ var require_transport = __commonJS({
             };
           });
         });
-      } else if (pipeline3) {
+      } else if (pipeline2) {
         target = bundlerOverrides["pino-worker"] || join8(__dirname, "worker.js");
-        options.pipelines = [pipeline3.map((dest) => {
+        options.pipelines = [pipeline2.map((dest) => {
           return {
             ...dest,
             target: fixTarget(dest.target)
@@ -10038,11 +10038,11 @@ var require_transport = __commonJS({
       if (levels) {
         options.levels = levels;
       }
-      if (dedupe2) {
-        options.dedupe = dedupe2;
+      if (dedupe) {
+        options.dedupe = dedupe;
       }
       options.pinoWillSendConfig = true;
-      const name2 = targets || pipeline3 ? "pino.transport" : target;
+      const name2 = targets || pipeline2 ? "pino.transport" : target;
       return buildStream(fixTarget(target), options, worker, sync, name2);
       function fixTarget(origin) {
         origin = bundlerOverrides[origin] || origin;
@@ -10628,7 +10628,7 @@ var require_meta = __commonJS({
 var require_proto = __commonJS({
   "node_modules/.pnpm/pino@10.3.1/node_modules/pino/lib/proto.js"(exports, module) {
     "use strict";
-    var { EventEmitter: EventEmitter7 } = __require("node:events");
+    var { EventEmitter } = __require("node:events");
     var {
       lsCacheSym,
       levelValSym,
@@ -10709,7 +10709,7 @@ var require_proto = __commonJS({
       [getLevelSym]: getLevel,
       [setLevelSym]: setLevel
     };
-    Object.setPrototypeOf(prototype, EventEmitter7.prototype);
+    Object.setPrototypeOf(prototype, EventEmitter.prototype);
     module.exports = function() {
       return Object.create(prototype);
     };
@@ -11605,14 +11605,14 @@ var require_multistream = __commonJS({
     function compareByLevel(a, b) {
       return a.level - b.level;
     }
-    function initLoopVar(length, dedupe2) {
-      return dedupe2 ? length - 1 : 0;
+    function initLoopVar(length, dedupe) {
+      return dedupe ? length - 1 : 0;
     }
-    function adjustLoopVar(i, dedupe2) {
-      return dedupe2 ? i - 1 : i + 1;
+    function adjustLoopVar(i, dedupe) {
+      return dedupe ? i - 1 : i + 1;
     }
-    function checkLoopVar(i, length, dedupe2) {
-      return dedupe2 ? i >= 0 : i < length;
+    function checkLoopVar(i, length, dedupe) {
+      return dedupe ? i >= 0 : i < length;
     }
     module.exports = multistream;
   }
@@ -11622,7 +11622,7 @@ var require_multistream = __commonJS({
 var require_pino = __commonJS({
   "node_modules/.pnpm/pino@10.3.1/node_modules/pino/pino.js"(exports, module) {
     "use strict";
-    var os3 = __require("node:os");
+    var os = __require("node:os");
     var stdSerializers = require_pino_std_serializers();
     var caller = require_caller();
     var redaction = require_redaction();
@@ -11669,7 +11669,7 @@ var require_pino = __commonJS({
     } = symbols;
     var { epochTime, nullTime } = time3;
     var { pid } = process;
-    var hostname3 = os3.hostname();
+    var hostname3 = os.hostname();
     var defaultErrorSerializer = stdSerializers.err;
     var defaultOptions2 = {
       level: "info",
@@ -11956,10 +11956,10 @@ var require_bom_handling = __commonJS({
 var require_merge_exports = __commonJS({
   "node_modules/.pnpm/iconv-lite@0.7.3/node_modules/iconv-lite/lib/helpers/merge-exports.js"(exports, module) {
     "use strict";
-    var hasOwn2 = typeof Object.hasOwn === "undefined" ? Function.call.bind(Object.prototype.hasOwnProperty) : Object.hasOwn;
+    var hasOwn = typeof Object.hasOwn === "undefined" ? Function.call.bind(Object.prototype.hasOwnProperty) : Object.hasOwn;
     function mergeModules(target, module2) {
       for (var key in module2) {
-        if (hasOwn2(module2, key)) {
+        if (hasOwn(module2, key)) {
           target[key] = module2[key];
         }
       }
@@ -15403,14 +15403,14 @@ var require_streams = __commonJS({
     "use strict";
     var Buffer2 = require_safer().Buffer;
     module.exports = function(streamModule) {
-      var Transform9 = streamModule.Transform;
+      var Transform6 = streamModule.Transform;
       function IconvLiteEncoderStream(conv, options) {
         this.conv = conv;
         options = options || {};
         options.decodeStrings = false;
-        Transform9.call(this, options);
+        Transform6.call(this, options);
       }
-      IconvLiteEncoderStream.prototype = Object.create(Transform9.prototype, {
+      IconvLiteEncoderStream.prototype = Object.create(Transform6.prototype, {
         constructor: { value: IconvLiteEncoderStream }
       });
       IconvLiteEncoderStream.prototype._transform = function(chunk, encoding, done) {
@@ -15449,9 +15449,9 @@ var require_streams = __commonJS({
         this.conv = conv;
         options = options || {};
         options.encoding = this.encoding = "utf8";
-        Transform9.call(this, options);
+        Transform6.call(this, options);
       }
-      IconvLiteDecoderStream.prototype = Object.create(Transform9.prototype, {
+      IconvLiteDecoderStream.prototype = Object.create(Transform6.prototype, {
         constructor: { value: IconvLiteDecoderStream }
       });
       IconvLiteDecoderStream.prototype._transform = function(chunk, encoding, done) {
@@ -29588,7 +29588,7 @@ var require_encoding_table = __commonJS({
 // node_modules/.pnpm/encoding-japanese@2.3.0/node_modules/encoding-japanese/src/config.js
 var require_config = __commonJS({
   "node_modules/.pnpm/encoding-japanese@2.3.0/node_modules/encoding-japanese/src/config.js"(exports) {
-    var util4 = require_util2();
+    var util2 = require_util2();
     var EncodingTable = require_encoding_table();
     exports.FALLBACK_CHARACTER = 63;
     var HAS_TYPED = exports.HAS_TYPED = typeof Uint8Array !== "undefined" && typeof Uint16Array !== "undefined";
@@ -29656,7 +29656,7 @@ var require_config = __commonJS({
     exports.EncodingAliases = EncodingAliases;
     exports.EncodingOrders = (function() {
       var aliases = EncodingAliases;
-      var names = util4.objectKeys(EncodingNames);
+      var names = util2.objectKeys(EncodingNames);
       var orders = [];
       var name2, encoding, j, l;
       for (var i = 0, len = names.length; i < len; i++) {
@@ -29682,7 +29682,7 @@ var require_config = __commonJS({
     function init_JIS_TO_UTF8_TABLE() {
       if (EncodingTable.JIS_TO_UTF8_TABLE === null) {
         EncodingTable.JIS_TO_UTF8_TABLE = {};
-        var keys = util4.objectKeys(EncodingTable.UTF8_TO_JIS_TABLE);
+        var keys = util2.objectKeys(EncodingTable.UTF8_TO_JIS_TABLE);
         var i = 0;
         var len = keys.length;
         var key, value;
@@ -29694,7 +29694,7 @@ var require_config = __commonJS({
           }
         }
         EncodingTable.JISX0212_TO_UTF8_TABLE = {};
-        keys = util4.objectKeys(EncodingTable.UTF8_TO_JISX0212_TABLE);
+        keys = util2.objectKeys(EncodingTable.UTF8_TO_JISX0212_TABLE);
         len = keys.length;
         for (i = 0; i < len; i++) {
           key = keys[i];
@@ -30182,7 +30182,7 @@ var require_sjis_ext = __commonJS({
 var require_encoding_convert = __commonJS({
   "node_modules/.pnpm/encoding-japanese@2.3.0/node_modules/encoding-japanese/src/encoding-convert.js"(exports) {
     var config2 = require_config();
-    var util4 = require_util2();
+    var util2 = require_util2();
     var EncodingDetect = require_encoding_detect();
     var EncodingTable = require_encoding_table();
     var sjisExt = require_sjis_ext();
@@ -31008,7 +31008,7 @@ var require_encoding_convert = __commonJS({
       var results;
       if (options && options.bom) {
         var optBom = options.bom;
-        if (!util4.isString(optBom)) {
+        if (!util2.isString(optBom)) {
           optBom = "BE";
         }
         var bom, utf16;
@@ -31184,7 +31184,7 @@ var require_encoding_convert = __commonJS({
       var bom;
       if (options && options.bom) {
         var optBom = options.bom;
-        if (!util4.isString(optBom)) {
+        if (!util2.isString(optBom)) {
           optBom = "BE";
         }
         if (optBom.charAt(0).toUpperCase() === "B") {
@@ -31257,7 +31257,7 @@ var require_encoding_convert = __commonJS({
       var bom;
       if (options && options.bom) {
         var optBom = options.bom;
-        if (!util4.isString(optBom)) {
+        if (!util2.isString(optBom)) {
           optBom = "BE";
         }
         if (optBom.charAt(0).toUpperCase() === "B") {
@@ -31680,7 +31680,7 @@ var require_package2 = __commonJS({
 var require_src = __commonJS({
   "node_modules/.pnpm/encoding-japanese@2.3.0/node_modules/encoding-japanese/src/index.js"(exports, module) {
     var config2 = require_config();
-    var util4 = require_util2();
+    var util2 = require_util2();
     var EncodingDetect = require_encoding_detect();
     var EncodingConvert = require_encoding_convert();
     var KanaCaseTable = require_kana_case_table();
@@ -31707,16 +31707,16 @@ var require_src = __commonJS({
         if (data == null || data.length === 0) {
           return false;
         }
-        if (util4.isObject(encodings) && !util4.isArray(encodings)) {
+        if (util2.isObject(encodings) && !util2.isArray(encodings)) {
           encodings = encodings.encoding;
         }
-        if (util4.isString(data)) {
-          data = util4.stringToBuffer(data);
+        if (util2.isString(data)) {
+          data = util2.stringToBuffer(data);
         }
         if (encodings == null) {
           encodings = Encoding.orders;
         } else {
-          if (util4.isString(encodings)) {
+          if (util2.isString(encodings)) {
             encodings = encodings.toUpperCase();
             if (encodings === "AUTO") {
               encodings = Encoding.orders;
@@ -31731,7 +31731,7 @@ var require_src = __commonJS({
         var e, encoding, method;
         for (var i = 0; i < len; i++) {
           e = encodings[i];
-          encoding = util4.canonicalizeEncodingName(e);
+          encoding = util2.canonicalizeEncodingName(e);
           if (!encoding) {
             continue;
           }
@@ -31759,7 +31759,7 @@ var require_src = __commonJS({
        */
       convert: function(data, to, from) {
         var result, type, options;
-        if (!util4.isObject(to)) {
+        if (!util2.isObject(to)) {
           options = {};
         } else {
           options = to;
@@ -31769,19 +31769,19 @@ var require_src = __commonJS({
             type = options.type;
           }
         }
-        if (util4.isString(data)) {
+        if (util2.isString(data)) {
           type = type || "string";
-          data = util4.stringToBuffer(data);
+          data = util2.stringToBuffer(data);
         } else if (data == null || data.length === 0) {
           data = [];
         }
         var encodingFrom;
-        if (from != null && util4.isString(from) && from.toUpperCase() !== "AUTO" && !~from.indexOf(",")) {
-          encodingFrom = util4.canonicalizeEncodingName(from);
+        if (from != null && util2.isString(from) && from.toUpperCase() !== "AUTO" && !~from.indexOf(",")) {
+          encodingFrom = util2.canonicalizeEncodingName(from);
         } else {
           encodingFrom = Encoding.detect(data);
         }
-        var encodingTo = util4.canonicalizeEncodingName(to);
+        var encodingTo = util2.canonicalizeEncodingName(to);
         var method = encodingFrom + "To" + encodingTo;
         if (hasOwnProperty.call(EncodingConvert, method)) {
           result = EncodingConvert[method](data, options);
@@ -31790,11 +31790,11 @@ var require_src = __commonJS({
         }
         switch (("" + type).toLowerCase()) {
           case "string":
-            return util4.codeToString_fast(result);
+            return util2.codeToString_fast(result);
           case "arraybuffer":
-            return util4.codeToBuffer(result);
+            return util2.codeToBuffer(result);
           default:
-            return util4.bufferToCode(result);
+            return util2.bufferToCode(result);
         }
       },
       /**
@@ -31804,10 +31804,10 @@ var require_src = __commonJS({
        * @return {string} The percent encoded string
        */
       urlEncode: function(data) {
-        if (util4.isString(data)) {
-          data = util4.stringToBuffer(data);
+        if (util2.isString(data)) {
+          data = util2.stringToBuffer(data);
         }
-        var alpha = util4.stringToCode("0123456789ABCDEF");
+        var alpha = util2.stringToCode("0123456789ABCDEF");
         var results = [];
         var i = 0;
         var len = data && data.length;
@@ -31815,7 +31815,7 @@ var require_src = __commonJS({
         for (; i < len; i++) {
           b = data[i];
           if (b > 255) {
-            return encodeURIComponent(util4.codeToString_fast(data));
+            return encodeURIComponent(util2.codeToString_fast(data));
           }
           if (b >= 97 && b <= 122 || b >= 65 && b <= 90 || b >= 48 && b <= 57 || b === 33 || b >= 39 && b <= 42 || b === 45 || b === 46 || b === 95 || b === 126) {
             results[results.length] = b;
@@ -31830,7 +31830,7 @@ var require_src = __commonJS({
             }
           }
         }
-        return util4.codeToString_fast(results);
+        return util2.codeToString_fast(results);
       },
       /**
        * Decode a percent encoded string to
@@ -31864,10 +31864,10 @@ var require_src = __commonJS({
        * @return {string} The Base64 encoded string
        */
       base64Encode: function(data) {
-        if (util4.isString(data)) {
-          data = util4.stringToBuffer(data);
+        if (util2.isString(data)) {
+          data = util2.stringToBuffer(data);
         }
-        return util4.base64encode(data);
+        return util2.base64encode(data);
       },
       /**
        * Decode a Base64 encoded string to character code array
@@ -31876,7 +31876,7 @@ var require_src = __commonJS({
        * @return {Array.<number>} The decoded array
        */
       base64Decode: function(string4) {
-        return util4.base64decode(string4);
+        return util2.base64decode(string4);
       },
       /**
        * Joins a character code array to string
@@ -31884,14 +31884,14 @@ var require_src = __commonJS({
        * @param {Array.<number>|TypedArray} data The data being joined
        * @return {String} The joined string
        */
-      codeToString: util4.codeToString_fast,
+      codeToString: util2.codeToString_fast,
       /**
        * Splits string to an array of character codes
        *
        * @param {string} string The input string
        * @return {Array.<number>} The character code array
        */
-      stringToCode: util4.stringToCode,
+      stringToCode: util2.stringToCode,
       /**
        * 全角英数記号文字を半角英数記号文字に変換
        *
@@ -31907,9 +31907,9 @@ var require_src = __commonJS({
        */
       toHankakuCase: function(data) {
         var asString = false;
-        if (util4.isString(data)) {
+        if (util2.isString(data)) {
           asString = true;
-          data = util4.stringToBuffer(data);
+          data = util2.stringToBuffer(data);
         }
         var results = [];
         var len = data && data.length;
@@ -31922,7 +31922,7 @@ var require_src = __commonJS({
           }
           results[results.length] = c;
         }
-        return asString ? util4.codeToString_fast(results) : results;
+        return asString ? util2.codeToString_fast(results) : results;
       },
       /**
        * 半角英数記号文字を全角英数記号文字に変換
@@ -31939,9 +31939,9 @@ var require_src = __commonJS({
        */
       toZenkakuCase: function(data) {
         var asString = false;
-        if (util4.isString(data)) {
+        if (util2.isString(data)) {
           asString = true;
-          data = util4.stringToBuffer(data);
+          data = util2.stringToBuffer(data);
         }
         var results = [];
         var len = data && data.length;
@@ -31954,7 +31954,7 @@ var require_src = __commonJS({
           }
           results[results.length] = c;
         }
-        return asString ? util4.codeToString_fast(results) : results;
+        return asString ? util2.codeToString_fast(results) : results;
       },
       /**
        * 全角カタカナを全角ひらがなに変換
@@ -31970,9 +31970,9 @@ var require_src = __commonJS({
        */
       toHiraganaCase: function(data) {
         var asString = false;
-        if (util4.isString(data)) {
+        if (util2.isString(data)) {
           asString = true;
-          data = util4.stringToBuffer(data);
+          data = util2.stringToBuffer(data);
         }
         var results = [];
         var len = data && data.length;
@@ -31997,7 +31997,7 @@ var require_src = __commonJS({
           }
           results[results.length] = c;
         }
-        return asString ? util4.codeToString_fast(results) : results;
+        return asString ? util2.codeToString_fast(results) : results;
       },
       /**
        * 全角ひらがなを全角カタカナに変換
@@ -32013,9 +32013,9 @@ var require_src = __commonJS({
        */
       toKatakanaCase: function(data) {
         var asString = false;
-        if (util4.isString(data)) {
+        if (util2.isString(data)) {
           asString = true;
-          data = util4.stringToBuffer(data);
+          data = util2.stringToBuffer(data);
         }
         var results = [];
         var len = data && data.length;
@@ -32037,7 +32037,7 @@ var require_src = __commonJS({
           }
           results[results.length] = c;
         }
-        return asString ? util4.codeToString_fast(results) : results;
+        return asString ? util2.codeToString_fast(results) : results;
       },
       /**
        * 全角カタカナを半角ｶﾀｶﾅに変換
@@ -32053,9 +32053,9 @@ var require_src = __commonJS({
        */
       toHankanaCase: function(data) {
         var asString = false;
-        if (util4.isString(data)) {
+        if (util2.isString(data)) {
           asString = true;
-          data = util4.stringToBuffer(data);
+          data = util2.stringToBuffer(data);
         }
         var results = [];
         var len = data && data.length;
@@ -32084,7 +32084,7 @@ var require_src = __commonJS({
             results[results.length] = c;
           }
         }
-        return asString ? util4.codeToString_fast(results) : results;
+        return asString ? util2.codeToString_fast(results) : results;
       },
       /**
        * 半角ｶﾀｶﾅを全角カタカナに変換 (濁音含む)
@@ -32100,9 +32100,9 @@ var require_src = __commonJS({
        */
       toZenkanaCase: function(data) {
         var asString = false;
-        if (util4.isString(data)) {
+        if (util2.isString(data)) {
           asString = true;
-          data = util4.stringToBuffer(data);
+          data = util2.stringToBuffer(data);
         }
         var results = [];
         var len = data && data.length;
@@ -32135,7 +32135,7 @@ var require_src = __commonJS({
           }
           results[results.length] = c;
         }
-        return asString ? util4.codeToString_fast(results) : results;
+        return asString ? util2.codeToString_fast(results) : results;
       },
       /**
        * 全角スペースを半角スペースに変換
@@ -32146,7 +32146,7 @@ var require_src = __commonJS({
        * @return {Array.<number>|string} The conveted data
        */
       toHankakuSpace: function(data) {
-        if (util4.isString(data)) {
+        if (util2.isString(data)) {
           return data.replace(/\u3000/g, " ");
         }
         var results = [];
@@ -32171,7 +32171,7 @@ var require_src = __commonJS({
        * @return {Array.<number>|string} The conveted data
        */
       toZenkakuSpace: function(data) {
-        if (util4.isString(data)) {
+        if (util2.isString(data)) {
           return data.replace(/\u0020/g, "\u3000");
         }
         var results = [];
@@ -32510,7 +32510,7 @@ var require_libbase64 = __commonJS({
     "use strict";
     var { Buffer: Buffer2 } = __require("node:buffer");
     var stream = __require("node:stream");
-    var Transform9 = stream.Transform;
+    var Transform6 = stream.Transform;
     function encode6(buffer) {
       if (typeof buffer === "string") {
         buffer = Buffer2.from(buffer, "utf-8");
@@ -32537,7 +32537,7 @@ var require_libbase64 = __commonJS({
       }
       return result.join("\r\n").trim();
     }
-    var Encoder3 = class extends Transform9 {
+    var Encoder3 = class extends Transform6 {
       constructor(options) {
         super();
         this.options = options || {};
@@ -32627,7 +32627,7 @@ var require_libbase64 = __commonJS({
         done();
       }
     };
-    var Decoder = class extends Transform9 {
+    var Decoder = class extends Transform6 {
       constructor(options) {
         super();
         this.options = options || {};
@@ -32685,7 +32685,7 @@ var require_libqp = __commonJS({
     "use strict";
     var { Buffer: Buffer2 } = __require("node:buffer");
     var stream = __require("node:stream");
-    var Transform9 = stream.Transform;
+    var Transform6 = stream.Transform;
     function encode6(buffer) {
       if (typeof buffer === "string") {
         buffer = Buffer2.from(buffer, "utf-8");
@@ -32799,7 +32799,7 @@ var require_libqp = __commonJS({
       }
       return false;
     }
-    var Encoder3 = class extends Transform9 {
+    var Encoder3 = class extends Transform6 {
       constructor(options) {
         super();
         this.options = options || {};
@@ -32809,7 +32809,7 @@ var require_libqp = __commonJS({
         this._curLine = "";
         this.inputBytes = 0;
         this.outputBytes = 0;
-        Transform9.call(this, this.options);
+        Transform6.call(this, this.options);
       }
       _transform(chunk, encoding, done) {
         let qp;
@@ -32846,7 +32846,7 @@ var require_libqp = __commonJS({
         done();
       }
     };
-    var Decoder = class extends Transform9 {
+    var Decoder = class extends Transform6 {
       constructor(options) {
         options = options || {};
         super(options);
@@ -34960,7 +34960,7 @@ var require_libmime = __commonJS({
         obj[key] = value;
       }
     };
-    var hasOwn2 = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+    var hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
     var isWSP = (chr) => chr === " " || chr === "	" || chr === "\r" || chr === "\n" || chr === "\f" || chr === "\v";
     var Libmime = class {
       constructor(config2) {
@@ -35260,7 +35260,7 @@ var require_libmime = __commonJS({
         }
         for (i = 0, len = lines.length; i < len; i++) {
           header = this.decodeHeader(lines[i]);
-          if (!hasOwn2(headersObj, header.key)) {
+          if (!hasOwn(headersObj, header.key)) {
             setOwnProperty(headersObj, header.key, [header.value]);
           } else {
             headersObj[header.key].push(header.value);
@@ -35552,7 +35552,7 @@ var require_libmime = __commonJS({
        */
       detectExtension(mimeType) {
         mimeType = (mimeType || "").toString().toLowerCase().replace(/\s/g, "");
-        if (!hasOwn2(mimetypes.list, mimeType)) {
+        if (!hasOwn(mimetypes.list, mimeType)) {
           return "bin";
         }
         if (typeof mimetypes.list[mimeType] === "string") {
@@ -35575,7 +35575,7 @@ var require_libmime = __commonJS({
        */
       detectMimeType(extension) {
         extension = (extension || "").toString().toLowerCase().replace(/\s/g, "").replace(/^\./g, "").split(".").pop();
-        if (!hasOwn2(mimetypes.extensions, extension)) {
+        if (!hasOwn(mimetypes.extensions, extension)) {
           return "application/octet-stream";
         }
         if (typeof mimetypes.extensions[extension] === "string") {
@@ -36051,7 +36051,7 @@ var require_mime_node = __commonJS({
     var libmime = require_libmime();
     var libqp = require_libqp();
     var libbase64 = require_libbase64();
-    var PassThrough5 = __require("stream").PassThrough;
+    var PassThrough3 = __require("stream").PassThrough;
     var pathlib = __require("path");
     var Libmime = (
       /** @type {any} */
@@ -36307,7 +36307,7 @@ var require_mime_node = __commonJS({
           case "quoted-printable":
             return new libqp.Decoder();
           default:
-            return new PassThrough5();
+            return new PassThrough3();
         }
       }
       /**
@@ -36334,7 +36334,7 @@ var require_mime_node = __commonJS({
           case "quoted-printable":
             return new libqp.Encoder();
           default:
-            return new PassThrough5();
+            return new PassThrough3();
         }
       }
     };
@@ -36346,7 +36346,7 @@ var require_mime_node = __commonJS({
 var require_message_splitter = __commonJS({
   "node_modules/.pnpm/@zone-eu+mailsplit@5.4.16/node_modules/@zone-eu/mailsplit/lib/message-splitter.js"(exports, module) {
     "use strict";
-    var Transform9 = __require("stream").Transform;
+    var Transform6 = __require("stream").Transform;
     var MimeNode2 = require_mime_node();
     var MAX_HEAD_SIZE = 1 * 1024 * 1024;
     var MAX_CHILD_NODES = 1e3;
@@ -36376,7 +36376,7 @@ var require_message_splitter = __commonJS({
       }
       return end;
     }
-    var MessageSplitter = class extends Transform9 {
+    var MessageSplitter = class extends Transform6 {
       /**
        * @param {SplitterOptions} [config]
        */
@@ -36823,8 +36823,8 @@ var require_message_splitter = __commonJS({
 var require_message_joiner = __commonJS({
   "node_modules/.pnpm/@zone-eu+mailsplit@5.4.16/node_modules/@zone-eu/mailsplit/lib/message-joiner.js"(exports, module) {
     "use strict";
-    var Transform9 = __require("stream").Transform;
-    var MessageJoiner = class extends Transform9 {
+    var Transform6 = __require("stream").Transform;
+    var MessageJoiner = class extends Transform6 {
       /**
        * Creates a joiner that accepts splitter objects and emits Buffer chunks.
        */
@@ -36867,13 +36867,13 @@ var require_message_joiner = __commonJS({
 var require_flowed_decoder = __commonJS({
   "node_modules/.pnpm/@zone-eu+mailsplit@5.4.16/node_modules/@zone-eu/mailsplit/lib/flowed-decoder.js"(exports, module) {
     "use strict";
-    var Transform9 = __require("stream").Transform;
+    var Transform6 = __require("stream").Transform;
     var libmime = require_libmime();
     var Libmime = (
       /** @type {any} */
       libmime.Libmime
     );
-    var FlowedDecoder = class extends Transform9 {
+    var FlowedDecoder = class extends Transform6 {
       /**
        * @param {FlowedDecoderOptions} [config] Flowed text and charset decoding settings.
        */
@@ -36925,9 +36925,9 @@ var require_flowed_decoder = __commonJS({
 var require_node_rewriter = __commonJS({
   "node_modules/.pnpm/@zone-eu+mailsplit@5.4.16/node_modules/@zone-eu/mailsplit/lib/node-rewriter.js"(exports, module) {
     "use strict";
-    var Transform9 = __require("stream").Transform;
+    var Transform6 = __require("stream").Transform;
     var FlowedDecoder = require_flowed_decoder();
-    var NodeRewriter = class extends Transform9 {
+    var NodeRewriter = class extends Transform6 {
       /**
        * @param {FilterFunc} filterFunc Function that receives a MIME node and returns true to rewrite it.
        * @param {Function} [rewriteAction] Optional compatibility hook stored on the instance.
@@ -37113,9 +37113,9 @@ var require_node_rewriter = __commonJS({
 var require_node_streamer = __commonJS({
   "node_modules/.pnpm/@zone-eu+mailsplit@5.4.16/node_modules/@zone-eu/mailsplit/lib/node-streamer.js"(exports, module) {
     "use strict";
-    var Transform9 = __require("stream").Transform;
+    var Transform6 = __require("stream").Transform;
     var FlowedDecoder = require_flowed_decoder();
-    var NodeStreamer = class extends Transform9 {
+    var NodeStreamer = class extends Transform6 {
       /**
        * @param {FilterFunc} filterFunc Function that receives a MIME node and returns true to stream it.
        * @param {Function} [streamAction] Optional compatibility hook stored on the instance.
@@ -37249,8 +37249,8 @@ var require_node_streamer = __commonJS({
 var require_chunked_passthrough = __commonJS({
   "node_modules/.pnpm/@zone-eu+mailsplit@5.4.16/node_modules/@zone-eu/mailsplit/lib/chunked-passthrough.js"(exports, module) {
     "use strict";
-    var { Transform: Transform9 } = __require("stream");
-    var ChunkedPassthrough = class extends Transform9 {
+    var { Transform: Transform6 } = __require("stream");
+    var ChunkedPassthrough = class extends Transform6 {
       /**
        * @param {import('..').ChunkedPassthroughOptions} [options]
        */
@@ -37320,12 +37320,12 @@ var require_mailsplit = __commonJS({
 var require_limited_passthrough = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/limited-passthrough.js"(exports, module) {
     "use strict";
-    var { Transform: Transform9 } = __require("stream");
+    var { Transform: Transform6 } = __require("stream");
     var normalizeByteLimit = (value) => {
       let bytes = Number(value);
       return Number.isFinite(bytes) && bytes > 0 ? Math.max(Math.floor(bytes), 1) : Infinity;
     };
-    var LimitedPassthrough = class extends Transform9 {
+    var LimitedPassthrough = class extends Transform6 {
       constructor(options) {
         super();
         this.options = options || {};
@@ -37380,7 +37380,7 @@ var require_limits = __commonJS({
 var require_imap_stream = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/handler/imap-stream.js"(exports, module) {
     "use strict";
-    var Transform9 = __require("stream").Transform;
+    var Transform6 = __require("stream").Transform;
     var logger = require_logger();
     var { MAX_LITERAL_SIZE, MAX_LINE_SIZE, MAX_RESPONSE_SIZE: MAX_RESPONSE_SIZE2, normalizeLimit, createLiteralTooLargeError } = require_limits();
     var LINE = 1;
@@ -37391,7 +37391,7 @@ var require_imap_stream = __commonJS({
     var NUM_9 = 57;
     var CURLY_OPEN = 123;
     var CURLY_CLOSE = 125;
-    var ImapStream = class extends Transform9 {
+    var ImapStream = class extends Transform6 {
       /**
        * Creates a new ImapStream instance.
        *
@@ -37643,9 +37643,9 @@ var require_imap_stream = __commonJS({
                   }
                   if (payload.length) {
                     let trailingAfterLine = lineStart < chunk.length || this.inputQueue.length > 0;
-                    await new Promise((resolve5) => {
-                      this.pendingPush = resolve5;
-                      this.push({ payload, literals, next: resolve5, trailingAfterLine });
+                    await new Promise((resolve4) => {
+                      this.pendingPush = resolve4;
+                      this.push({ payload, literals, next: resolve4, trailingAfterLine });
                     });
                     this.pendingPush = null;
                     if (this.destroyed) {
@@ -37700,7 +37700,7 @@ var require_imap_stream = __commonJS({
           this.releaseInput(data);
           processedCount++;
           if (processedCount % 10 === 0) {
-            await new Promise((resolve5) => setImmediate(resolve5));
+            await new Promise((resolve4) => setImmediate(resolve4));
           }
         }
       }
@@ -37763,9 +37763,9 @@ var require_imap_stream = __commonJS({
         this.literals = [];
         this.responseBytes = 0;
         if (typeof this.pendingPush === "function") {
-          const resolve5 = this.pendingPush;
+          const resolve4 = this.pendingPush;
           this.pendingPush = null;
-          resolve5();
+          resolve4();
         }
         this.releaseInput(this.activeInput);
         this.activeInput = null;
@@ -42726,7 +42726,7 @@ var require_helpers2 = __commonJS({
     var constants_1 = require_constants2();
     var stream = __require("stream");
     var ip_address_1 = require_ip_address();
-    var net8 = __require("net");
+    var net4 = __require("net");
     function validateSocksClientOptions(options, acceptedCommands = ["connect", "bind", "associate"]) {
       if (!constants_1.SocksCommand[options.command]) {
         throw new util_1.SocksClientError(constants_1.ERRORS.InvalidSocksCommand, options);
@@ -42809,10 +42809,10 @@ var require_helpers2 = __commonJS({
     }
     exports.int32ToIpv4 = int32ToIpv4;
     function ipToBuffer(ip) {
-      if (net8.isIPv4(ip)) {
+      if (net4.isIPv4(ip)) {
         const address = new ip_address_1.Address4(ip);
         return Buffer.from(address.toArray());
-      } else if (net8.isIPv6(ip)) {
+      } else if (net4.isIPv6(ip)) {
         const address = new ip_address_1.Address6(ip);
         return Buffer.from(address.canonicalForm().split(":").map((segment) => segment.padStart(4, "0")).join(""), "hex");
       } else {
@@ -42877,11 +42877,11 @@ var require_socksclient = __commonJS({
     "use strict";
     var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
       function adopt(value) {
-        return value instanceof P ? value : new P(function(resolve5) {
-          resolve5(value);
+        return value instanceof P ? value : new P(function(resolve4) {
+          resolve4(value);
         });
       }
-      return new (P || (P = Promise))(function(resolve5, reject) {
+      return new (P || (P = Promise))(function(resolve4, reject) {
         function fulfilled(value) {
           try {
             step(generator.next(value));
@@ -42897,7 +42897,7 @@ var require_socksclient = __commonJS({
           }
         }
         function step(result) {
-          result.done ? resolve5(result.value) : adopt(result.value).then(fulfilled, rejected);
+          result.done ? resolve4(result.value) : adopt(result.value).then(fulfilled, rejected);
         }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
       });
@@ -42905,7 +42905,7 @@ var require_socksclient = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.SocksClientError = exports.SocksClient = void 0;
     var events_1 = __require("events");
-    var net8 = __require("net");
+    var net4 = __require("net");
     var smart_buffer_1 = require_smartbuffer();
     var constants_1 = require_constants2();
     var helpers_1 = require_helpers2();
@@ -42931,13 +42931,13 @@ var require_socksclient = __commonJS({
        * @returns { Promise }
        */
       static createConnection(options, callback) {
-        return new Promise((resolve5, reject) => {
+        return new Promise((resolve4, reject) => {
           try {
             (0, helpers_1.validateSocksClientOptions)(options, ["connect"]);
           } catch (err) {
             if (typeof callback === "function") {
               callback(err);
-              return resolve5(err);
+              return resolve4(err);
             } else {
               return reject(err);
             }
@@ -42948,16 +42948,16 @@ var require_socksclient = __commonJS({
             client.removeAllListeners();
             if (typeof callback === "function") {
               callback(null, info);
-              resolve5(info);
+              resolve4(info);
             } else {
-              resolve5(info);
+              resolve4(info);
             }
           });
           client.once("error", (err) => {
             client.removeAllListeners();
             if (typeof callback === "function") {
               callback(err);
-              resolve5(err);
+              resolve4(err);
             } else {
               reject(err);
             }
@@ -42974,13 +42974,13 @@ var require_socksclient = __commonJS({
        * @returns { Promise }
        */
       static createConnectionChain(options, callback) {
-        return new Promise((resolve5, reject) => __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve4, reject) => __awaiter(this, void 0, void 0, function* () {
           try {
             (0, helpers_1.validateSocksClientChainOptions)(options);
           } catch (err) {
             if (typeof callback === "function") {
               callback(err);
-              return resolve5(err);
+              return resolve4(err);
             } else {
               return reject(err);
             }
@@ -43006,14 +43006,14 @@ var require_socksclient = __commonJS({
             }
             if (typeof callback === "function") {
               callback(null, { socket: sock });
-              resolve5({ socket: sock });
+              resolve4({ socket: sock });
             } else {
-              resolve5({ socket: sock });
+              resolve4({ socket: sock });
             }
           } catch (err) {
             if (typeof callback === "function") {
               callback(err);
-              resolve5(err);
+              resolve4(err);
             } else {
               reject(err);
             }
@@ -43028,10 +43028,10 @@ var require_socksclient = __commonJS({
         const buff = new smart_buffer_1.SmartBuffer();
         buff.writeUInt16BE(0);
         buff.writeUInt8(options.frameNumber || 0);
-        if (net8.isIPv4(options.remoteHost.host)) {
+        if (net4.isIPv4(options.remoteHost.host)) {
           buff.writeUInt8(constants_1.Socks5HostType.IPv4);
           buff.writeUInt32BE((0, helpers_1.ipv4ToInt32)(options.remoteHost.host));
-        } else if (net8.isIPv6(options.remoteHost.host)) {
+        } else if (net4.isIPv6(options.remoteHost.host)) {
           buff.writeUInt8(constants_1.Socks5HostType.IPv6);
           buff.writeBuffer((0, helpers_1.ipToBuffer)(options.remoteHost.host));
         } else {
@@ -43094,7 +43094,7 @@ var require_socksclient = __commonJS({
         if (existingSocket) {
           this.socket = existingSocket;
         } else {
-          this.socket = new net8.Socket();
+          this.socket = new net4.Socket();
         }
         this.socket.once("close", this.onClose);
         this.socket.once("error", this.onError);
@@ -43225,7 +43225,7 @@ var require_socksclient = __commonJS({
         buff.writeUInt8(4);
         buff.writeUInt8(constants_1.SocksCommand[this.options.command]);
         buff.writeUInt16BE(this.options.destination.port);
-        if (net8.isIPv4(this.options.destination.host)) {
+        if (net4.isIPv4(this.options.destination.host)) {
           buff.writeBuffer((0, helpers_1.ipToBuffer)(this.options.destination.host));
           buff.writeStringNT(userId);
         } else {
@@ -43403,10 +43403,10 @@ var require_socksclient = __commonJS({
         buff.writeUInt8(5);
         buff.writeUInt8(constants_1.SocksCommand[this.options.command]);
         buff.writeUInt8(0);
-        if (net8.isIPv4(this.options.destination.host)) {
+        if (net4.isIPv4(this.options.destination.host)) {
           buff.writeUInt8(constants_1.Socks5HostType.IPv4);
           buff.writeBuffer((0, helpers_1.ipToBuffer)(this.options.destination.host));
-        } else if (net8.isIPv6(this.options.destination.host)) {
+        } else if (net4.isIPv6(this.options.destination.host)) {
           buff.writeUInt8(constants_1.Socks5HostType.IPv6);
           buff.writeBuffer((0, helpers_1.ipToBuffer)(this.options.destination.host));
         } else {
@@ -43645,7 +43645,7 @@ var require_connection_deadline = __commonJS({
         try {
           return await Promise.race([
             promise2,
-            new Promise((resolve5, reject) => {
+            new Promise((resolve4, reject) => {
               timer = setTimeout(() => reject(this.error()), this.remaining());
             })
           ]);
@@ -43663,16 +43663,16 @@ var require_proxy_connection = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/proxy-connection.js"(exports, module) {
     "use strict";
     var { SocksClient } = require_build();
-    var dns3 = __require("dns").promises;
-    var net8 = __require("net");
-    var tls3 = __require("tls");
+    var dns = __require("dns").promises;
+    var net4 = __require("net");
+    var tls = __require("tls");
     var { ConnectionDeadline } = require_connection_deadline();
     var MAX_RESPONSE_HEADER_BYTES2 = 64 * 1024;
     var DEFAULT_SOCKS_PORT = 1080;
     var unbracketAddress = (host) => typeof host === "string" && host.startsWith("[") && host.endsWith("]") ? host.slice(1, -1) : host;
     var formatAuthority = (host, port) => {
       let address = unbracketAddress(host);
-      return net8.isIPv6(address) ? `[${address}]:${port}` : `${address}:${port}`;
+      return net4.isIPv6(address) ? `[${address}]:${port}` : `${address}:${port}`;
     };
     var redactUrl = (proxyUrl) => {
       let redacted = new URL(proxyUrl.href);
@@ -43726,7 +43726,7 @@ var require_proxy_connection = __commonJS({
         throw deadline.error();
       }
       let socket = null;
-      return await new Promise((resolve5, reject) => {
+      return await new Promise((resolve4, reject) => {
         let settled = false;
         let timer = null;
         let headers = "";
@@ -43778,7 +43778,7 @@ var require_proxy_connection = __commonJS({
         function succeed() {
           settled = true;
           cleanup();
-          resolve5(socket);
+          resolve4(socket);
         }
         function onEarlyClose() {
           fail(proxyError("Proxy closed the connection before the tunnel was established", "EPROXY"));
@@ -43786,7 +43786,7 @@ var require_proxy_connection = __commonJS({
         timer = setTimeout(() => fail(deadline.error()), remaining);
         let connectOptions = { host: proxyHost, port: proxyPort };
         if (secureProxy) {
-          if (!net8.isIP(proxyHost)) {
+          if (!net4.isIP(proxyHost)) {
             connectOptions.servername = proxyHost;
           }
         }
@@ -43805,7 +43805,7 @@ var require_proxy_connection = __commonJS({
           );
           socket.on("data", onSocketData);
         }
-        socket = secureProxy ? tls3.connect(connectOptions, onConnected) : net8.connect(connectOptions, onConnected);
+        socket = secureProxy ? tls.connect(connectOptions, onConnected) : net4.connect(connectOptions, onConnected);
         socket.once("error", fail);
         socket.once("close", onEarlyClose);
       }).then((established) => {
@@ -43829,7 +43829,7 @@ var require_proxy_connection = __commonJS({
       });
     };
     var resolveIPv4 = async (hostname3, deadline) => {
-      let addresses = await deadline.race(dns3.resolve4(hostname3));
+      let addresses = await deadline.race(dns.resolve4(hostname3));
       if (!addresses || !addresses.length) {
         throw proxyError(`Could not resolve an IPv4 address for ${hostname3}`, "EPROXY");
       }
@@ -43840,10 +43840,10 @@ var require_proxy_connection = __commonJS({
       let destinationHost = unbracketAddress(host);
       try {
         if (proxyType === 4) {
-          if (net8.isIPv6(destinationHost)) {
+          if (net4.isIPv6(destinationHost)) {
             throw proxyError(`SOCKS4 and SOCKS4a cannot address IPv6 destinations (${destinationHost})`, "UnsupportedProxyAddress");
           }
-          if (protocol === "socks4" && !net8.isIP(destinationHost)) {
+          if (protocol === "socks4" && !net4.isIP(destinationHost)) {
             destinationHost = await resolveIPv4(destinationHost, deadline);
           }
         }
@@ -44226,10 +44226,10 @@ var require_charsets2 = __commonJS({
 var require_jp_decoder = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/jp-decoder.js"(exports, module) {
     "use strict";
-    var { Transform: Transform9 } = __require("stream");
+    var { Transform: Transform6 } = __require("stream");
     var encodingJapanese = require_src();
     var { normalizeByteLimit } = require_limited_passthrough();
-    var JPDecoder = class extends Transform9 {
+    var JPDecoder = class extends Transform6 {
       constructor(charset, maxBytes) {
         super();
         this.charset = charset;
@@ -44295,7 +44295,7 @@ var require_tools2 = __commonJS({
     var libmime = require_libmime();
     var { resolveCharset } = require_charsets2();
     var { compiler } = require_imap_handler();
-    var { createHash: createHash2 } = __require("crypto");
+    var { createHash } = __require("crypto");
     var { JPDecoder } = require_jp_decoder();
     var iconv = require_lib();
     var FLAG_COLORS = ["red", "orange", "yellow", "green", "blue", "purple", "grey"];
@@ -44541,15 +44541,15 @@ var require_tools2 = __commonJS({
        * @param {String} path - Mailbox path to encode
        * @returns {String} Encoded mailbox path
        */
-      encodePath(connection, path3) {
-        path3 = (path3 || "").toString();
-        if (!connection.enabled.has("UTF8=ACCEPT") && !tools.isRev2Active(connection) && /[&\x00-\x08\x0b-\x0c\x0e-\x1f\u0080-\uffff]/.test(path3)) {
+      encodePath(connection, path2) {
+        path2 = (path2 || "").toString();
+        if (!connection.enabled.has("UTF8=ACCEPT") && !tools.isRev2Active(connection) && /[&\x00-\x08\x0b-\x0c\x0e-\x1f\u0080-\uffff]/.test(path2)) {
           try {
-            path3 = iconv.encode(path3, "utf-7-imap").toString();
+            path2 = iconv.encode(path2, "utf-7-imap").toString();
           } catch {
           }
         }
-        return path3;
+        return path2;
       },
       /**
        * Decodes a mailbox path from modified UTF-7 if the server does not support UTF8=ACCEPT.
@@ -44558,15 +44558,15 @@ var require_tools2 = __commonJS({
        * @param {String} path - Mailbox path to decode
        * @returns {String} Decoded mailbox path
        */
-      decodePath(connection, path3) {
-        path3 = (path3 || "").toString();
-        if (!connection.enabled.has("UTF8=ACCEPT") && !tools.isRev2Active(connection) && /[&]/.test(path3)) {
+      decodePath(connection, path2) {
+        path2 = (path2 || "").toString();
+        if (!connection.enabled.has("UTF8=ACCEPT") && !tools.isRev2Active(connection) && /[&]/.test(path2)) {
           try {
-            path3 = iconv.decode(Buffer.from(path3), "utf-7-imap").toString();
+            path2 = iconv.decode(Buffer.from(path2), "utf-7-imap").toString();
           } catch {
           }
         }
-        return path3;
+        return path2;
       },
       /**
        * Normalizes a mailbox path by joining array segments with the namespace delimiter,
@@ -44577,17 +44577,17 @@ var require_tools2 = __commonJS({
        * @param {Boolean} [skipNamespace] - If true, skips prepending the namespace prefix
        * @returns {String} Normalized mailbox path
        */
-      normalizePath(connection, path3, skipNamespace) {
-        if (Array.isArray(path3)) {
-          path3 = path3.join(connection.namespace && connection.namespace.delimiter || "");
+      normalizePath(connection, path2, skipNamespace) {
+        if (Array.isArray(path2)) {
+          path2 = path2.join(connection.namespace && connection.namespace.delimiter || "");
         }
-        if (path3.toUpperCase() === "INBOX") {
+        if (path2.toUpperCase() === "INBOX") {
           return "INBOX";
         }
-        if (!skipNamespace && connection.namespace && connection.namespace.prefix && !path3.startsWith(connection.namespace.prefix)) {
-          path3 = connection.namespace.prefix + path3;
+        if (!skipNamespace && connection.namespace && connection.namespace.prefix && !path2.startsWith(connection.namespace.prefix)) {
+          path2 = connection.namespace.prefix + path2;
         }
-        return path3;
+        return path2;
       },
       /**
        * Compares two mailbox paths for equality after normalization.
@@ -44918,14 +44918,14 @@ var require_tools2 = __commonJS({
           }
         }
         if (map3.emailId || map3.uid) {
-          let path3 = mailbox.path;
-          if (/[\u0080-\uffff]/.test(path3)) {
+          let path2 = mailbox.path;
+          if (/[\u0080-\uffff]/.test(path2)) {
             try {
-              path3 = iconv.encode(path3, "utf-7-imap").toString();
+              path2 = iconv.encode(path2, "utf-7-imap").toString();
             } catch {
             }
           }
-          map3.id = map3.emailId || createHash2("md5").update([path3, mailbox.uidValidity?.toString() || "", map3.uid.toString()].join(":")).digest("hex");
+          map3.id = map3.emailId || createHash("md5").update([path2, mailbox.uidValidity?.toString() || "", map3.uid.toString()].join(":")).digest("hex");
         }
         if (map3.flags) {
           let flagColor = tools.getFlagColor(map3.flags);
@@ -45109,16 +45109,16 @@ var require_tools2 = __commonJS({
        * @returns {Object} Parsed body structure tree with part numbers, types, parameters, and child nodes
        */
       parseBodystructure(entry) {
-        let walk = (node2, path3) => {
-          path3 = path3 || [];
+        let walk = (node2, path2) => {
+          path2 = path2 || [];
           let curNode = {}, i = 0, part = 0;
-          if (path3.length) {
-            curNode.part = path3.join(".");
+          if (path2.length) {
+            curNode.part = path2.join(".");
           }
           if (Array.isArray(node2[0])) {
             curNode.childNodes = [];
             while (Array.isArray(node2[i])) {
-              curNode.childNodes.push(walk(node2[i], path3.concat(++part)));
+              curNode.childNodes.push(walk(node2[i], path2.concat(++part)));
               i++;
             }
             curNode.type = "multipart/" + ((node2[i++] || {}).value || "").toString().toLowerCase();
@@ -45161,7 +45161,7 @@ var require_tools2 = __commonJS({
                   // the encapsulated message shares the part number with its wrapper.
                   // Distinction is via suffixes: path.MIME = wrapper headers,
                   // path.HEADER = encapsulated message headers.
-                  walk(node2[i], path3)
+                  walk(node2[i], path2)
                 ];
               }
               i++;
@@ -47123,14 +47123,14 @@ var require_select = __commonJS({
       // update into a silent no-op for the rest of the session.
       permanentflags: { key: "permanentFlags", parse: (value) => Array.isArray(value) && new Set(value) }
     });
-    module.exports = async (connection, path3, options) => {
+    module.exports = async (connection, path2, options) => {
       if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state)) {
         return;
       }
       options = options || {};
-      path3 = normalizePath(connection, path3);
-      if (!connection.folders.has(path3)) {
-        let folders = await connection.run("LIST", "", path3);
+      path2 = normalizePath(connection, path2);
+      if (!connection.folders.has(path2)) {
+        let folders = await connection.run("LIST", "", path2);
         if (!folders) {
           throw new Error("Failed to fetch folders");
         }
@@ -47138,10 +47138,10 @@ var require_select = __commonJS({
           connection.folders.set(folder.path, folder);
         });
       }
-      let folderListData = connection.folders.has(path3) ? connection.folders.get(path3) : false;
+      let folderListData = connection.folders.has(path2) ? connection.folders.get(path2) : false;
       let response;
       try {
-        let map3 = { path: path3 };
+        let map3 = { path: path2 };
         if (folderListData) {
           ["delimiter", "specialUse", "subscribed", "listed"].forEach((key) => {
             if (folderListData[key]) {
@@ -47160,7 +47160,7 @@ var require_select = __commonJS({
           ]);
           map3.qresync = true;
         }
-        let encodedPath = encodePath(connection, path3);
+        let encodedPath = encodePath(connection, path2);
         let selectCommand = {
           command: !options.readOnly ? "SELECT" : "EXAMINE",
           /* c8 ignore next */
@@ -47220,12 +47220,12 @@ var require_select = __commonJS({
             // since the client's last known state. Only received when QRESYNC was requested.
             // A dummy mailbox object is passed because the mailbox isn't officially open yet.
             VANISHED: async (untagged) => {
-              await connection.untaggedVanished(untagged, { path: path3, uidNext: false, uidValidity: false });
+              await connection.untaggedVanished(untagged, { path: path2, uidNext: false, uidValidity: false });
             },
             // Untagged FETCH during SELECT/EXAMINE: only occurs with QRESYNC, delivering
             // updated flags for messages that changed since the client's last modseq.
             FETCH: async (untagged) => {
-              await connection.untaggedFetch(untagged, { path: path3, uidNext: false, uidValidity: false });
+              await connection.untaggedFetch(untagged, { path: path2, uidNext: false, uidValidity: false });
             }
           }
         });
@@ -47239,13 +47239,13 @@ var require_select = __commonJS({
         }
         let currentMailbox = connection.mailbox;
         connection.mailbox = false;
-        if (currentMailbox && currentMailbox.path !== path3) {
+        if (currentMailbox && currentMailbox.path !== path2) {
           connection.emit("mailboxClose", currentMailbox);
         }
         connection.mailbox = map3;
         connection.currentSelectCommand = selectCommand;
         connection.state = connection.states.SELECTED;
-        if (!currentMailbox || currentMailbox.path !== path3) {
+        if (!currentMailbox || currentMailbox.path !== path2) {
           connection.emit("mailboxOpen", connection.mailbox);
         }
         response.next();
@@ -47410,12 +47410,12 @@ var require_fetch = __commonJS({
                 messages.count++;
                 let formatted = await formatMessageResponse(untagged, mailbox);
                 if (typeof options.onUntaggedFetch === "function") {
-                  await new Promise((resolve5, reject) => {
+                  await new Promise((resolve4, reject) => {
                     options.onUntaggedFetch(formatted, (err) => {
                       if (err) {
                         reject(err);
                       } else {
-                        resolve5();
+                        resolve4();
                       }
                     });
                   });
@@ -47460,17 +47460,17 @@ var require_create = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/commands/create.js"(exports, module) {
     "use strict";
     var { encodePath, normalizePath, getStatusCode, enhanceCommandError } = require_tools2();
-    module.exports = async (connection, path3) => {
+    module.exports = async (connection, path2) => {
       if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state)) {
         return;
       }
-      path3 = normalizePath(connection, path3);
+      path2 = normalizePath(connection, path2);
       let response;
       try {
         let map3 = {
-          path: path3
+          path: path2
         };
-        response = await connection.exec("CREATE", [{ type: "ATOM", value: encodePath(connection, path3) }]);
+        response = await connection.exec("CREATE", [{ type: "ATOM", value: encodePath(connection, path2) }]);
         let section = response.response.attributes && response.response.attributes[0] && response.response.attributes[0].section && response.response.attributes[0].section.length ? response.response.attributes[0].section : false;
         if (section) {
           let key;
@@ -47496,13 +47496,13 @@ var require_create = __commonJS({
         }
         map3.created = true;
         response.next();
-        await connection.run("SUBSCRIBE", path3);
+        await connection.run("SUBSCRIBE", path2);
         return map3;
       } catch (err) {
         let errorCode = getStatusCode(err.response);
         if (errorCode === "ALREADYEXISTS") {
           return {
-            path: path3,
+            path: path2,
             created: false
           };
         }
@@ -47519,20 +47519,20 @@ var require_delete = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/commands/delete.js"(exports, module) {
     "use strict";
     var { encodePath, normalizePath, enhanceCommandError } = require_tools2();
-    module.exports = async (connection, path3) => {
+    module.exports = async (connection, path2) => {
       if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state)) {
         return;
       }
-      path3 = normalizePath(connection, path3);
-      if (connection.state === connection.states.SELECTED && connection.mailbox.path === path3) {
+      path2 = normalizePath(connection, path2);
+      if (connection.state === connection.states.SELECTED && connection.mailbox.path === path2) {
         await connection.run("CLOSE");
       }
       let response;
       try {
         let map3 = {
-          path: path3
+          path: path2
         };
-        response = await connection.exec("DELETE", [{ type: "ATOM", value: encodePath(connection, path3) }]);
+        response = await connection.exec("DELETE", [{ type: "ATOM", value: encodePath(connection, path2) }]);
         response.next();
         return map3;
       } catch (err) {
@@ -47549,23 +47549,23 @@ var require_rename = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/commands/rename.js"(exports, module) {
     "use strict";
     var { encodePath, normalizePath, enhanceCommandError } = require_tools2();
-    module.exports = async (connection, path3, newPath) => {
+    module.exports = async (connection, path2, newPath) => {
       if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state)) {
         return;
       }
-      path3 = normalizePath(connection, path3);
+      path2 = normalizePath(connection, path2);
       newPath = normalizePath(connection, newPath);
-      if (connection.state === connection.states.SELECTED && connection.mailbox.path === path3) {
+      if (connection.state === connection.states.SELECTED && connection.mailbox.path === path2) {
         await connection.run("CLOSE");
       }
       let response;
       try {
         let map3 = {
-          path: path3,
+          path: path2,
           newPath
         };
         response = await connection.exec("RENAME", [
-          { type: "ATOM", value: encodePath(connection, path3) },
+          { type: "ATOM", value: encodePath(connection, path2) },
           { type: "ATOM", value: encodePath(connection, newPath) }
         ]);
         response.next();
@@ -47612,14 +47612,14 @@ var require_subscribe = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/commands/subscribe.js"(exports, module) {
     "use strict";
     var { encodePath, normalizePath, enhanceCommandError } = require_tools2();
-    module.exports = async (connection, path3) => {
+    module.exports = async (connection, path2) => {
       if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state)) {
         return;
       }
-      path3 = normalizePath(connection, path3);
+      path2 = normalizePath(connection, path2);
       let response;
       try {
-        response = await connection.exec("SUBSCRIBE", [{ type: "ATOM", value: encodePath(connection, path3) }]);
+        response = await connection.exec("SUBSCRIBE", [{ type: "ATOM", value: encodePath(connection, path2) }]);
         response.next();
         return true;
       } catch (err) {
@@ -47636,14 +47636,14 @@ var require_unsubscribe = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/commands/unsubscribe.js"(exports, module) {
     "use strict";
     var { encodePath, normalizePath, enhanceCommandError } = require_tools2();
-    module.exports = async (connection, path3) => {
+    module.exports = async (connection, path2) => {
       if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state)) {
         return;
       }
-      path3 = normalizePath(connection, path3);
+      path2 = normalizePath(connection, path2);
       let response;
       try {
-        response = await connection.exec("UNSUBSCRIBE", [{ type: "ATOM", value: encodePath(connection, path3) }]);
+        response = await connection.exec("UNSUBSCRIBE", [{ type: "ATOM", value: encodePath(connection, path2) }]);
         response.next();
         return true;
       } catch (err) {
@@ -48457,11 +48457,11 @@ var require_status = __commonJS({
     var { encodePath, normalizePath, buildStatusQueryAttributes, isRev2Active } = require_tools2();
     var { parseStatusList } = require_status_fields();
     var MAILBOX_UPDATERS = {
-      messages: (value, connection, path3) => {
+      messages: (value, connection, path2) => {
         let prevCount = connection.mailbox.exists;
         if (prevCount !== value) {
           connection.mailbox.exists = value;
-          connection.emit("exists", { path: path3, count: value, prevCount });
+          connection.emit("exists", { path: path2, count: value, prevCount });
         }
       },
       uidNext: (value, connection) => {
@@ -48471,28 +48471,28 @@ var require_status = __commonJS({
         connection.mailbox.highestModseq = value;
       }
     };
-    module.exports = async (connection, path3, query) => {
-      if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state) || !path3) {
+    module.exports = async (connection, path2, query) => {
+      if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state) || !path2) {
         return false;
       }
-      path3 = normalizePath(connection, path3);
-      let encodedPath = encodePath(connection, path3);
+      path2 = normalizePath(connection, path2);
+      let encodedPath = encodePath(connection, path2);
       let attributes = [{ type: encodedPath.indexOf("&") >= 0 ? "STRING" : "ATOM", value: encodedPath }];
       let queryAttributes = buildStatusQueryAttributes(connection, query);
       let syntheticRecent = query && query.recent && isRev2Active(connection);
       if (!queryAttributes.length) {
-        return syntheticRecent ? { path: path3, recent: 0 } : false;
+        return syntheticRecent ? { path: path2, recent: 0 } : false;
       }
       attributes.push(queryAttributes);
       let response;
       try {
-        let map3 = { path: path3 };
+        let map3 = { path: path2 };
         response = await connection.exec("STATUS", attributes, {
           untagged: {
             // STATUS response: * STATUS <mailbox> (<key> <value> <key> <value> ...)
             // Parsed as alternating key-value pairs (i % 2 pattern).
             STATUS: async (untagged) => {
-              let updateCurrent = connection.state === connection.states.SELECTED && path3 === connection.mailbox.path;
+              let updateCurrent = connection.state === connection.states.SELECTED && path2 === connection.mailbox.path;
               let list = untagged.attributes && Array.isArray(untagged.attributes[1]) ? untagged.attributes[1] : false;
               if (!list) {
                 return;
@@ -48500,7 +48500,7 @@ var require_status = __commonJS({
               parseStatusList(list, (key, value) => {
                 map3[key] = value;
                 if (updateCurrent && MAILBOX_UPDATERS[key]) {
-                  MAILBOX_UPDATERS[key](value, connection, path3);
+                  MAILBOX_UPDATERS[key](value, connection, path2);
                 }
               });
             }
@@ -48513,9 +48513,9 @@ var require_status = __commonJS({
         return map3;
       } catch (err) {
         if (err.responseStatus === "NO") {
-          let folders = await connection.run("LIST", "", path3, { listOnly: true });
+          let folders = await connection.run("LIST", "", path2, { listOnly: true });
           if (folders && !folders.length) {
-            let error63 = new Error(`Mailbox doesn't exist: ${path3}`);
+            let error63 = new Error(`Mailbox doesn't exist: ${path2}`);
             error63.code = "NotFound";
             error63.response = err;
             throw error63;
@@ -48662,15 +48662,15 @@ var require_quota = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/commands/quota.js"(exports, module) {
     "use strict";
     var { encodePath, normalizePath, enhanceCommandError, parseUintValue, isUnsafeKey } = require_tools2();
-    module.exports = async (connection, path3) => {
-      if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state) || !path3) {
+    module.exports = async (connection, path2) => {
+      if (![connection.states.AUTHENTICATED, connection.states.SELECTED].includes(connection.state) || !path2) {
         return;
       }
       if (!connection.capabilities.has("QUOTA")) {
         return false;
       }
-      path3 = normalizePath(connection, path3);
-      let map3 = { path: path3 };
+      path2 = normalizePath(connection, path2);
+      let map3 = { path: path2 };
       let processQuotaResponse = (untagged) => {
         let attributes = untagged.attributes && untagged.attributes[1];
         if (!attributes || !attributes.length) {
@@ -48710,7 +48710,7 @@ var require_quota = __commonJS({
       let quotaFound = false;
       let response;
       try {
-        response = await connection.exec("GETQUOTAROOT", [{ type: "ATOM", value: encodePath(connection, path3) }], {
+        response = await connection.exec("GETQUOTAROOT", [{ type: "ATOM", value: encodePath(connection, path2) }], {
           untagged: {
             // QUOTAROOT response tells us which quota root applies to this mailbox.
             // A mailbox may have zero or one quota root.
@@ -48792,14 +48792,14 @@ var require_idle = __commonJS({
               connection.preCheck = false;
             }
             while (preCheckWaitQueue.length) {
-              let { resolve: resolve5 } = preCheckWaitQueue.shift();
-              resolve5();
+              let { resolve: resolve4 } = preCheckWaitQueue.shift();
+              resolve4();
             }
           }
         };
         let connectionPreCheck = () => {
-          let handler = guardedPromise((resolve5, reject) => {
-            preCheckWaitQueue.push({ resolve: resolve5, reject });
+          let handler = guardedPromise((resolve4, reject) => {
+            preCheckWaitQueue.push({ resolve: resolve4, reject });
           });
           connection.log.trace({
             msg: "Requesting IDLE break",
@@ -48857,21 +48857,21 @@ var require_idle = __commonJS({
           connection.preCheck = false;
         }
         while (preCheckWaitQueue.length) {
-          let { resolve: resolve5 } = preCheckWaitQueue.shift();
-          resolve5();
+          let { resolve: resolve4 } = preCheckWaitQueue.shift();
+          resolve4();
         }
       }
     }
     async function pollOnce(connection, session) {
-      let path3 = connection.mailbox && connection.mailbox.path;
+      let path2 = connection.mailbox && connection.mailbox.path;
       switch (connection.missingIdleCommand) {
         case "SELECT":
           connection.log.debug({ msg: `Running SELECT to detect changes in folder`, cid: connection.id });
-          await connection.runInternal("SELECT", path3, { readOnly: session.selectCommand.command === "EXAMINE" });
+          await connection.runInternal("SELECT", path2, { readOnly: session.selectCommand.command === "EXAMINE" });
           break;
         case "STATUS": {
           connection.log.debug({ msg: `Running STATUS to detect changes in folder`, cid: connection.id });
-          let status = await connection.runInternal("STATUS", path3, {
+          let status = await connection.runInternal("STATUS", path2, {
             messages: true,
             uidNext: true,
             uidValidity: true,
@@ -48906,7 +48906,7 @@ var require_idle = __commonJS({
       let interval = maxIdleTime ? Math.min(NOOP_INTERVAL, maxIdleTime) : NOOP_INTERVAL;
       let releaseIdling = claimIdling(connection);
       try {
-        await new Promise((resolve5) => {
+        await new Promise((resolve4) => {
           const cancel = () => {
             if (session.cancelled) {
               return;
@@ -48914,7 +48914,7 @@ var require_idle = __commonJS({
             session.cancelled = true;
             clearTimeout(session.timer);
             session.timer = null;
-            resolve5();
+            resolve4();
           };
           session.preCheck = async () => {
             connection.log.debug({ msg: `Breaking NOOP loop`, cid: connection.id });
@@ -49181,10 +49181,10 @@ var require_imap_commands = __commonJS({
 var require_imap_flow = __commonJS({
   "node_modules/.pnpm/imapflow@1.7.8/node_modules/imapflow/lib/imap-flow.js"(exports, module) {
     "use strict";
-    var tls3 = __require("tls");
-    var net8 = __require("net");
-    var crypto8 = __require("crypto");
-    var { EventEmitter: EventEmitter7 } = __require("events");
+    var tls = __require("tls");
+    var net4 = __require("net");
+    var crypto3 = __require("crypto");
+    var { EventEmitter } = __require("events");
     var logger = require_logger();
     var libmime = require_libmime();
     var zlib2 = __require("zlib");
@@ -49196,7 +49196,7 @@ var require_imap_flow = __commonJS({
     var libqp = require_libqp();
     var libbase64 = require_libbase64();
     var FlowedDecoder = require_flowed_decoder();
-    var { PassThrough: PassThrough5 } = __require("stream");
+    var { PassThrough: PassThrough3 } = __require("stream");
     var { proxyConnection, detachEarlyErrorHandler } = require_proxy_connection();
     var { ConnectionDeadline } = require_connection_deadline();
     var {
@@ -49288,7 +49288,7 @@ var require_imap_flow = __commonJS({
       }
       return Math.floor(delay);
     };
-    var ImapFlow3 = class extends EventEmitter7 {
+    var ImapFlow3 = class extends EventEmitter {
       /**
        * Current module version as a static class property
        * @property {String} version Module version
@@ -49459,7 +49459,7 @@ var require_imap_flow = __commonJS({
         this.secureConnection = !!this.options.secure;
         this.port = Number(this.options.port) || (this.secureConnection ? 993 : 143);
         this.host = this.options.host || "localhost";
-        this.servername = this.options.servername ? this.options.servername : !net8.isIP(this.host) ? this.host : false;
+        this.servername = this.options.servername ? this.options.servername : !net4.isIP(this.host) ? this.host : false;
         if (typeof this.options.secure === "undefined" && this.port === 993) {
           this.secureConnection = true;
         }
@@ -49561,7 +49561,7 @@ var require_imap_flow = __commonJS({
         this.emit("error", err);
       }
       getRandomId() {
-        let rid = BigInt("0x" + crypto8.randomBytes(13).toString("hex")).toString(36);
+        let rid = BigInt("0x" + crypto3.randomBytes(13).toString("hex")).toString(36);
         if (rid.length < 20) {
           rid = "0".repeat(20 - rid.length) + rid;
         }
@@ -49696,8 +49696,8 @@ var require_imap_flow = __commonJS({
         }
         let tag = (++this.tagCounter).toString(16).toUpperCase();
         options = options || {};
-        return guardedPromise((resolve5, reject) => {
-          this.requestTagMap.set(tag, { command, attributes, options, resolve: resolve5, reject });
+        return guardedPromise((resolve4, reject) => {
+          this.requestTagMap.set(tag, { command, attributes, options, resolve: resolve4, reject });
           this.requestQueue.push({ tag, command, attributes, options });
           this.trySend().catch((err) => logConnectionError(this, "Failed to dispatch command", err));
         });
@@ -49805,11 +49805,11 @@ var require_imap_flow = __commonJS({
        */
       async throttleWait(delay) {
         delay = Math.min(Math.max(Number(delay) || 0, 0), MAX_THROTTLE_DELAY);
-        return await new Promise((resolve5) => {
-          let entry = { resolve: resolve5 };
+        return await new Promise((resolve4) => {
+          let entry = { resolve: resolve4 };
           entry.timer = setTimeout(() => {
             this._throttleWaits.delete(entry);
-            resolve5(false);
+            resolve4(false);
           }, delay);
           unrefTimer(entry.timer);
           this._throttleWaits.add(entry);
@@ -49838,7 +49838,7 @@ var require_imap_flow = __commonJS({
           }
           processedCount++;
           if (processedCount % 10 === 0) {
-            await new Promise((resolve5) => setImmediate(resolve5));
+            await new Promise((resolve4) => setImmediate(resolve4));
           }
         }
       }
@@ -49999,7 +49999,7 @@ var require_imap_flow = __commonJS({
         switch ((parsed.command || "").toUpperCase()) {
           case "OK":
           case "BYE":
-            await new Promise((resolve5) => request.resolve({ response: parsed, next: resolve5, hasTrailingData }));
+            await new Promise((resolve4) => request.resolve({ response: parsed, next: resolve4, hasTrailingData }));
             break;
           case "NO":
           case "BAD": {
@@ -50017,7 +50017,7 @@ var require_imap_flow = __commonJS({
               err.responseText = txt;
               if (err.responseStatus === "NO" && txt.includes("Some of the requested messages no longer exist")) {
                 this.log.warn({ msg: "Partial FETCH response", cid: this.id, err });
-                await new Promise((resolve5) => request.resolve({ response: parsed, next: resolve5 }));
+                await new Promise((resolve4) => request.resolve({ response: parsed, next: resolve4 }));
                 break;
               }
               let throttleDelay = false;
@@ -50214,7 +50214,7 @@ var require_imap_flow = __commonJS({
             this.streamer.emit("error", err);
           }
         });
-        this.writeSocket = new PassThrough5({
+        this.writeSocket = new PassThrough3({
           highWaterMark: 64 * 1024
           // 64KB buffer limit to prevent excessive memory usage
         });
@@ -50242,7 +50242,7 @@ var require_imap_flow = __commonJS({
               }
               processedChunks++;
               if (processedChunks % 100 === 0) {
-                await new Promise((resolve5) => setImmediate(resolve5));
+                await new Promise((resolve4) => setImmediate(resolve4));
                 if (!this.writeSocket) {
                   break;
                 }
@@ -50319,7 +50319,7 @@ var require_imap_flow = __commonJS({
         if (injectedTail && injectedTail.length) {
           throw failSTARTTLSInjection();
         }
-        let upgraded = await new Promise((resolve5, reject) => {
+        let upgraded = await new Promise((resolve4, reject) => {
           let socketPlain = this.socket;
           let opts = Object.assign(
             {
@@ -50356,7 +50356,7 @@ var require_imap_flow = __commonJS({
               this.closeAfter();
               return reject(err);
             }
-            resolve5(result);
+            resolve4(result);
           };
           this._upgradeReject = settle3;
           socketPlain.once("error", settle3);
@@ -50366,7 +50366,7 @@ var require_imap_flow = __commonJS({
             settle3(err);
           }, UPGRADE_TIMEOUT);
           this.upgrading = true;
-          this.socket = tls3.connect(opts, () => {
+          this.socket = tls.connect(opts, () => {
             try {
               if (this.isClosed) {
                 return settle3(this.createNoConnectionError(false, { rejectedFrom: "tlsUpgrade" }));
@@ -50468,10 +50468,10 @@ var require_imap_flow = __commonJS({
         }
         this.startSession().then(() => {
           if (typeof this.initialResolve === "function") {
-            let resolve5 = this.initialResolve;
+            let resolve4 = this.initialResolve;
             this.initialResolve = false;
             this.initialReject = false;
-            return resolve5();
+            return resolve4();
           }
         }).catch((err) => {
           this.log.error({ err, cid: this.id });
@@ -50641,12 +50641,12 @@ var require_imap_flow = __commonJS({
           this.emit("flags", updateEvent);
         }
       }
-      async ensureSelectedMailbox(path3) {
-        if (!path3) {
+      async ensureSelectedMailbox(path2) {
+        if (!path2) {
           return false;
         }
-        if (!this.mailbox || !comparePaths(this, this.mailbox.path, path3)) {
-          return await this.mailboxOpen(path3);
+        if (!this.mailbox || !comparePaths(this, this.mailbox.path, path2)) {
+          return await this.mailboxOpen(path2);
         }
         return true;
       }
@@ -50732,7 +50732,7 @@ var require_imap_flow = __commonJS({
         }
         this._connectCalled = true;
         let deadline = new ConnectionDeadline(this.options.connectionTimeout);
-        let connector = this.secureConnection ? tls3 : net8;
+        let connector = this.secureConnection ? tls : net4;
         let opts = Object.assign(
           {
             host: this.host,
@@ -50768,7 +50768,7 @@ var require_imap_flow = __commonJS({
             throw error63;
           }
         }
-        let connectPromise = guardedPromise((resolve5, reject) => {
+        let connectPromise = guardedPromise((resolve4, reject) => {
           this.connectTimeout = setTimeout(() => {
             let err = deadline.error();
             this.log.error({ err, cid: this.id });
@@ -50818,7 +50818,7 @@ var require_imap_flow = __commonJS({
               this.setSocketHandlers();
               this.setEventHandlers();
               this.socket.pipe(this.streamer);
-              this.initialResolve = resolve5;
+              this.initialResolve = resolve4;
               this.initialReject = reject;
             } catch (ex) {
               reject(ex);
@@ -51074,9 +51074,9 @@ var require_imap_flow = __commonJS({
        * let quota = await client.getQuota();
        * console.log(quota.storage.used, quota.storage.limit)
        */
-      async getQuota(path3) {
-        path3 = path3 || "INBOX";
-        return await this.run("QUOTA", path3);
+      async getQuota(path2) {
+        path2 = path2 || "INBOX";
+        return await this.run("QUOTA", path2);
       }
       /**
        * @typedef {Object} ListResponse
@@ -51186,8 +51186,8 @@ var require_imap_flow = __commonJS({
        * console.log(info.path);
        * // "INBOX.parent.child" // assumes "INBOX." as namespace prefix and "." as delimiter
        */
-      async mailboxCreate(path3) {
-        return await this.run("CREATE", path3);
+      async mailboxCreate(path2) {
+        return await this.run("CREATE", path2);
       }
       /**
        * @typedef {Object} MailboxRenameResponse
@@ -51208,8 +51208,8 @@ var require_imap_flow = __commonJS({
        * console.log(info.newPath);
        * // "INBOX.Important stuff ❗️" // assumes "INBOX." as namespace prefix
        */
-      async mailboxRename(path3, newPath) {
-        return await this.run("RENAME", path3, newPath);
+      async mailboxRename(path2, newPath) {
+        return await this.run("RENAME", path2, newPath);
       }
       /**
        * @typedef {Object} MailboxDeleteResponse
@@ -51228,8 +51228,8 @@ var require_imap_flow = __commonJS({
        * console.log(info.path);
        * // "INBOX.Important stuff ❗️" // assumes "INBOX." as namespace prefix
        */
-      async mailboxDelete(path3) {
-        return await this.run("DELETE", path3);
+      async mailboxDelete(path2) {
+        return await this.run("DELETE", path2);
       }
       /**
        * Subscribes to a mailbox
@@ -51240,8 +51240,8 @@ var require_imap_flow = __commonJS({
        * @example
        * await client.mailboxSubscribe('Important stuff ❗️');
        */
-      async mailboxSubscribe(path3) {
-        return await this.run("SUBSCRIBE", path3);
+      async mailboxSubscribe(path2) {
+        return await this.run("SUBSCRIBE", path2);
       }
       /**
        * Unsubscribes from a mailbox
@@ -51252,8 +51252,8 @@ var require_imap_flow = __commonJS({
        * @example
        * await client.mailboxUnsubscribe('Important stuff ❗️');
        */
-      async mailboxUnsubscribe(path3) {
-        return await this.run("UNSUBSCRIBE", path3);
+      async mailboxUnsubscribe(path2) {
+        return await this.run("UNSUBSCRIBE", path2);
       }
       /**
        * Opens a mailbox to access messages. You can perform message operations only against an opened mailbox.
@@ -51271,8 +51271,8 @@ var require_imap_flow = __commonJS({
        * console.log(mailbox.exists);
        * // 125
        */
-      async mailboxOpen(path3, options) {
-        return await this.run("SELECT", path3, options);
+      async mailboxOpen(path2, options) {
+        return await this.run("SELECT", path2, options);
       }
       /**
        * Closes a previously opened mailbox
@@ -51319,8 +51319,8 @@ var require_imap_flow = __commonJS({
        * console.log(status.unseen);
        * // 123
        */
-      async status(path3, query) {
-        return await this.run("STATUS", path3, query);
+      async status(path2, query) {
+        return await this.run("STATUS", path2, query);
       }
       /**
        * Starts listening for new or deleted messages from the currently opened mailbox. Only required if {@link ImapFlow#disableAutoIdle} is set to `true`
@@ -51574,8 +51574,8 @@ var require_imap_flow = __commonJS({
        * @example
        * await client.append('INBOX', rawMessageBuffer, ['\\Seen'], new Date(2000, 1, 1));
        */
-      async append(path3, content, flags, idate) {
-        return await this.run("APPEND", path3, content, flags, idate) || false;
+      async append(path2, content, flags, idate) {
+        return await this.run("APPEND", path2, content, flags, idate) || false;
       }
       /**
        * @typedef {Object} CopyResponseObject
@@ -51795,17 +51795,17 @@ var require_imap_flow = __commonJS({
         let aborted2 = false;
         let push = false;
         let rowQueue = [];
-        let getNext = () => new Promise((resolve5, reject) => {
+        let getNext = () => new Promise((resolve4, reject) => {
           let check2 = () => {
             if (rowQueue.length) {
               let entry = rowQueue.shift();
               if (entry.err) {
                 return reject(entry.err);
               }
-              return resolve5(entry.value);
+              return resolve4(entry.value);
             }
             if (finished3) {
-              return resolve5(null);
+              return resolve4(null);
             }
             push = () => {
               push = false;
@@ -52108,7 +52108,7 @@ var require_imap_flow = __commonJS({
             output2 = stream = new libqp.Decoder();
             break;
           default:
-            output2 = stream = new PassThrough5();
+            output2 = stream = new PassThrough3();
         }
         let limiters = [];
         let isLimited = () => limiters.some((entry) => entry.limited);
@@ -52161,7 +52161,7 @@ var require_imap_flow = __commonJS({
             }
             if (writeChunk(chunk2) === false) {
               try {
-                await new Promise((resolve5, reject) => {
+                await new Promise((resolve4, reject) => {
                   const finish = (err) => {
                     for (let event of ["drain", "error", "close"]) {
                       stream.removeListener(event, finish);
@@ -52169,7 +52169,7 @@ var require_imap_flow = __commonJS({
                     if (err) {
                       reject(err);
                     } else {
-                      resolve5();
+                      resolve4();
                     }
                   };
                   stream.once("drain", finish);
@@ -52426,10 +52426,10 @@ var require_imap_flow = __commonJS({
             }
             processedCount++;
             if (processedCount % 5 === 0) {
-              await new Promise((resolve6) => setImmediate(resolve6));
+              await new Promise((resolve5) => setImmediate(resolve5));
             }
             const lock = this.locks.shift();
-            const { resolve: resolve5, reject, path: path3, options, lockId } = lock;
+            const { resolve: resolve4, reject, path: path2, options, lockId } = lock;
             if (lock.acquireTimer) {
               clearTimeout(lock.acquireTimer);
               lock.acquireTimer = null;
@@ -52445,7 +52445,7 @@ var require_imap_flow = __commonJS({
                 this.log.warn({
                   msg: "Mailbox lock held for a long time",
                   lockId: lock.lockId,
-                  path: path3,
+                  path: path2,
                   heldFor: Date.now() - lock.heldAt,
                   /* c8 ignore next */
                   // the held-lock-warning diagnostic with a description set is a timing-dependent log detail
@@ -52482,20 +52482,20 @@ var require_imap_flow = __commonJS({
               }
             };
             if (!this.usable || !this.socket || this.socket.destroyed) {
-              this.log.trace({ msg: "Failed to acquire mailbox lock", path: path3, lockId, idling: this.idling });
-              reject(this.createNoConnectionError(false, { rejectedFrom: "mailboxLock", path: path3 }));
+              this.log.trace({ msg: "Failed to acquire mailbox lock", path: path2, lockId, idling: this.idling });
+              reject(this.createNoConnectionError(false, { rejectedFrom: "mailboxLock", path: path2 }));
               continue;
             }
             const grantLock = () => {
               this.currentLock = lock;
               armHeldTimer();
               this.autoidle();
-              resolve5({ path: path3, release });
+              resolve4({ path: path2, release });
             };
-            if (this.mailbox && this.mailbox.path === path3 && !!this.mailbox.readOnly === !!options.readOnly) {
+            if (this.mailbox && this.mailbox.path === path2 && !!this.mailbox.readOnly === !!options.readOnly) {
               this.log.trace({
                 msg: "Mailbox lock acquired [existing]",
-                path: path3,
+                path: path2,
                 lockId,
                 idling: this.idling,
                 ...options.description && { description: options.description }
@@ -52504,10 +52504,10 @@ var require_imap_flow = __commonJS({
               break;
             }
             try {
-              await this.mailboxOpen(path3, options);
+              await this.mailboxOpen(path2, options);
               this.log.trace({
                 msg: "Mailbox lock acquired [selected]",
-                path: path3,
+                path: path2,
                 lockId,
                 idling: this.idling,
                 ...options.description && { description: options.description }
@@ -52517,17 +52517,17 @@ var require_imap_flow = __commonJS({
             } catch (err) {
               if (err.responseStatus === "NO") {
                 try {
-                  let folders = await this.run("LIST", "", path3, { listOnly: true });
+                  let folders = await this.run("LIST", "", path2, { listOnly: true });
                   if (!folders || !folders.length) {
                     err.mailboxMissing = true;
                   }
                 } catch (E) {
-                  this.log.trace({ msg: "Failed to verify failed mailbox", path: path3, err: E });
+                  this.log.trace({ msg: "Failed to verify failed mailbox", path: path2, err: E });
                 }
               }
               this.log.trace({
                 msg: "Failed to acquire mailbox lock",
-                path: path3,
+                path: path2,
                 lockId,
                 idling: this.idling,
                 ...options.description && { description: options.description },
@@ -52566,13 +52566,13 @@ var require_imap_flow = __commonJS({
        *   lock.release();
        * }
        */
-      getMailboxLock(path3, options) {
+      getMailboxLock(path2, options) {
         options = options || {};
-        path3 = normalizePath(this, path3);
+        path2 = normalizePath(this, path2);
         let lockId = ++this.lockCounter;
         this.log.trace({
           msg: "Requesting lock",
-          path: path3,
+          path: path2,
           lockId,
           ...options.description && { description: options.description },
           activeLock: this.currentLock ? {
@@ -52580,8 +52580,8 @@ var require_imap_flow = __commonJS({
             ...this.currentLock.options?.description && { description: this.currentLock.options?.description }
           } : null
         });
-        let lockPromise = guardedPromise((resolve5, reject) => {
-          let lockEntry = { resolve: resolve5, reject, path: path3, options, lockId };
+        let lockPromise = guardedPromise((resolve4, reject) => {
+          let lockEntry = { resolve: resolve4, reject, path: path2, options, lockId };
           this.locks.push(lockEntry);
           if (Number(options.acquireTimeout) > 0) {
             lockEntry.acquireTimer = setTimeout(() => {
@@ -53236,11 +53236,11 @@ var init_cookies = __esm({
       getPath(pathname) {
         const pathParts = (pathname || "/").split("/");
         pathParts.pop();
-        const path3 = pathParts.join("/").trim();
-        if (path3.charAt(0) !== "/") {
+        const path2 = pathParts.join("/").trim();
+        if (path2.charAt(0) !== "/") {
           return "/";
         }
-        return path3;
+        return path2;
       }
     };
     cookies_default = Cookies;
@@ -53248,37 +53248,22 @@ var init_cookies = __esm({
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/package-info.js
-var name, version2, homepage;
+var version2;
 var init_package_info = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/package-info.js"() {
-    name = "nodemailer";
     version2 = "10.1.4";
-    homepage = "https://nodemailer.com/";
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/errors.js
-var ECONNECTION, ETIMEDOUT, ESOCKET, EENVELOPE, EMESSAGE, ESTREAM, ENOAUTH, EOAUTH2, EMAXLIMIT, EMAXRECIPIENTS, ESENDMAIL, ESES, ECONFIG, EPROXY, EFILEACCESS, EURLACCESS, EFETCH, isTransientError, ERR_ACCESS_DENIED;
+var ESTREAM, ECONFIG, EFILEACCESS, EURLACCESS, EFETCH, ERR_ACCESS_DENIED;
 var init_errors = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/errors.js"() {
-    ECONNECTION = "ECONNECTION";
-    ETIMEDOUT = "ETIMEDOUT";
-    ESOCKET = "ESOCKET";
-    EENVELOPE = "EENVELOPE";
-    EMESSAGE = "EMESSAGE";
     ESTREAM = "ESTREAM";
-    ENOAUTH = "ENOAUTH";
-    EOAUTH2 = "EOAUTH2";
-    EMAXLIMIT = "EMAXLIMIT";
-    EMAXRECIPIENTS = "EMAXRECIPIENTS";
-    ESENDMAIL = "ESENDMAIL";
-    ESES = "ESES";
     ECONFIG = "ECONFIG";
-    EPROXY = "EPROXY";
     EFILEACCESS = "EFILEACCESS";
     EURLACCESS = "EURLACCESS";
     EFETCH = "EFETCH";
-    isTransientError = (err) => err.responseCode === 421 || err.code === ECONNECTION || err.code === ESOCKET || err.code === ETIMEDOUT;
     ERR_ACCESS_DENIED = "ERR_ACCESS_DENIED";
   }
 });
@@ -53621,77 +53606,7 @@ var init_fetch = __esm({
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/shared/index.js
-import util2 from "node:util";
-import fs from "node:fs";
-import dns from "node:dns";
-import net4 from "node:net";
-import os from "node:os";
 import { finished } from "node:stream";
-function resolveContent(data, key, options, callback) {
-  if (!callback && typeof options === "function") {
-    callback = options;
-    options = false;
-  }
-  options = options || {};
-  let promise2;
-  if (!callback) {
-    promise2 = new Promise((resolve5, reject) => {
-      callback = callbackPromise(resolve5, reject);
-    });
-  }
-  resolveContentValue(data, key, options, callback);
-  return promise2;
-}
-function resolveContentValue(data, key, options, callback) {
-  let content = data && data[key] && data[key].content || data[key];
-  const encoding = (typeof data[key] === "object" && data[key].encoding || "utf8").toString().toLowerCase().replace(/[-_\s]/g, "");
-  if (!content) {
-    return callback(null, content);
-  }
-  if (typeof content === "object") {
-    if (typeof content.pipe === "function") {
-      return resolveStream(content, (err, value) => {
-        if (err) {
-          return callback(err);
-        }
-        if (data[key].content) {
-          data[key].content = value;
-        } else {
-          data[key] = value;
-        }
-        callback(null, value);
-      });
-    } else if (/^data:/i.test(content.path || content.href)) {
-      const parsedDataUri = parseDataURI(content.path || content.href);
-      return callback(null, parsedDataUri && parsedDataUri.data ? parsedDataUri.data : Buffer.alloc(0));
-    } else if (content.href || /^https?:\/\//i.test(content.path)) {
-      const url2 = content.href || content.path;
-      if (options.disableUrlAccess) {
-        setImmediate(() => {
-          const err = new Error("Url access rejected for " + url2);
-          err.code = EURLACCESS;
-          callback(err);
-        });
-        return;
-      }
-      return resolveStream(fetch_default(url2, { headers: content.httpHeaders, tls: content.tls }), callback);
-    } else if (content.path) {
-      if (options.disableFileAccess) {
-        setImmediate(() => {
-          const err = new Error("File access rejected for " + content.path);
-          err.code = EFILEACCESS;
-          callback(err);
-        });
-        return;
-      }
-      return resolveStream(fs.createReadStream(content.path), callback);
-    }
-  }
-  if (typeof data[key].content === "string" && !["utf8", "usascii", "ascii"].includes(encoding)) {
-    content = Buffer.from(data[key].content, encoding);
-  }
-  setImmediate(() => callback(null, content));
-}
 function recordStreamErrors(stream) {
   stream.on("error", (err) => {
     if (!streamErrors.has(stream)) {
@@ -53754,43 +53669,7 @@ function resolveStream(stream, callback) {
     respond(null, value);
   });
 }
-function createDefaultLogger(levels) {
-  const levelMaxLen = levels.reduce((max, level) => Math.max(max, level.length), 0);
-  const levelNames = /* @__PURE__ */ new Map();
-  levels.forEach((level) => {
-    let levelName = level.toUpperCase();
-    if (levelName.length < levelMaxLen) {
-      levelName += " ".repeat(levelMaxLen - levelName.length);
-    }
-    levelNames.set(level, levelName);
-  });
-  const print = (level, entry, message, ...args) => {
-    let prefix = "";
-    if (entry) {
-      if (entry.tnx === "server") {
-        prefix = "S: ";
-      } else if (entry.tnx === "client") {
-        prefix = "C: ";
-      }
-      if (entry.sid) {
-        prefix = "[" + entry.sid + "] " + prefix;
-      }
-      if (entry.cid) {
-        prefix = "[#" + entry.cid + "] " + prefix;
-      }
-    }
-    message = util2.format(message, ...args);
-    message.split(/\r?\n/).forEach((line) => {
-      console.log("[%s] %s %s", (/* @__PURE__ */ new Date()).toISOString().substr(0, 19).replace(/T/, " "), levelNames.get(level), prefix + line);
-    });
-  };
-  const logger = {};
-  levels.forEach((level) => {
-    logger[level] = print.bind(null, level);
-  });
-  return logger;
-}
-var DNS_TTL, CACHE_CLEANUP_INTERVAL, MAX_CACHE_SIZE, lastCacheCleanup, networkInterfaces, networkInterfacesRead, _readNetworkInterfaces, isFamilySupported, resolve2, dnsCache, formatDNSValue, resolveHostname, parseConnectionUrl, _logFunc, getLogger, callbackPromise, parseDataURI, assign, encodeXText, streamErrors;
+var DNS_TTL, CACHE_CLEANUP_INTERVAL, callbackPromise, parseDataURI, streamErrors;
 var init_shared = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/shared/index.js"() {
     init_url();
@@ -53799,317 +53678,12 @@ var init_shared = __esm({
     init_objects();
     DNS_TTL = 5 * 60 * 1e3;
     CACHE_CLEANUP_INTERVAL = 30 * 1e3;
-    MAX_CACHE_SIZE = 1e3;
-    lastCacheCleanup = 0;
-    networkInterfacesRead = false;
-    _readNetworkInterfaces = () => {
-      if (!networkInterfacesRead) {
-        networkInterfacesRead = true;
-        try {
-          networkInterfaces = os.networkInterfaces();
-        } catch (_err) {
-        }
-      }
-      return networkInterfaces;
-    };
-    isFamilySupported = (family, allowInternal) => {
-      const addresses = Object.values(_readNetworkInterfaces() || {}).flat();
-      if (!addresses.length) {
-        return true;
-      }
-      return addresses.filter((i) => !i.internal || allowInternal).some((i) => i.family === "IPv" + family || i.family === family);
-    };
-    resolve2 = (family, hostname3, options, callback) => {
-      options = options || {};
-      if (!isFamilySupported(family, options.allowInternalNetworkInterfaces)) {
-        callback(null, []);
-        return null;
-      }
-      const dnsResolver = dns.Resolver ? new dns.Resolver(options) : dns;
-      dnsResolver["resolve" + family](hostname3, (err, addresses) => {
-        if (err) {
-          switch (err.code) {
-            case dns.NODATA:
-            case dns.NOTFOUND:
-            case dns.NOTIMP:
-            case dns.SERVFAIL:
-            case dns.CONNREFUSED:
-            case dns.REFUSED:
-            case "EAI_AGAIN":
-              return callback(null, []);
-          }
-          return callback(err);
-        }
-        return callback(null, Array.isArray(addresses) ? addresses : [].concat(addresses || []));
-      });
-      return dns.Resolver ? dnsResolver : null;
-    };
-    dnsCache = /* @__PURE__ */ new Map();
-    formatDNSValue = (value, extra) => {
-      if (!value) {
-        return Object.assign({}, extra || {});
-      }
-      const addresses = value.addresses || [];
-      const host = addresses.length > 0 ? addresses[Math.floor(Math.random() * addresses.length)] : null;
-      return Object.assign({
-        host,
-        // Include all addresses for connection fallback support
-        _addresses: addresses
-      }, extra || {});
-    };
-    resolveHostname = (options, callback) => {
-      options = options || {};
-      if (!options.host && options.servername) {
-        options.host = options.servername;
-      }
-      if (!options.host || net4.isIP(options.host)) {
-        const value = {
-          addresses: [options.host]
-        };
-        return callback(null, formatDNSValue(value, {
-          servername: options.servername || false,
-          cached: false
-        }));
-      }
-      const host = options.host;
-      const servername = options.servername || host;
-      let cached2;
-      if (dnsCache.has(options.host)) {
-        cached2 = dnsCache.get(options.host);
-        const now = Date.now();
-        if (now - lastCacheCleanup > CACHE_CLEANUP_INTERVAL) {
-          lastCacheCleanup = now;
-          for (const [host2, entry] of dnsCache.entries()) {
-            if (entry.expires && entry.expires < now) {
-              dnsCache.delete(host2);
-            }
-          }
-          if (dnsCache.size > MAX_CACHE_SIZE) {
-            const toDelete = Math.floor(MAX_CACHE_SIZE * 0.1);
-            const keys = Array.from(dnsCache.keys()).slice(0, toDelete);
-            keys.forEach((key) => dnsCache.delete(key));
-          }
-        }
-        if (!cached2.expires || cached2.expires >= now) {
-          return callback(null, formatDNSValue(cached2.value, {
-            servername,
-            cached: true
-          }));
-        }
-      }
-      let responded = false;
-      let deadline;
-      const respond = (err, result) => {
-        if (responded) {
-          return;
-        }
-        responded = true;
-        clearTimeout(deadline);
-        callback(err, result);
-      };
-      const respondCached = (error63) => {
-        if (!cached2) {
-          return false;
-        }
-        dnsCache.set(host, {
-          value: cached2.value,
-          expires: Date.now() + (options.dnsTtl || DNS_TTL)
-        });
-        respond(null, formatDNSValue(cached2.value, {
-          servername,
-          cached: true,
-          error: error63
-        }));
-        return true;
-      };
-      const resolvers = [];
-      const timeout = Number(options.timeout) || 0;
-      if (timeout > 0) {
-        deadline = setTimeout(() => {
-          for (const resolver of resolvers) {
-            if (typeof resolver.cancel === "function") {
-              resolver.cancel();
-            }
-          }
-          const err = new Error("DNS lookup for " + host + " timed out");
-          err.code = dns.TIMEOUT;
-          if (!respondCached(err)) {
-            respond(err);
-          }
-        }, timeout);
-      }
-      let ipv4Addresses = [];
-      let ipv6Addresses = [];
-      let ipv4Error = null;
-      let ipv6Error = null;
-      let pending = 2;
-      const onResolved = () => {
-        if (--pending || responded) {
-          return;
-        }
-        const allAddresses = ipv4Addresses.concat(ipv6Addresses);
-        if (allAddresses.length) {
-          const value = {
-            addresses: allAddresses
-          };
-          dnsCache.set(host, {
-            value,
-            expires: Date.now() + (options.dnsTtl || DNS_TTL)
-          });
-          return respond(null, formatDNSValue(value, {
-            servername,
-            cached: false
-          }));
-        }
-        if (ipv4Error && ipv6Error && respondCached(ipv4Error)) {
-          return;
-        }
-        try {
-          dns.lookup(host, { all: true }, (err, addresses) => {
-            if (err) {
-              if (respondCached(err)) {
-                return;
-              }
-              return respond(err);
-            }
-            const supportedAddresses = addresses ? addresses.filter((addr) => isFamilySupported(addr.family)).map((addr) => addr.address) : [];
-            if (addresses && addresses.length && !supportedAddresses.length) {
-              console.warn(`Failed to resolve IPv${addresses[0].family} addresses with current network`);
-            }
-            if (!supportedAddresses.length && cached2) {
-              return respond(null, formatDNSValue(cached2.value, {
-                servername,
-                cached: true
-              }));
-            }
-            const value = {
-              addresses: supportedAddresses.length ? supportedAddresses : [host]
-            };
-            dnsCache.set(host, {
-              value,
-              expires: Date.now() + (options.dnsTtl || DNS_TTL)
-            });
-            return respond(null, formatDNSValue(value, {
-              servername,
-              cached: false
-            }));
-          });
-        } catch (lookupErr) {
-          if (respondCached(lookupErr)) {
-            return;
-          }
-          return respond(ipv4Error || ipv6Error || lookupErr);
-        }
-      };
-      for (const family of [4, 6]) {
-        const resolver = resolve2(family, host, options, (err, addresses) => {
-          if (family === 4) {
-            ipv4Error = err;
-            ipv4Addresses = addresses || [];
-          } else {
-            ipv6Error = err;
-            ipv6Addresses = addresses || [];
-          }
-          onResolved();
-        });
-        if (resolver) {
-          resolvers.push(resolver);
-        }
-      }
-    };
-    parseConnectionUrl = (str2) => {
-      str2 = str2 || "";
-      const options = {};
-      const url2 = parse3(str2, true);
-      switch (url2.protocol) {
-        case "smtp:":
-          options.secure = false;
-          break;
-        case "smtps:":
-          options.secure = true;
-          break;
-        case "direct:":
-          options.direct = true;
-          break;
-      }
-      if (!isNaN(url2.port) && Number(url2.port)) {
-        options.port = Number(url2.port);
-      }
-      if (url2.hostname) {
-        options.host = url2.hostname;
-      }
-      if (url2.username || url2.password) {
-        options.auth = {
-          user: url2.username || "",
-          pass: url2.password || ""
-        };
-      }
-      Object.keys(url2.query || {}).forEach((key) => {
-        let obj = options;
-        let lKey = key;
-        let value = url2.query[key];
-        if (!isNaN(value)) {
-          value = Number(value);
-        }
-        switch (value) {
-          case "true":
-            value = true;
-            break;
-          case "false":
-            value = false;
-            break;
-        }
-        if (key.indexOf("tls.") === 0) {
-          lKey = key.substr(4);
-          if (!options.tls) {
-            options.tls = {};
-          }
-          obj = options.tls;
-        } else if (key.indexOf(".") >= 0) {
-          return;
-        }
-        if (!isProtoKey(lKey) && !(lKey in obj)) {
-          obj[lKey] = value;
-        }
-      });
-      return options;
-    };
-    _logFunc = (logger, level, defaults, data, message, ...args) => {
-      const entry = Object.assign({}, defaults || {}, data || {});
-      delete entry.level;
-      let logLevel = level;
-      if (typeof logger[logLevel] !== "function") {
-        logLevel = ["info", "debug", "log", "trace", "warn", "error"].find((name2) => typeof logger[name2] === "function");
-      }
-      if (logLevel) {
-        logger[logLevel](entry, message, ...args);
-      }
-    };
-    getLogger = (options, defaults) => {
-      options = options || {};
-      const response = {};
-      const levels = ["trace", "debug", "info", "warn", "error", "fatal"];
-      if (!options.logger) {
-        levels.forEach((level) => {
-          response[level] = () => false;
-        });
-        return response;
-      }
-      const logger = options.logger === true ? createDefaultLogger(levels) : options.logger;
-      levels.forEach((level) => {
-        response[level] = (...args) => {
-          const data = typeof args[0] === "string" ? void 0 : args.shift();
-          _logFunc(logger, level, defaults, data, ...args);
-        };
-      });
-      return response;
-    };
-    callbackPromise = (resolve5, reject) => function(...args) {
+    callbackPromise = (resolve4, reject) => function(...args) {
       const err = args.shift();
       if (err) {
         reject(err);
       } else {
-        resolve5(...args);
+        resolve4(...args);
       }
     };
     parseDataURI = (uri) => {
@@ -54167,38 +53741,6 @@ var init_shared = __esm({
         contentType: contentType || "application/octet-stream",
         params
       };
-    };
-    assign = function(...args) {
-      const target = args.shift() || {};
-      args.forEach((source) => {
-        Object.keys(source || {}).forEach((key) => {
-          if (isProtoKey(key)) {
-            return;
-          }
-          if (["tls", "auth"].includes(key) && source[key] && typeof source[key] === "object") {
-            target[key] = copyOwnKeys(target[key] || {}, source[key]);
-          } else {
-            target[key] = source[key];
-          }
-        });
-      });
-      return target;
-    };
-    encodeXText = (str2) => {
-      if (!/[^\x21-\x2A\x2C-\x3C\x3E-\x7E]/.test(str2)) {
-        return str2;
-      }
-      const buf = Buffer.from(str2);
-      let result = "";
-      for (let i = 0, len = buf.length; i < len; i++) {
-        const c = buf[i];
-        if (c < 33 || c > 126 || c === 43 || c === 61) {
-          result += "+" + (c < 16 ? "0" : "") + c.toString(16).toUpperCase();
-        } else {
-          result += String.fromCharCode(c);
-        }
-      }
-      return result;
     };
     streamErrors = /* @__PURE__ */ new WeakMap();
   }
@@ -57865,7 +57407,7 @@ var init_le_unix = __esm({
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/mime-node/index.js
 import crypto from "node:crypto";
-import fs2 from "node:fs";
+import fs from "node:fs";
 import { PassThrough as PassThrough2, finished as finished2, pipeline } from "node:stream";
 import urlModule from "node:url";
 function stripWhitespaceInAngleBrackets(value) {
@@ -58174,8 +57716,8 @@ var init_mime_node = __esm({
       build(callback) {
         let promise2;
         if (!callback) {
-          promise2 = new Promise((resolve5, reject) => {
-            callback = callbackPromise(resolve5, reject);
+          promise2 = new Promise((resolve4, reject) => {
+            callback = callbackPromise(resolve4, reject);
           });
         }
         const done = callback;
@@ -58719,7 +58261,7 @@ var init_mime_node = __esm({
             });
             return contentStream;
           }
-          return fs2.createReadStream(content.path);
+          return fs.createReadStream(content.path);
         }
         if (content && typeof content.href === "string") {
           if (this._accessDisabled("disableUrlAccess")) {
@@ -59594,277 +59136,22 @@ var init_mail_composer = __esm({
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/dkim/message-parser.js
-import { Transform as Transform6 } from "node:stream";
-function _trimFieldName(str2) {
-  let start = 0;
-  let end = str2.length;
-  while (start < end && (str2.charCodeAt(start) === 32 || str2.charCodeAt(start) === 9)) {
-    start++;
-  }
-  while (end > start && (str2.charCodeAt(end - 1) === 32 || str2.charCodeAt(end - 1) === 9)) {
-    end--;
-  }
-  return str2.slice(start, end);
-}
-var MessageParser, message_parser_default;
 var init_message_parser = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/dkim/message-parser.js"() {
-    MessageParser = class extends Transform6 {
-      constructor(options) {
-        super(options);
-        this.lastBytes = Buffer.alloc(4);
-        this.headersParsed = false;
-        this.headerBytes = 0;
-        this.headerChunks = [];
-        this.rawHeaders = false;
-        this.bodySize = 0;
-      }
-      /**
-       * Keeps count of the last 4 bytes in order to detect line breaks on chunk boundaries
-       *
-       * @param data Next data chunk from the stream
-       */
-      updateLastBytes(data) {
-        const lblen = this.lastBytes.length;
-        const nblen = Math.min(data.length, lblen);
-        for (let i = 0, len = lblen - nblen; i < len; i++) {
-          this.lastBytes[i] = this.lastBytes[i + nblen];
-        }
-        for (let i = 1; i <= nblen; i++) {
-          this.lastBytes[lblen - i] = data[data.length - i];
-        }
-      }
-      /**
-       * Finds and removes message headers from the remaining body. We want to keep
-       * headers separated until final delivery to be able to modify these
-       *
-       * @param data Next chunk of data
-       * @return Returns true if headers are already found or false otherwise
-       */
-      checkHeaders(data) {
-        if (this.headersParsed) {
-          return true;
-        }
-        const lblen = this.lastBytes.length;
-        let headerPos = 0;
-        for (let i = 0, len = this.lastBytes.length + data.length; i < len; i++) {
-          let chr;
-          if (i < lblen) {
-            chr = this.lastBytes[i];
-          } else {
-            chr = data[i - lblen];
-          }
-          if (chr === 10 && i) {
-            const pr1 = i - 1 < lblen ? this.lastBytes[i - 1] : data[i - 1 - lblen];
-            const pr2 = i > 1 ? i - 2 < lblen ? this.lastBytes[i - 2] : data[i - 2 - lblen] : false;
-            if (pr1 === 10) {
-              this.headersParsed = true;
-              headerPos = i - lblen + 1;
-              this.headerBytes += headerPos;
-              break;
-            } else if (pr1 === 13 && pr2 === 10) {
-              this.headersParsed = true;
-              headerPos = i - lblen + 1;
-              this.headerBytes += headerPos;
-              break;
-            }
-          }
-        }
-        if (this.headersParsed) {
-          this.headerChunks.push(data.slice(0, headerPos));
-          this.rawHeaders = Buffer.concat(this.headerChunks, this.headerBytes);
-          this.headerChunks = null;
-          this.emit("headers", this.parseHeaders());
-          if (data.length > headerPos) {
-            const chunk = data.slice(headerPos);
-            this.bodySize += chunk.length;
-            this.push(chunk);
-          }
-          return false;
-        }
-        this.headerBytes += data.length;
-        this.headerChunks.push(data);
-        this.updateLastBytes(data);
-        return false;
-      }
-      /** @internal */
-      _transform(chunk, encoding, callback) {
-        if (!chunk || !chunk.length) {
-          return callback();
-        }
-        if (typeof chunk === "string") {
-          chunk = Buffer.from(chunk, encoding);
-        }
-        let headersFound;
-        try {
-          headersFound = this.checkHeaders(chunk);
-        } catch (E) {
-          return callback(E);
-        }
-        if (headersFound) {
-          this.bodySize += chunk.length;
-          this.push(chunk);
-        }
-        callback();
-      }
-      /** @internal */
-      _flush(callback) {
-        if (this.headerChunks) {
-          this.rawHeaders = Buffer.concat(this.headerChunks, this.headerBytes);
-          this.headerChunks = null;
-          this.emit("headers", this.parseHeaders());
-        }
-        callback();
-      }
-      parseHeaders() {
-        const rawLines = (this.rawHeaders || Buffer.alloc(0)).toString("binary").split(/\r?\n/);
-        const lines = [];
-        for (const rawLine of rawLines) {
-          if (lines.length && /^[ \t]/.test(rawLine)) {
-            lines[lines.length - 1] += "\n" + rawLine;
-          } else {
-            lines.push(rawLine);
-          }
-        }
-        return lines.filter((line) => /[^ \t\r]/.test(line)).map((line) => ({
-          key: _trimFieldName(line.substr(0, line.indexOf(":"))).toLowerCase(),
-          line
-        }));
-      }
-    };
-    message_parser_default = MessageParser;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/dkim/relaxed-body.js
-import { Transform as Transform7 } from "node:stream";
-import crypto2 from "node:crypto";
-var CHAR_CR, CHAR_LF, CHAR_SPACE, CHAR_TAB, CRLF, EMPTY_LINES, RelaxedBody, relaxed_body_default;
+var CRLF, EMPTY_LINES;
 var init_relaxed_body = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/dkim/relaxed-body.js"() {
-    CHAR_CR = 13;
-    CHAR_LF = 10;
-    CHAR_SPACE = 32;
-    CHAR_TAB = 9;
     CRLF = Buffer.from("\r\n");
     EMPTY_LINES = Buffer.alloc(4096, CRLF);
-    RelaxedBody = class extends Transform7 {
-      constructor(options) {
-        super();
-        options = options || {};
-        this.bodyHash = crypto2.createHash(options.hashAlgo || "sha256");
-        this.byteLength = 0;
-        this.debug = options.debug;
-        this._debugBody = options.debug ? [] : false;
-        this._lineHasContent = false;
-        this._pendingWsp = false;
-        this._pendingCr = false;
-        this._pendingEmptyLines = 0;
-      }
-      /** @internal */
-      _hashCanonical(data) {
-        if (!data.length) {
-          return;
-        }
-        this.bodyHash.update(data);
-        if (this._debugBody) {
-          this._debugBody.push(Buffer.from(data));
-        }
-      }
-      /** @internal */
-      _hashEmptyLines() {
-        while (this._pendingEmptyLines > 0) {
-          const count = Math.min(this._pendingEmptyLines, EMPTY_LINES.length / 2);
-          this._hashCanonical(EMPTY_LINES.subarray(0, count * 2));
-          this._pendingEmptyLines -= count;
-        }
-      }
-      /**
-       * Writes a content byte, with the space a pending run of whitespace collapses to,
-       * into the output buffer and returns the new write position. Kept a method rather
-       * than a closure so the write position stays a plain local in the byte loop
-       * @internal
-       */
-      _emitContent(out, outPos, c) {
-        if (!this._lineHasContent) {
-          if (this._pendingEmptyLines) {
-            this._hashCanonical(out.subarray(0, outPos));
-            outPos = 0;
-            this._hashEmptyLines();
-          }
-          this._lineHasContent = true;
-        }
-        if (this._pendingWsp) {
-          out[outPos++] = CHAR_SPACE;
-          this._pendingWsp = false;
-        }
-        out[outPos++] = c;
-        return outPos;
-      }
-      updateHash(chunk, final) {
-        const out = Buffer.allocUnsafe(chunk.length * 2 + 2);
-        let outPos = 0;
-        for (let i = 0; i < chunk.length; i++) {
-          const c = chunk[i];
-          if (c === CHAR_LF) {
-            if (this._lineHasContent) {
-              out[outPos++] = CHAR_CR;
-              out[outPos++] = CHAR_LF;
-              this._lineHasContent = false;
-            } else {
-              this._pendingEmptyLines++;
-            }
-            this._pendingWsp = false;
-            this._pendingCr = false;
-            continue;
-          }
-          if (this._pendingCr) {
-            outPos = this._emitContent(out, outPos, CHAR_CR);
-            this._pendingCr = false;
-          }
-          if (c === CHAR_CR) {
-            this._pendingCr = true;
-          } else if (c === CHAR_SPACE || c === CHAR_TAB) {
-            this._pendingWsp = true;
-          } else {
-            outPos = this._emitContent(out, outPos, c);
-          }
-        }
-        if (final && this._pendingCr) {
-          outPos = this._emitContent(out, outPos, CHAR_CR);
-          this._pendingCr = false;
-        }
-        this._hashCanonical(out.subarray(0, outPos));
-      }
-      /** @internal */
-      _transform(chunk, encoding, callback) {
-        if (!chunk || !chunk.length) {
-          return callback();
-        }
-        if (typeof chunk === "string") {
-          chunk = Buffer.from(chunk, encoding);
-        }
-        this.updateHash(chunk);
-        this.byteLength += chunk.length;
-        this.push(chunk);
-        callback();
-      }
-      /** @internal */
-      _flush(callback) {
-        this.updateHash(Buffer.alloc(0), true);
-        if (this._lineHasContent) {
-          this._hashCanonical(CRLF);
-        }
-        this.emit("hash", this.bodyHash.digest("base64"), this.debug ? Buffer.concat(this._debugBody) : false);
-        callback();
-      }
-    };
-    relaxed_body_default = RelaxedBody;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/dkim/sign.js
-import crypto3 from "node:crypto";
+import crypto2 from "node:crypto";
 function unsupportedHashAlgoError(hashAlgo) {
   const err = new Error('Unsupported DKIM hash algorithm "' + hashAlgo + '"');
   err.code = ECONFIG;
@@ -59879,7 +59166,7 @@ function sign(headers, hashAlgo, bodyHash, options) {
   canonicalizedHeaderData.headers += "dkim-signature:" + relaxedHeaderLine(dkimHeader);
   let signer;
   try {
-    signer = crypto3.createSign(("rsa-" + hashAlgo).toUpperCase());
+    signer = crypto2.createSign(("rsa-" + hashAlgo).toUpperCase());
   } catch (_E2) {
     throw unsupportedHashAlgoError(hashAlgo);
   }
@@ -59938,7 +59225,6 @@ function relaxedHeaders(headers, fieldNames, skipFields) {
 function relaxedHeaderLine(line) {
   return line.substr(line.indexOf(":") + 1).replace(/\r?\n/g, "").replace(/[ \t]+/g, " ").replace(/^ | $/g, "");
 }
-var sign_default;
 var init_sign = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/dkim/sign.js"() {
     init_punycode();
@@ -59946,662 +59232,41 @@ var init_sign = __esm({
     init_errors();
     sign.relaxedHeaders = relaxedHeaders;
     sign.unsupportedHashAlgoError = unsupportedHashAlgoError;
-    sign_default = sign;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/dkim/index.js
-import { PassThrough as PassThrough3 } from "node:stream";
-import fs3 from "node:fs";
-import path2 from "node:path";
-import crypto4 from "node:crypto";
-var DKIM_ALGO, MAX_MESSAGE_SIZE, DKIMSigner, DKIM, dkim_default;
+var MAX_MESSAGE_SIZE;
 var init_dkim = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/dkim/index.js"() {
     init_message_parser();
     init_relaxed_body();
     init_sign();
     init_objects();
-    DKIM_ALGO = "sha256";
     MAX_MESSAGE_SIZE = 10 * 1024 * 1024;
-    DKIMSigner = class {
-      constructor(options, keys, input2, output2) {
-        this.options = options || {};
-        this.keys = keys;
-        this.cacheTreshold = Number(this.options.cacheTreshold) || MAX_MESSAGE_SIZE;
-        this.hashAlgo = this.options.hashAlgo || DKIM_ALGO;
-        this.cacheDir = this.options.cacheDir || false;
-        this.chunks = [];
-        this.chunklen = 0;
-        this.readPos = 0;
-        this.cachePath = this.cacheDir ? path2.join(this.cacheDir, "message." + Date.now() + "-" + crypto4.randomBytes(14).toString("hex")) : false;
-        this.cache = false;
-        this.headers = false;
-        this.bodyHash = false;
-        this.parser = false;
-        this.relaxedBody = false;
-        this.input = input2;
-        this.output = output2;
-        this.output.usingCache = false;
-        this.hasErrored = false;
-        this.input.on("error", (err) => this.fail(err));
-        this.output.once("close", () => {
-          if (this.output.writableFinished) {
-            return;
-          }
-          this.hasErrored = true;
-          this.input.unpipe();
-          this.input.destroy();
-          this.cleanup();
-        });
-      }
-      /**
-       * Ends the output with an error and releases the cache file
-       */
-      fail(err) {
-        this.hasErrored = true;
-        this.cleanup();
-        this.output.destroy(err);
-      }
-      cleanup() {
-        if (!this.cache || !this.cachePath) {
-          return;
-        }
-        const cache = this.cache;
-        this.cache = false;
-        cache.destroy();
-        fs3.unlink(this.cachePath, () => false);
-      }
-      createReadCache() {
-        this.cache = fs3.createReadStream(this.cachePath);
-        this.cache.once("error", (err) => this.fail(err));
-        this.cache.once("close", () => {
-          this.cleanup();
-        });
-        this.cache.pipe(this.output);
-      }
-      sendNextChunk() {
-        while (!this.hasErrored) {
-          if (this.readPos >= this.chunks.length) {
-            if (!this.cache) {
-              this.output.end();
-              return;
-            }
-            return this.createReadCache();
-          }
-          const chunk = this.chunks[this.readPos++];
-          if (this.output.write(chunk) === false) {
-            this.output.once("drain", () => {
-              this.sendNextChunk();
-            });
-            return;
-          }
-        }
-      }
-      sendSignedOutput() {
-        if (this.hasErrored) {
-          return;
-        }
-        let keyPos = 0;
-        const signNextKey = () => {
-          if (keyPos >= this.keys.length) {
-            this.output.write(this.parser.rawHeaders);
-            setImmediate(() => this.sendNextChunk());
-            return;
-          }
-          const key = this.keys[keyPos++];
-          let dkimField;
-          try {
-            dkimField = sign_default(this.headers, this.hashAlgo, this.bodyHash, {
-              domainName: key.domainName,
-              keySelector: key.keySelector,
-              privateKey: key.privateKey,
-              headerFieldNames: this.options.headerFieldNames,
-              skipFields: this.options.skipFields
-            });
-          } catch (err) {
-            this.fail(err);
-            return;
-          }
-          if (dkimField) {
-            this.output.write(Buffer.from(dkimField + "\r\n"));
-          }
-          setImmediate(signNextKey);
-        };
-        if (this.bodyHash && this.headers) {
-          return signNextKey();
-        }
-        this.output.write(this.parser.rawHeaders);
-        this.sendNextChunk();
-      }
-      createWriteCache() {
-        this.output.usingCache = true;
-        this.cache = fs3.createWriteStream(this.cachePath, { mode: 384 });
-        this.cache.once("error", (err) => {
-          this.relaxedBody.unpipe(this.cache);
-          this.relaxedBody.on("readable", () => {
-            while (this.relaxedBody.read() !== null) {
-            }
-          });
-          this.fail(err);
-        });
-        this.cache.once("close", () => {
-          if (this.hasErrored) {
-            return;
-          }
-          this.sendSignedOutput();
-        });
-        this.relaxedBody.removeAllListeners("readable");
-        this.relaxedBody.pipe(this.cache);
-      }
-      signStream() {
-        this.parser = new message_parser_default();
-        this.relaxedBody = new relaxed_body_default({
-          hashAlgo: this.hashAlgo
-        });
-        this.parser.on("headers", (value) => {
-          this.headers = value;
-        });
-        this.relaxedBody.on("hash", (value) => {
-          this.bodyHash = value;
-        });
-        this.relaxedBody.on("readable", () => {
-          let chunk;
-          if (this.cache) {
-            return;
-          }
-          while ((chunk = this.relaxedBody.read()) !== null) {
-            this.chunks.push(chunk);
-            this.chunklen += chunk.length;
-            if (this.chunklen >= this.cacheTreshold && this.cachePath) {
-              return this.createWriteCache();
-            }
-          }
-        });
-        this.relaxedBody.on("end", () => {
-          if (this.cache) {
-            return;
-          }
-          this.sendSignedOutput();
-        });
-        this.parser.pipe(this.relaxedBody);
-        setImmediate(() => this.input.pipe(this.parser));
-      }
-    };
-    DKIM = class {
-      constructor(options) {
-        this.options = options || {};
-        this.keys = [].concat(this.options.keys || {
-          domainName: options.domainName,
-          keySelector: options.keySelector,
-          privateKey: options.privateKey
-        });
-      }
-      sign(input2, extraOptions) {
-        const output2 = new PassThrough3();
-        let inputStream = input2;
-        let writeValue = false;
-        if (Buffer.isBuffer(input2)) {
-          writeValue = input2;
-          inputStream = new PassThrough3();
-        } else if (typeof input2 === "string") {
-          writeValue = Buffer.from(input2);
-          inputStream = new PassThrough3();
-        }
-        let options = this.options;
-        if (extraOptions && Object.keys(extraOptions).length) {
-          options = copyOwnKeys({}, extraOptions);
-          copyOwnKeys(options, this.options);
-        }
-        const signer = new DKIMSigner(options, this.keys, inputStream, output2);
-        setImmediate(() => {
-          try {
-            signer.signStream();
-          } catch (_E2) {
-            signer.fail(sign_default.unsupportedHashAlgoError(signer.hashAlgo));
-            return;
-          }
-          if (writeValue) {
-            setImmediate(() => {
-              inputStream.end(writeValue);
-            });
-          }
-        });
-        return output2;
-      }
-    };
-    dkim_default = DKIM;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-connection/http-proxy-client.js
-import net5 from "node:net";
-import tls from "node:tls";
-function httpProxyClient(proxyUrl, destinationPort, destinationHost, tlsOptions, callback) {
-  if (typeof tlsOptions === "function") {
-    callback = tlsOptions;
-    tlsOptions = {};
-  }
-  tlsOptions = tlsOptions || {};
-  const done = callback;
-  destinationPort = Number(destinationPort) || 0;
-  if (!destinationPort || /[\r\n]/.test(destinationHost)) {
-    const err = new Error("Invalid proxy destination");
-    err.code = EPROXY;
-    setImmediate(() => done(err));
-    return;
-  }
-  const proxy = parse3(proxyUrl);
-  const authority = (net5.isIPv6(unbracket(destinationHost)) ? "[" + unbracket(destinationHost) + "]" : destinationHost) + ":" + destinationPort;
-  const connectOptions = {
-    host: proxy.hostname,
-    port: Number(proxy.port) ? Number(proxy.port) : proxy.protocol === "https:" ? 443 : 80
-  };
-  let connect;
-  if (proxy.protocol === "https:") {
-    connectOptions.rejectUnauthorized = tlsOptions.rejectUnauthorized !== false;
-    connect = tls.connect.bind(tls);
-  } else {
-    connect = net5.connect.bind(net5);
-  }
-  const timeout = Number(tlsOptions.timeout) || httpProxyClient.timeout || 30 * 1e3;
-  let socket;
-  let finished3 = false;
-  let timer;
-  const cleanup = () => {
-    clearTimeout(timer);
-    socket.removeListener("data", onSocketData);
-    socket.removeListener("error", fail);
-    socket.removeListener("close", onEarlyClose);
-  };
-  function fail(err) {
-    if (finished3) {
-      return;
-    }
-    finished3 = true;
-    cleanup();
-    try {
-      socket.destroy();
-    } catch (_E2) {
-    }
-    done(err);
-  }
-  function onEarlyClose() {
-    const err = new Error("Proxy closed the connection before the tunnel was established");
-    err.code = EPROXY;
-    fail(err);
-  }
-  const chunks = [];
-  let received = 0;
-  let tail = "";
-  function onSocketData(chunk) {
-    if (finished3) {
-      return;
-    }
-    const window = tail + chunk.toString("binary");
-    const windowEnd = window.indexOf("\r\n\r\n");
-    chunks.push(chunk);
-    received += chunk.length;
-    tail = window.slice(-3);
-    if (windowEnd < 0) {
-      if (received > MAX_RESPONSE_HEADER_BYTES) {
-        const err = new Error("Proxy response headers too large");
-        err.code = EPROXY;
-        fail(err);
-      }
-      return;
-    }
-    socket.removeListener("data", onSocketData);
-    socket.pause();
-    const headerEnd = received - window.length + windowEnd;
-    const response = Buffer.concat(chunks, received);
-    if (response.length > headerEnd + 4) {
-      socket.unshift(response.subarray(headerEnd + 4));
-    }
-    const match = response.toString("binary", 0, headerEnd).match(/^HTTP\/\d+\.\d+ (\d+)/i);
-    if (!match || (match[1] || "").charAt(0) !== "2") {
-      const err = new Error("Invalid response from proxy" + (match && ": " + match[1] || ""));
-      err.code = EPROXY;
-      return fail(err);
-    }
-    finished3 = true;
-    cleanup();
-    const resumeOnData = (event) => {
-      if (event === "data") {
-        socket.removeListener("newListener", resumeOnData);
-        socket.resume();
-      }
-    };
-    socket.on("newListener", resumeOnData);
-    return done(null, socket);
-  }
-  socket = connect(connectOptions, () => {
-    if (finished3) {
-      return;
-    }
-    const reqHeaders = {
-      Host: authority,
-      Connection: "close"
-    };
-    if (proxy.auth) {
-      reqHeaders["Proxy-Authorization"] = "Basic " + Buffer.from(proxy.auth).toString("base64");
-    }
-    socket.write(
-      // HTTP method
-      "CONNECT " + authority + " HTTP/1.1\r\n" + // HTTP request headers
-      Object.keys(reqHeaders).map((key) => key + ": " + reqHeaders[key]).join("\r\n") + // End request
-      "\r\n\r\n"
-    );
-    socket.on("data", onSocketData);
-  });
-  timer = setTimeout(() => {
-    const err = new Error("Proxy socket timed out");
-    err.code = ETIMEDOUT;
-    fail(err);
-  }, timeout);
-  socket.once("error", fail);
-  socket.once("close", onEarlyClose);
-}
-var MAX_RESPONSE_HEADER_BYTES, unbracket, http_proxy_client_default;
+var MAX_RESPONSE_HEADER_BYTES;
 var init_http_proxy_client = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-connection/http-proxy-client.js"() {
     init_url();
     init_errors();
     MAX_RESPONSE_HEADER_BYTES = 64 * 1024;
-    unbracket = (host) => typeof host === "string" && host.startsWith("[") && host.endsWith("]") ? host.slice(1, -1) : host;
-    http_proxy_client_default = httpProxyClient;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/mailer/mail-message.js
-var hasOwn, MailMessage;
 var init_mail_message = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/mailer/mail-message.js"() {
     init_shared();
     init_mime_node();
     init_mime_funcs();
-    hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
-    MailMessage = class {
-      constructor(mailer, data) {
-        this.mailer = mailer;
-        this.data = {};
-        this.message = null;
-        data = data || {};
-        const options = mailer.options || {};
-        const defaults = mailer._defaults || {};
-        copyOwnKeys(this.data, data);
-        this.data.headers = this.data.headers || {};
-        copyOwnKeys(this.data, defaults, (key) => hasOwn(this.data, key));
-        copyOwnKeys(this.data.headers, defaults.headers, (key) => hasOwn(this.data.headers, key));
-        ["disableFileAccess", "disableUrlAccess", "normalizeHeaderKey", "maxRecipients"].forEach((key) => {
-          if (key in options) {
-            this.data[key] = options[key];
-          }
-        });
-        ["disableFileAccess", "disableUrlAccess"].forEach((key) => {
-          if (!(key in options) && hasOwn(defaults, key)) {
-            this.data[key] = this.data[key] || defaults[key];
-          }
-        });
-      }
-      resolveContent(data, key, options, callback) {
-        if (!callback && typeof options === "function") {
-          callback = options;
-          options = false;
-        }
-        options = options || {};
-        const policy = {
-          disableFileAccess: this.data.disableFileAccess || options.disableFileAccess,
-          disableUrlAccess: this.data.disableUrlAccess || options.disableUrlAccess
-        };
-        return resolveContent(data, key, policy, callback);
-      }
-      resolveAll(callback) {
-        const keys = [
-          [this.data, "html"],
-          [this.data, "text"],
-          [this.data, "watchHtml"],
-          [this.data, "amp"],
-          [this.data, "icalEvent"]
-        ];
-        if (this.data.alternatives && this.data.alternatives.length) {
-          this.data.alternatives.forEach((alternative, i) => {
-            keys.push([this.data.alternatives, i]);
-          });
-        }
-        if (this.data.attachments && this.data.attachments.length) {
-          this.data.attachments.forEach((attachment, i) => {
-            if (!attachment.filename) {
-              attachment.filename = (attachment.path || attachment.href || "").split(/[/\\]/).pop().split("?").shift() || "attachment-" + (i + 1);
-              if (attachment.filename.indexOf(".") < 0) {
-                attachment.filename += "." + detectExtension2(attachment.contentType);
-              }
-            }
-            if (!attachment.contentType) {
-              attachment.contentType = detectMimeType2(attachment.filename || attachment.path || attachment.href || "bin");
-            }
-            keys.push([this.data.attachments, i]);
-          });
-        }
-        const mimeNode = new mime_node_default();
-        const addressKeys = ["from", "to", "cc", "bcc", "sender", "replyTo"];
-        addressKeys.forEach((address) => {
-          let value;
-          if (this.message) {
-            value = [].concat(mimeNode._parseAddresses(this.message.getHeader(address === "replyTo" ? "reply-to" : address)) || []);
-          } else if (this.data[address]) {
-            value = [].concat(mimeNode._parseAddresses(this.data[address]) || []);
-          }
-          if (value && value.length) {
-            this.data[address] = value;
-          } else if (address in this.data) {
-            this.data[address] = null;
-          }
-        });
-        const singleKeys = ["from", "sender"];
-        singleKeys.forEach((address) => {
-          if (this.data[address]) {
-            this.data[address] = this.data[address].shift();
-          }
-        });
-        let pos = 0;
-        const resolveNext = () => {
-          if (pos >= keys.length) {
-            return callback(null, this.data);
-          }
-          const args = keys[pos++];
-          if (!args[0] || !args[0][args[1]]) {
-            return resolveNext();
-          }
-          resolveContent(...args, { disableFileAccess: this.data.disableFileAccess, disableUrlAccess: this.data.disableUrlAccess }, (err, value) => {
-            if (err) {
-              return callback(err);
-            }
-            const node2 = {
-              content: value
-            };
-            if (args[0][args[1]] && typeof args[0][args[1]] === "object" && !Buffer.isBuffer(args[0][args[1]])) {
-              copyOwnKeys(node2, args[0][args[1]], (key) => key in node2 || ["content", "path", "href", "raw"].includes(key));
-            }
-            args[0][args[1]] = node2;
-            resolveNext();
-          });
-        };
-        setImmediate(() => resolveNext());
-      }
-      /**
-       * Destroys the content streams of the message once sending failed. A stream that was not
-       * read to the end would otherwise keep the file or the socket behind it open
-       */
-      releaseStreams() {
-        const data = this.data;
-        const values = [data.html, data.text, data.watchHtml, data.amp, data.raw, data.icalEvent];
-        for (const key of ["attachments", "alternatives"]) {
-          if (Array.isArray(data[key])) {
-            for (const entry of data[key]) {
-              values.push(entry);
-            }
-          }
-        }
-        for (const value of values) {
-          if (value && typeof value === "object") {
-            destroyStream(value);
-            destroyStream(value.content);
-            destroyStream(value.raw);
-          }
-        }
-      }
-      normalize(callback) {
-        const envelope = this.message.getEnvelope();
-        const messageId = this.message.messageId();
-        this.resolveAll((err, data) => {
-          if (err) {
-            return callback(err);
-          }
-          data.envelope = envelope;
-          data.messageId = messageId;
-          ["html", "text", "watchHtml", "amp"].forEach((key) => {
-            if (data[key] && data[key].content) {
-              if (typeof data[key].content === "string") {
-                data[key] = data[key].content;
-              } else if (Buffer.isBuffer(data[key].content)) {
-                data[key] = data[key].content.toString();
-              }
-            }
-          });
-          if (data.icalEvent && Buffer.isBuffer(data.icalEvent.content)) {
-            data.icalEvent.content = data.icalEvent.content.toString("base64");
-            data.icalEvent.encoding = "base64";
-          }
-          if (data.alternatives && data.alternatives.length) {
-            data.alternatives.forEach((alternative) => {
-              if (alternative && alternative.content && Buffer.isBuffer(alternative.content)) {
-                alternative.content = alternative.content.toString("base64");
-                alternative.encoding = "base64";
-              }
-            });
-          }
-          if (data.attachments && data.attachments.length) {
-            data.attachments.forEach((attachment) => {
-              if (attachment && attachment.content && Buffer.isBuffer(attachment.content)) {
-                attachment.content = attachment.content.toString("base64");
-                attachment.encoding = "base64";
-              }
-            });
-          }
-          data.normalizedHeaders = {};
-          Object.keys(data.headers || {}).forEach((key) => {
-            if (isProtoKey(key)) {
-              return;
-            }
-            let value = [].concat(data.headers[key] || []).shift();
-            value = value && value.value || value;
-            if (value) {
-              if (["references", "in-reply-to", "message-id", "content-id"].includes(key)) {
-                value = this.message._encodeHeaderValue(key, value);
-              }
-              data.normalizedHeaders[key] = value;
-            }
-          });
-          if (data.list && typeof data.list === "object") {
-            const listHeaders = this._getListHeaders(data.list);
-            listHeaders.forEach((entry) => {
-              data.normalizedHeaders[entry.key] = entry.value.map((val) => val && val.value || val).join(", ");
-            });
-          }
-          if (data.references) {
-            data.normalizedHeaders.references = this.message._encodeHeaderValue("references", data.references);
-          }
-          if (data.inReplyTo) {
-            data.normalizedHeaders["in-reply-to"] = this.message._encodeHeaderValue("in-reply-to", data.inReplyTo);
-          }
-          return callback(null, data);
-        });
-      }
-      setMailerHeader() {
-        if (!this.message || !this.data.xMailer) {
-          return;
-        }
-        this.message.setHeader("X-Mailer", this.data.xMailer);
-      }
-      setPriorityHeaders() {
-        if (!this.message || !this.data.priority) {
-          return;
-        }
-        switch ((this.data.priority || "").toString().toLowerCase()) {
-          case "high":
-            this.message.setHeader("X-Priority", "1 (Highest)");
-            this.message.setHeader("X-MSMail-Priority", "High");
-            this.message.setHeader("Importance", "High");
-            break;
-          case "low":
-            this.message.setHeader("X-Priority", "5 (Lowest)");
-            this.message.setHeader("X-MSMail-Priority", "Low");
-            this.message.setHeader("Importance", "Low");
-            break;
-          default:
-        }
-      }
-      setListHeaders() {
-        if (!this.message || !this.data.list || typeof this.data.list !== "object") {
-          return;
-        }
-        this._getListHeaders(this.data.list).forEach((listHeader) => {
-          listHeader.value.forEach((value) => {
-            this.message.addHeader(listHeader.key, value);
-          });
-        });
-      }
-      /** @internal */
-      _getListHeaders(listData) {
-        return Object.keys(listData).map((key) => ({
-          key: "list-" + key.toLowerCase().trim(),
-          value: [].concat(listData[key] || []).map((value) => ({
-            prepared: true,
-            foldLines: true,
-            value: [].concat(value || []).map((value2) => {
-              if (typeof value2 === "string") {
-                value2 = {
-                  url: value2
-                };
-              }
-              if (value2 && value2.url) {
-                let comment = (value2.comment || "").toString().replace(/\r?\n|\r/g, " ");
-                const needsEncoding = !isPlainText(comment) || /\x7f/.test(comment);
-                if (key.toLowerCase().trim() === "id") {
-                  comment = needsEncoding ? encodeWord(comment) : quoteString(comment);
-                  return (value2.comment ? comment + " " : "") + this._formatListUrl(value2.url).replace(/^<[^:]+:\/{0,2}/, "<");
-                }
-                comment = needsEncoding ? encodeWord(comment) : comment.replace(/[()\\]/g, "\\$&");
-                return this._formatListUrl(value2.url) + (value2.comment ? " (" + comment + ")" : "");
-              }
-              return "";
-            }).filter((value2) => value2).join(", ")
-          }))
-        }));
-      }
-      /** @internal */
-      _formatListUrl(url2) {
-        url2 = url2.replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, "").replace(/[\s<]+|[\s>]+/g, "");
-        if (/^(https?|mailto|ftp):/.test(url2)) {
-          return "<" + url2 + ">";
-        }
-        if (/^[^@]+@[^@]+$/.test(url2)) {
-          return "<mailto:" + url2 + ">";
-        }
-        return "<http://" + url2 + ">";
-      }
-    };
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/mailer/index.js
-import { EventEmitter } from "node:events";
-import util3 from "node:util";
-import net6 from "node:net";
-import dns2 from "node:dns";
-import crypto5 from "node:crypto";
-var DEFAULT_MAX_RECIPIENTS, Mail, mailer_default;
 var init_mailer = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/mailer/index.js"() {
     init_shared();
@@ -60613,484 +59278,22 @@ var init_mailer = __esm({
     init_url();
     init_package_info();
     init_mail_message();
-    DEFAULT_MAX_RECIPIENTS = 1e5;
-    Mail = class extends EventEmitter {
-      constructor(transporter, options, defaults) {
-        super();
-        this.options = options || {};
-        this._defaults = defaults || {};
-        this._defaultPlugins = {
-          compile: [(...args) => this._convertDataImages(...args)],
-          stream: []
-        };
-        this._userPlugins = {
-          compile: [],
-          stream: []
-        };
-        this.meta = /* @__PURE__ */ new Map();
-        this.dkim = this.options.dkim ? new dkim_default(this.options.dkim) : false;
-        this.transporter = transporter;
-        this.transporter.mailer = this;
-        this.logger = getLogger(this.options, {
-          component: this.options.component || "mail"
-        });
-        this.logger.debug({
-          tnx: "create"
-        }, "Creating transport: %s", this.getVersionString());
-        if (typeof this.transporter.on === "function") {
-          this.transporter.on("log", (log) => {
-            this.logger.debug({
-              tnx: "transport"
-            }, "%s: %s", log.type, log.message);
-          });
-          this.transporter.on("error", (err) => {
-            this.logger.error({
-              err,
-              tnx: "transport"
-            }, "Transport Error: %s", err.message);
-            this.emit("error", err);
-          });
-          this.transporter.on("idle", (...args) => {
-            this.emit("idle", ...args);
-          });
-          this.transporter.on("clear", (...args) => {
-            this.emit("clear", ...args);
-          });
-        }
-        ["close", "isIdle", "verify"].forEach((method) => {
-          this[method] = (...args) => {
-            if (typeof this.transporter[method] === "function") {
-              if (method === "verify" && typeof this.getSocket === "function") {
-                this.transporter.getSocket = this.getSocket;
-                this.getSocket = false;
-              }
-              return this.transporter[method](...args);
-            }
-            this.logger.warn({
-              tnx: "transport",
-              methodName: method
-            }, "Non existing method %s called for transport", method);
-            return false;
-          };
-        });
-        if (this.options.proxy && typeof this.options.proxy === "string") {
-          this.setupProxy(this.options.proxy);
-        }
-      }
-      use(step, plugin) {
-        step = (step || "").toString();
-        if (!this._userPlugins.hasOwnProperty(step)) {
-          this._userPlugins[step] = [plugin];
-        } else {
-          this._userPlugins[step].push(plugin);
-        }
-        return this;
-      }
-      sendMail(data, callback = null) {
-        let promise2;
-        if (!callback) {
-          promise2 = new Promise((resolve5, reject) => {
-            callback = callbackPromise(resolve5, reject);
-          });
-        }
-        const done = callback;
-        if (typeof this.getSocket === "function") {
-          this.transporter.getSocket = this.getSocket;
-          this.getSocket = false;
-        }
-        const mail = new MailMessage(this, data);
-        const fail = (err) => {
-          mail.releaseStreams();
-          done(err);
-        };
-        this.logger.debug({
-          tnx: "transport",
-          name: this.transporter.name,
-          version: this.transporter.version,
-          action: "send"
-        }, "Sending mail using %s/%s", this.transporter.name, this.transporter.version);
-        this._processPlugins("compile", mail, (err) => {
-          if (err) {
-            this.logger.error({
-              err,
-              tnx: "plugin",
-              action: "compile"
-            }, "PluginCompile Error: %s", err.message);
-            return fail(err);
-          }
-          let recipientCount;
-          try {
-            mail.message = new mail_composer_default(mail.data).compile();
-            mail.setMailerHeader();
-            mail.setPriorityHeaders();
-            mail.setListHeaders();
-            recipientCount = mail.message.getEnvelope().to.length;
-          } catch (err2) {
-            this.logger.error({
-              err: err2,
-              tnx: "transport",
-              action: "send"
-            }, "Compile Error: %s", err2.message);
-            return fail(err2);
-          }
-          const maxRecipients = mail.data.maxRecipients === void 0 ? DEFAULT_MAX_RECIPIENTS : mail.data.maxRecipients;
-          if (maxRecipients && recipientCount > maxRecipients) {
-            const err2 = new Error(`Message has ${recipientCount} recipients, which is over the ${maxRecipients} allowed by maxRecipients`);
-            err2.code = EMAXRECIPIENTS;
-            this.logger.error({
-              err: err2,
-              tnx: "transport",
-              action: "send"
-            }, "Send Error: %s", err2.message);
-            return fail(err2);
-          }
-          this._processPlugins("stream", mail, (err2) => {
-            if (err2) {
-              this.logger.error({
-                err: err2,
-                tnx: "plugin",
-                action: "stream"
-              }, "PluginStream Error: %s", err2.message);
-              return fail(err2);
-            }
-            if (mail.data.dkim || this.dkim) {
-              mail.message.processFunc((input2) => {
-                const dkim = mail.data.dkim ? new dkim_default(mail.data.dkim) : this.dkim;
-                this.logger.debug({
-                  tnx: "DKIM",
-                  messageId: mail.message.messageId(),
-                  dkimDomains: dkim.keys.map((key) => key.keySelector + "." + key.domainName).join(", ")
-                }, "Signing outgoing message with %s keys", dkim.keys.length);
-                return dkim.sign(input2, mail.data._dkim);
-              });
-            }
-            this.transporter.send(mail, (...args) => {
-              if (args[0]) {
-                mail.releaseStreams();
-                this.logger.error({
-                  err: args[0],
-                  tnx: "transport",
-                  action: "send"
-                }, "Send Error: %s", args[0].message);
-              }
-              done(...args);
-            });
-          });
-        });
-        return promise2;
-      }
-      getVersionString() {
-        return util3.format("%s (%s; +%s; %s/%s)", name, version2, homepage, this.transporter.name, this.transporter.version);
-      }
-      /** @internal */
-      _processPlugins(step, mail, callback) {
-        step = (step || "").toString();
-        if (!this._userPlugins.hasOwnProperty(step)) {
-          return callback();
-        }
-        const userPlugins = this._userPlugins[step] || [];
-        const defaultPlugins = this._defaultPlugins[step] || [];
-        if (userPlugins.length) {
-          this.logger.debug({
-            tnx: "transaction",
-            pluginCount: userPlugins.length,
-            step
-          }, "Using %s plugins for %s", userPlugins.length, step);
-        }
-        if (userPlugins.length + defaultPlugins.length === 0) {
-          return callback();
-        }
-        let pos = 0;
-        let block = "default";
-        const processPlugins = () => {
-          let curplugins = block === "default" ? defaultPlugins : userPlugins;
-          if (pos >= curplugins.length) {
-            if (block === "default" && userPlugins.length) {
-              block = "user";
-              pos = 0;
-              curplugins = userPlugins;
-            } else {
-              return callback();
-            }
-          }
-          const plugin = curplugins[pos++];
-          plugin(mail, (err) => {
-            if (err) {
-              return callback(err);
-            }
-            processPlugins();
-          });
-        };
-        processPlugins();
-      }
-      /**
-       * Sets up proxy handler for a Nodemailer object
-       *
-       * @param proxyUrl Proxy configuration url
-       */
-      setupProxy(proxyUrl) {
-        const proxy = parse3(proxyUrl);
-        this.getSocket = (options, callback) => {
-          const protocol = proxy.protocol.replace(/:$/, "").toLowerCase();
-          const configuredTimeout = Number(this.options.connectionTimeout) || 0;
-          const connectStartedAt = Number(options.connectStartedAt) || Date.now();
-          const connectionTimeout = configuredTimeout ? Math.max(connectStartedAt + configuredTimeout - Date.now(), 1) : void 0;
-          if (this.meta.has("proxy_handler_" + protocol)) {
-            return this.meta.get("proxy_handler_" + protocol)(proxy, options, callback);
-          }
-          switch (protocol) {
-            // Connect using a HTTP CONNECT method
-            case "http":
-            case "https":
-              http_proxy_client_default(proxy.href, options.port, options.host, connectionTimeout ? Object.assign({}, this.options.tls, { timeout: connectionTimeout }) : this.options.tls || {}, (err2, socket) => {
-                if (err2) {
-                  return callback(err2);
-                }
-                return callback(null, {
-                  connection: socket
-                });
-              });
-              return;
-            case "socks":
-            case "socks5":
-            case "socks4":
-            case "socks4a": {
-              if (!this.meta.has("proxy_socks_module")) {
-                let err2 = new Error("Socks module not loaded");
-                err2.code = EPROXY;
-                return callback(err2);
-              }
-              const connect = (ipaddress) => {
-                const proxyV2 = !!this.meta.get("proxy_socks_module").SocksClient;
-                const socksClient = proxyV2 ? this.meta.get("proxy_socks_module").SocksClient : this.meta.get("proxy_socks_module");
-                const proxyType = Number(proxy.protocol.replace(/\D/g, "")) || 5;
-                const connectionOpts = {
-                  proxy: {
-                    ipaddress,
-                    port: Number(proxy.port),
-                    type: proxyType
-                  },
-                  [proxyV2 ? "destination" : "target"]: {
-                    host: options.host,
-                    port: options.port
-                  },
-                  command: "connect"
-                };
-                if (connectionTimeout) {
-                  connectionOpts.timeout = connectionTimeout;
-                }
-                if (proxy.username || proxy.password) {
-                  const username = proxy.username || "";
-                  const password = proxy.password || "";
-                  if (proxyV2) {
-                    connectionOpts.proxy.userId = username;
-                    connectionOpts.proxy.password = password;
-                  } else if (proxyType === 4) {
-                    connectionOpts.userid = username;
-                  } else {
-                    connectionOpts.authentication = {
-                      username,
-                      password
-                    };
-                  }
-                }
-                socksClient.createConnection(connectionOpts, (err2, info) => {
-                  if (err2) {
-                    return callback(err2);
-                  }
-                  return callback(null, {
-                    connection: info.socket || info
-                  });
-                });
-              };
-              if (net6.isIP(proxy.hostname)) {
-                return connect(proxy.hostname);
-              }
-              return dns2.lookup(proxy.hostname, (err2, address) => {
-                if (err2) {
-                  return callback(err2);
-                }
-                connect(address);
-              });
-            }
-          }
-          let err = new Error("Unknown proxy configuration");
-          err.code = EPROXY;
-          callback(err);
-        };
-      }
-      /** @internal */
-      _convertDataImages(mail, callback) {
-        if (!this.options.attachDataUrls && !mail.data.attachDataUrls || !mail.data.html) {
-          return callback();
-        }
-        mail.resolveContent(mail.data, "html", { disableFileAccess: mail.data.disableFileAccess, disableUrlAccess: mail.data.disableUrlAccess }, (err, html) => {
-          if (err) {
-            return callback(err);
-          }
-          let cidCounter = 0;
-          html = (html || "").toString().replace(/(<img\b[^<>]{0,1024} src\s{0,20}=[\s"']{0,20})(data:([^;"'<>\s]{1,255});[^"'>\s]+)/gi, (match, prefix, dataUri, mimeType) => {
-            const cid = crypto5.randomBytes(10).toString("hex") + "@localhost";
-            if (!mail.data.attachments) {
-              mail.data.attachments = [];
-            }
-            if (!Array.isArray(mail.data.attachments)) {
-              mail.data.attachments = [].concat(mail.data.attachments || []);
-            }
-            mail.data.attachments.push({
-              path: dataUri,
-              cid,
-              filename: "image-" + ++cidCounter + "." + detectExtension(mimeType)
-            });
-            return prefix + "cid:" + cid;
-          });
-          mail.data.html = html;
-          callback();
-        });
-      }
-      set(key, value) {
-        return this.meta.set(key, value);
-      }
-      get(key) {
-        return this.meta.get(key);
-      }
-    };
-    mailer_default = Mail;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-connection/data-stream.js
-import { Transform as Transform8 } from "node:stream";
-var INSERT_LF, INSERT_LF_DOT, INSERT_CR, INSERT_DOT, DataStream;
+var INSERT_LF, INSERT_LF_DOT, INSERT_CR, INSERT_DOT;
 var init_data_stream = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-connection/data-stream.js"() {
     INSERT_LF = Buffer.from("\n");
     INSERT_LF_DOT = Buffer.from("\n.");
     INSERT_CR = Buffer.from("\r");
     INSERT_DOT = Buffer.from(".");
-    DataStream = class extends Transform8 {
-      constructor(options) {
-        super(options);
-        this.options = options || {};
-        this.inByteCount = 0;
-        this.outByteCount = 0;
-        this.lastByte = false;
-      }
-      /**
-       * Escapes dots
-       * @internal
-       */
-      _transform(chunk, encoding, done) {
-        const chunks = [];
-        let chunklen = 0;
-        let i, len, lastPos = 0;
-        let buf;
-        if (!chunk || !chunk.length) {
-          return done();
-        }
-        if (typeof chunk === "string") {
-          chunk = Buffer.from(chunk);
-        }
-        this.inByteCount += chunk.length;
-        for (i = 0, len = chunk.length; i < len; i++) {
-          const byte = chunk[i];
-          const prev = i ? chunk[i - 1] : this.lastByte;
-          let insert = false;
-          if (prev === 13 && byte !== 10) {
-            insert = byte === 46 ? INSERT_LF_DOT : INSERT_LF;
-          } else if (byte === 10 && prev !== 13) {
-            insert = INSERT_CR;
-          } else if (byte === 46 && (prev === 10 || prev === false)) {
-            insert = INSERT_DOT;
-          }
-          if (insert) {
-            if (i > lastPos) {
-              buf = chunk.slice(lastPos, i);
-              chunks.push(buf);
-              chunklen += buf.length;
-            }
-            chunks.push(insert);
-            chunklen += insert.length;
-            lastPos = i;
-          }
-        }
-        if (chunks.length) {
-          if (lastPos < chunk.length) {
-            buf = chunk.slice(lastPos);
-            chunks.push(buf);
-            chunklen += buf.length;
-          }
-          this.outByteCount += chunklen;
-          this.push(Buffer.concat(chunks, chunklen));
-        } else {
-          this.outByteCount += chunk.length;
-          this.push(chunk);
-        }
-        this.lastByte = chunk[chunk.length - 1];
-        done();
-      }
-      /**
-       * Finalizes the stream with a dot on a single line
-       * @internal
-       */
-      _flush(done) {
-        let buf;
-        if (this.lastByte === 10) {
-          buf = Buffer.from(".\r\n");
-        } else if (this.lastByte === 13) {
-          buf = Buffer.from("\n.\r\n");
-        } else {
-          buf = Buffer.from("\r\n.\r\n");
-        }
-        this.outByteCount += buf.length;
-        this.push(buf);
-        done();
-      }
-    };
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-connection/index.js
-import { EventEmitter as EventEmitter2 } from "node:events";
-import net7 from "node:net";
-import tls2 from "node:tls";
-import os2 from "node:os";
-import crypto6 from "node:crypto";
-import { PassThrough as PassThrough4 } from "node:stream";
-function shuffle(list) {
-  const result = list.slice();
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
-function timeoutError(message, timeoutType) {
-  const err = new Error(message);
-  err.timeoutType = timeoutType;
-  return err;
-}
-function decodeServerResponse(str2) {
-  if (!str2) {
-    return str2;
-  }
-  const utf8 = Buffer.from(str2, "binary").toString("utf8");
-  return utf8.includes("\uFFFD") ? str2 : utf8;
-}
-function isPartialResponse(str2) {
-  return isPartialLine(str2.slice(str2.lastIndexOf("\n") + 1));
-}
-function isPartialLine(line) {
-  return /^\d+-/.test(line);
-}
-function maskAuthCommand(cmd) {
-  const match = (cmd || "").toString().match(/^AUTH\s+[^\s]+/i);
-  if (!match) {
-    return "/* secret */";
-  }
-  return match[0].length === cmd.length ? cmd : match[0] + " /* secret */";
-}
-var CONNECTION_TIMEOUT, SOCKET_TIMEOUT, GREETING_TIMEOUT, DNS_TIMEOUT, CLOSE_TIMEOUT, KEEPALIVE_DELAY, TEARDOWN_NOOP, MAX_RESPONSE_SIZE, SMTPConnection, smtp_connection_default;
+var CONNECTION_TIMEOUT, SOCKET_TIMEOUT, GREETING_TIMEOUT, DNS_TIMEOUT, CLOSE_TIMEOUT, KEEPALIVE_DELAY, MAX_RESPONSE_SIZE;
 var init_smtp_connection = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-connection/index.js"() {
     init_package_info();
@@ -61103,2305 +59306,26 @@ var init_smtp_connection = __esm({
     DNS_TIMEOUT = 30 * 1e3;
     CLOSE_TIMEOUT = 5 * 1e3;
     KEEPALIVE_DELAY = 30 * 1e3;
-    TEARDOWN_NOOP = () => {
-    };
     MAX_RESPONSE_SIZE = 1024 * 1024;
-    SMTPConnection = class extends EventEmitter2 {
-      constructor(options) {
-        super(options);
-        this.id = crypto6.randomBytes(8).toString("base64").replace(/\W/g, "");
-        this.stage = "init";
-        this.options = options || {};
-        if (this.options.requireTLS && (this.options.ignoreTLS || this.options.opportunisticTLS)) {
-          this.options = Object.assign({}, this.options, { ignoreTLS: false, opportunisticTLS: false });
-        }
-        this.secureConnection = !!this.options.secure;
-        this.alreadySecured = !!this.options.secured;
-        this.port = Number(this.options.port) || (this.secureConnection ? 465 : 587);
-        this.host = this.options.host || "localhost";
-        this.servername = this.options.servername ? this.options.servername : !net7.isIP(this.host) ? this.host : false;
-        this.allowInternalNetworkInterfaces = this.options.allowInternalNetworkInterfaces || false;
-        if (typeof this.options.secure === "undefined" && this.port === 465) {
-          this.secureConnection = true;
-        }
-        this.name = (this.options.name || this._getHostname()).toString().replace(/[\r\n]+/g, "");
-        this.logger = getLogger(this.options, {
-          component: this.options.component || "smtp-connection",
-          sid: this.id
-        });
-        this.customAuth = /* @__PURE__ */ new Map();
-        for (const key of Object.keys(this.options.customAuth || {})) {
-          const mapKey = (key || "").toString().trim().toUpperCase();
-          if (mapKey) {
-            this.customAuth.set(mapKey, this.options.customAuth[key]);
-          }
-        }
-        this.version = version2;
-        this.authenticated = false;
-        this.destroyed = false;
-        this.secure = !!this.secureConnection;
-        this._remainder = "";
-        this._responseQueue = [];
-        this._responsePartial = false;
-        this.lastServerResponse = false;
-        this._socket = false;
-        this._supportedAuth = [];
-        this.allowsAuth = false;
-        this._envelope = false;
-        this._supportedExtensions = [];
-        this._maxAllowedSize = 0;
-        this._responseActions = [];
-        this._recipientQueue = [];
-        this._phaseTimer = false;
-        this._plaintextEhlo = false;
-        this._destroyed = false;
-        this._closing = false;
-        this._currentDataStream = false;
-        this._pendingSend = false;
-        this._connectCallback = false;
-        this._onSocketData = (chunk) => this._onData(chunk);
-        this._onSocketError = (error63) => this._onError(error63, "ESOCKET", false, "CONN");
-        this._onSocketClose = () => this._onClose();
-        this._onSocketEnd = () => this._onEnd();
-        this._onSocketTimeout = () => this._onTimeout();
-        this._onConnectionSocketError = (err) => this._onError(err, "ESOCKET", false, "CONN");
-      }
-      /**
-       * Creates a connection to a SMTP server and sets up connection
-       * listener
-       */
-      connect(connectCallback) {
-        if (this._connectCalled && !this._destroyed) {
-          const err = this._formatError("Cannot connect - connect() was already called for this connection", "ECONNECTION", false, "API");
-          if (typeof connectCallback === "function") {
-            setImmediate(() => connectCallback(err));
-            return;
-          }
-          this.logger.warn({ tnx: "smtp" }, "%s", err.message);
-          return;
-        }
-        this._connectCalled = true;
-        if (typeof connectCallback === "function") {
-          this._connectCallback = connectCallback;
-          this.once("connect", () => {
-            this._connectCallback = false;
-            this.logger.debug({
-              tnx: "smtp"
-            }, "SMTP handshake finished");
-            connectCallback();
-          });
-          const isDestroyedMessage = this._isDestroyedMessage("connect");
-          if (isDestroyedMessage) {
-            return connectCallback(this._formatError(isDestroyedMessage, "ECONNECTION", false, "CONN"));
-          }
-        }
-        const connectionTimeout = this.options.connectionTimeout || CONNECTION_TIMEOUT;
-        this._connectionDeadline = (this._connectStartedAt || Date.now()) + connectionTimeout;
-        let opts = {
-          port: this.port,
-          host: this.host,
-          allowInternalNetworkInterfaces: this.allowInternalNetworkInterfaces,
-          timeout: Math.min(this.options.dnsTimeout || DNS_TIMEOUT, connectionTimeout)
-        };
-        if (this.options.localAddress) {
-          opts.localAddress = this.options.localAddress;
-        }
-        if (this.options.connection) {
-          this._socket = this.options.connection;
-          this._setupConnectionHandlers();
-          if (this.secureConnection && !this.alreadySecured) {
-            setImmediate(() => this._upgradeConnection((err) => {
-              if (err) {
-                this._onError(new Error("Error initiating TLS - " + (err.message || err)), "ETLS", false, "CONN");
-                return;
-              }
-              this._onConnect();
-            }));
-          } else {
-            setImmediate(() => this._onConnect());
-          }
-          return;
-        } else if (this.options.socket) {
-          this._socket = this.options.socket;
-          return this._resolveAndConnect(opts, (_resolved) => {
-            try {
-              this._socket.connect(this.port, this.host, () => {
-                if (this.secureConnection && !this.alreadySecured) {
-                  return this._upgradeConnection((err) => {
-                    if (err) {
-                      this._onError(new Error("Error initiating TLS - " + (err.message || err)), "ETLS", false, "CONN");
-                      return;
-                    }
-                    this._onConnect();
-                  });
-                }
-                this._onConnect();
-              });
-              this._setupConnectionHandlers();
-            } catch (E) {
-              setImmediate(() => this._onError(E, "ECONNECTION", false, "CONN"));
-              return;
-            }
-          });
-        } else {
-          if (this.secureConnection) {
-            Object.assign(opts, this.options.tls || {});
-            if (this.servername && !opts.servername) {
-              opts.servername = this.servername;
-            }
-          }
-          return this._resolveAndConnect(opts, (resolved) => {
-            let addresses = resolved._addresses || [];
-            if (opts.localAddress) {
-              const localFamily = net7.isIPv6(opts.localAddress) ? 6 : 4;
-              const sameFamily = addresses.filter((addr) => net7.isIP(addr) === localFamily);
-              addresses = sameFamily.length ? sameFamily : addresses;
-            }
-            if (addresses.length > 1) {
-              const ipv63 = addresses.filter((addr) => net7.isIPv6(addr));
-              const ipv43 = addresses.filter((addr) => !net7.isIPv6(addr));
-              const ordered = shuffle(ipv63).concat(shuffle(ipv43));
-              opts.host = this.host;
-              opts.autoSelectFamily = true;
-              if (!ipv63.length || !ipv43.length) {
-                const remaining = this._connectionDeadline - Date.now();
-                opts.autoSelectFamilyAttemptTimeout = Math.max(Math.floor(remaining / ordered.length), 10);
-              }
-              opts.lookup = ((hostname3, lookupOptions, callback) => {
-                if (lookupOptions && lookupOptions.all) {
-                  const all = ordered.map((address) => ({ address, family: net7.isIPv6(address) ? 6 : 4 }));
-                  return setImmediate(() => callback(null, all));
-                }
-                setImmediate(() => callback(null, ordered[0], net7.isIPv6(ordered[0]) ? 6 : 4));
-              });
-            } else if (addresses.length) {
-              opts.host = addresses[0];
-            }
-            this._connectToHost(opts, this.secureConnection);
-          });
-        }
-      }
-      /**
-       * Resolves the hostname and applies resolved values to opts,
-       * then calls the provided callback with the resolved data
-       *
-       * @param opts Connection options (modified in place)
-       * @param callback Called with resolved data on success
-       * @internal
-       */
-      _resolveAndConnect(opts, callback) {
-        return resolveHostname(opts, (err, resolved) => {
-          if (err) {
-            return setImmediate(() => this._onError(err, "EDNS", false, "CONN"));
-          }
-          this.logger.debug({
-            tnx: "dns",
-            source: opts.host,
-            resolved: resolved.host,
-            cached: !!resolved.cached
-          }, "Resolved %s as %s [cache %s]", opts.host, resolved.host, resolved.cached ? "hit" : "miss");
-          for (const key of Object.keys(resolved)) {
-            if (key.charAt(0) !== "_" && resolved[key]) {
-              opts[key] = resolved[key];
-            }
-          }
-          callback(resolved);
-        });
-      }
-      /**
-       * Attempts to connect to the specified host address
-       *
-       * @param opts Connection options
-       * @param secure Whether to use TLS
-       * @internal
-       */
-      _connectToHost(opts, secure) {
-        if (this._destroyed || this._closing) {
-          return;
-        }
-        const connectFn = secure ? tls2.connect : net7.connect;
-        try {
-          this._socket = connectFn(opts, () => this._onConnect());
-          this._setupConnectionHandlers();
-        } catch (E) {
-          setImmediate(() => this._onError(E, "ECONNECTION", false, "CONN"));
-          return;
-        }
-      }
-      /**
-       * Sets up connection timeout and error handlers
-       * @internal
-       */
-      _setupConnectionHandlers() {
-        this._startPhase(Math.max((this._connectionDeadline || Date.now()) - Date.now(), 0), timeoutError("Connection timeout", "CONNECT_TIMEOUT"));
-        this._socket.on("error", this._onConnectionSocketError);
-      }
-      /**
-       * Starts the timer of a connection phase: connecting, waiting for the greeting or a TLS
-       * upgrade. The phases follow one another, so starting one ends the one before
-       *
-       * @param timeout Time the phase may take
-       * @param err Error to fail with when it takes longer
-       * @internal
-       */
-      _startPhase(timeout, err) {
-        this._clearPhase();
-        this._phaseTimer = setTimeout(() => {
-          this._phaseTimer = false;
-          this._onError(err, "ETIMEDOUT", false, "CONN");
-        }, timeout);
-      }
-      /**
-       * Time the greeting or a STARTTLS upgrade may take: greetingTimeout, cut short by what is left
-       * of connectionTimeout
-       *
-       * @internal
-       */
-      _remainingSetupTime() {
-        return Math.min(this.options.greetingTimeout || GREETING_TIMEOUT, Math.max((this._connectionDeadline || Infinity) - Date.now(), 1));
-      }
-      /** @internal */
-      _clearPhase() {
-        clearTimeout(this._phaseTimer);
-        this._phaseTimer = false;
-      }
-      /**
-       * Sends QUIT
-       */
-      quit() {
-        this._sendCommand("QUIT");
-        this._responseActions.push(this.close);
-      }
-      /**
-       * Closes the connection to the server
-       */
-      close() {
-        this._clearPhase();
-        this._responseActions = [];
-        if (this._closing) {
-          return;
-        }
-        this._closing = true;
-        const closeMethod = this.stage === "init" ? "destroy" : "end";
-        this.logger.debug({
-          tnx: "smtp"
-        }, 'Closing connection to the server using "%s"', closeMethod);
-        const socket = this._socket && this._socket.socket || this._socket;
-        if (this._currentDataStream) {
-          try {
-            this._currentDataStream.unpipe(this._socket);
-          } catch (_E2) {
-          }
-          this._currentDataStream = false;
-        }
-        if (this._pendingSend) {
-          const { stream, onStreamError } = this._pendingSend;
-          if (stream) {
-            stream.removeListener("error", onStreamError);
-            stream.on("error", TEARDOWN_NOOP);
-            stream.destroy();
-          }
-          this._pendingSend = false;
-        }
-        if (socket && !socket.destroyed) {
-          try {
-            socket.setTimeout(0);
-            socket.removeListener("data", this._onSocketData);
-            socket.removeListener("timeout", this._onSocketTimeout);
-            socket.removeListener("close", this._onSocketClose);
-            socket.removeListener("end", this._onSocketEnd);
-            socket.removeListener("error", this._onSocketError);
-            socket.removeListener("error", this._onConnectionSocketError);
-            socket.on("error", TEARDOWN_NOOP);
-            socket[closeMethod]();
-            if (closeMethod === "end") {
-              const closeTimer = setTimeout(() => socket.destroy(), CLOSE_TIMEOUT);
-              if (typeof closeTimer.unref === "function") {
-                closeTimer.unref();
-              }
-              socket.once("close", () => clearTimeout(closeTimer));
-            }
-          } catch (_E2) {
-          }
-        }
-        this._destroy();
-      }
-      /**
-       * Authenticate user
-       */
-      login(authData, callback) {
-        const isDestroyedMessage = this._isDestroyedMessage("login");
-        if (isDestroyedMessage) {
-          return callback(this._formatError(isDestroyedMessage, "ECONNECTION", false, "API"));
-        }
-        this._auth = authData || {};
-        this._authMethod = (this._auth.method || "").toString().trim().toUpperCase() || false;
-        const canUseXOAuth2 = !!this._auth.oauth2 || this.customAuth.has("XOAUTH2");
-        if (!this._authMethod && this._auth.oauth2 && !this._auth.credentials) {
-          this._authMethod = "XOAUTH2";
-        } else if (!this._authMethod || this._authMethod === "XOAUTH2" && !this._auth.oauth2) {
-          const supported = this._supportedAuth.find((method) => method !== "XOAUTH2" || canUseXOAuth2);
-          this._authMethod = (supported || "PLAIN").toUpperCase().trim();
-        }
-        if ((this._authMethod !== "XOAUTH2" || this.customAuth.has("XOAUTH2")) && (!this._auth.credentials || !this._auth.credentials.user || !this._auth.credentials.pass)) {
-          if (this._auth.user && this._auth.pass || this.customAuth.has(this._authMethod)) {
-            this._auth.credentials = {
-              user: this._auth.user,
-              pass: this._auth.pass,
-              options: this._auth.options
-            };
-          } else {
-            return callback(this._formatError('Missing credentials for "' + this._authMethod + '"', "EAUTH", false, "API"));
-          }
-        }
-        if (this.customAuth.has(this._authMethod)) {
-          const handler = this.customAuth.get(this._authMethod);
-          let lastResponse;
-          let returned = false;
-          const resolve5 = () => {
-            if (returned) {
-              return;
-            }
-            returned = true;
-            this.logger.info({
-              tnx: "smtp",
-              username: this._auth.user,
-              action: "authenticated",
-              method: this._authMethod
-            }, "User %s authenticated", JSON.stringify(this._auth.user));
-            this.authenticated = true;
-            callback(null, true);
-          };
-          const reject = (err) => {
-            if (returned) {
-              return;
-            }
-            returned = true;
-            callback(this._formatError(err, "EAUTH", lastResponse, "AUTH " + this._authMethod));
-          };
-          const sendCommand = (cmd, done) => {
-            let promise2;
-            if (!done) {
-              promise2 = new Promise((resolve6, reject2) => {
-                done = callbackPromise(resolve6, reject2);
-              });
-            }
-            this._responseActions.push((str2) => {
-              lastResponse = str2;
-              let codes = str2.match(/^(\d+)(?:\s(\d+\.\d+\.\d+))?\s/);
-              let data = {
-                command: cmd,
-                response: str2
-              };
-              if (codes) {
-                data.status = Number(codes[1]) || 0;
-                if (codes[2]) {
-                  data.code = codes[2];
-                }
-                data.text = str2.substr(codes[0].length);
-              } else {
-                data.text = str2;
-                data.status = 0;
-              }
-              done(null, data);
-            });
-            setImmediate(() => this._sendCommand(cmd, maskAuthCommand(cmd)));
-            return promise2;
-          };
-          const handlerResponse = handler({
-            auth: this._auth,
-            method: this._authMethod,
-            extensions: [].concat(this._supportedExtensions),
-            authMethods: [].concat(this._supportedAuth),
-            maxAllowedSize: this._maxAllowedSize || false,
-            sendCommand,
-            resolve: resolve5,
-            reject
-          });
-          if (handlerResponse && typeof handlerResponse.catch === "function") {
-            handlerResponse.then(resolve5).catch(reject);
-          }
-          return;
-        }
-        switch (this._authMethod) {
-          case "XOAUTH2":
-            this._handleXOauth2Token(false, callback);
-            return;
-          case "LOGIN":
-            this._responseActions.push((str2) => {
-              this._actionAUTH_LOGIN_USER(str2, callback);
-            });
-            this._sendCommand("AUTH LOGIN");
-            return;
-          case "PLAIN":
-            this._responseActions.push((str2) => {
-              this._actionAUTHComplete(str2, callback);
-            });
-            this._sendCommand(
-              "AUTH PLAIN " + Buffer.from(
-                //this._auth.user+'\u0000'+
-                "\0" + // skip authorization identity as it causes problems with some servers
-                this._auth.credentials.user + "\0" + this._auth.credentials.pass,
-                "utf-8"
-              ).toString("base64"),
-              // log entry without passwords
-              "AUTH PLAIN " + Buffer.from(
-                //this._auth.user+'\u0000'+
-                "\0" + // skip authorization identity as it causes problems with some servers
-                this._auth.credentials.user + "\0/* secret */",
-                "utf-8"
-              ).toString("base64")
-            );
-            return;
-          case "CRAM-MD5":
-            this._responseActions.push((str2) => {
-              this._actionAUTH_CRAM_MD5(str2, callback);
-            });
-            this._sendCommand("AUTH CRAM-MD5");
-            return;
-        }
-        return callback(this._formatError('Unknown authentication method "' + this._authMethod + '"', "EAUTH", false, "API"));
-      }
-      /**
-       * Sends a message
-       *
-       * @param envelope Envelope object, {from: addr, to: [addr]}
-       * @param message String, Buffer or a Stream
-       * @param done Callback to return once sending is completed
-       */
-      send(envelope, message, done) {
-        let returned = false;
-        const callback = (err, info) => {
-          if (returned) {
-            return;
-          }
-          returned = true;
-          if (this._pendingSend && this._pendingSend.callback === callback) {
-            this._pendingSend = false;
-          }
-          done(err, info);
-        };
-        if (!message) {
-          return callback(this._formatError("Empty message", "EMESSAGE", false, "API"));
-        }
-        const isDestroyedMessage = this._isDestroyedMessage("send message");
-        if (isDestroyedMessage) {
-          return callback(this._formatError(isDestroyedMessage, "ECONNECTION", false, "API"));
-        }
-        if (this._maxAllowedSize && envelope.size > this._maxAllowedSize) {
-          setImmediate(() => {
-            callback(this._formatError("Message size larger than allowed " + this._maxAllowedSize, "EMESSAGE", false, "MAIL FROM"));
-          });
-          return;
-        }
-        const pendingSend = {
-          callback,
-          stream: false,
-          onStreamError: (err) => callback(this._formatError(err, "ESTREAM", false, "API"))
-        };
-        if (typeof message.on === "function") {
-          pendingSend.stream = message;
-          pendingSend.stream.on("error", pendingSend.onStreamError);
-        }
-        this._pendingSend = pendingSend;
-        const startTime = Date.now();
-        this._setEnvelope(envelope, (err, info) => {
-          if (err) {
-            if (typeof message.destroy === "function") {
-              message.destroy();
-            }
-            return callback(err);
-          }
-          const envelopeTime = Date.now();
-          const stream = this._createSendStream((err2, str2) => {
-            if (err2) {
-              return callback(err2);
-            }
-            const result = info;
-            result.envelopeTime = envelopeTime - startTime;
-            result.messageTime = Date.now() - envelopeTime;
-            result.messageSize = stream.outByteCount;
-            result.response = str2;
-            return callback(null, result);
-          });
-          if (typeof message.pipe === "function") {
-            message.pipe(stream);
-          } else {
-            stream.write(message);
-            stream.end();
-          }
-        });
-      }
-      /**
-       * Resets connection state
-       *
-       * @param callback Callback to return once connection is reset
-       */
-      reset(callback) {
-        const isDestroyedMessage = this._isDestroyedMessage("reset");
-        if (isDestroyedMessage) {
-          return callback(this._formatError(isDestroyedMessage, "ECONNECTION", false, "API"));
-        }
-        this._sendCommand("RSET");
-        this._responseActions.push((str2) => {
-          if (str2.charAt(0) !== "2") {
-            return callback(this._formatError("Could not reset session state. response=" + str2, "EPROTOCOL", str2, "RSET"));
-          }
-          this._envelope = false;
-          return callback(null, true);
-        });
-      }
-      /**
-       * Connection listener that is run when the connection to
-       * the server is opened
-       *
-       * @event
-       * @internal
-       */
-      _onConnect() {
-        const socket = this._socket;
-        this._clearPhase();
-        this.logger.info({
-          tnx: "network",
-          localAddress: socket.localAddress,
-          localPort: socket.localPort,
-          remoteAddress: socket.remoteAddress,
-          remotePort: socket.remotePort
-        }, "%s established to %s:%s", this.secure ? "Secure connection" : "Connection", socket.remoteAddress, socket.remotePort);
-        if (this._destroyed) {
-          this.close();
-          return;
-        }
-        this.stage = "connected";
-        socket.removeListener("data", this._onSocketData);
-        socket.removeListener("timeout", this._onSocketTimeout);
-        socket.removeListener("close", this._onSocketClose);
-        socket.removeListener("end", this._onSocketEnd);
-        socket.removeListener("error", this._onConnectionSocketError);
-        socket.removeListener("error", this._onSocketError);
-        socket.on("error", this._onSocketError);
-        socket.on("data", this._onSocketData);
-        socket.once("close", this._onSocketClose);
-        socket.once("end", this._onSocketEnd);
-        socket.setTimeout(this.options.socketTimeout || SOCKET_TIMEOUT);
-        socket.on("timeout", this._onSocketTimeout);
-        if (typeof socket.setKeepAlive === "function") {
-          socket.setKeepAlive(true, KEEPALIVE_DELAY);
-        }
-        if (typeof socket.setNoDelay === "function") {
-          socket.setNoDelay(true);
-        }
-        this._startPhase(this._remainingSetupTime(), timeoutError("Greeting never received", "GREETING_TIMEOUT"));
-        this._responseActions.push(this._actionGreeting);
-        socket.resume();
-      }
-      /**
-       * Ends the session after a 421 reply. The replies queued for commands sent along with the
-       * answered one are not going to come, so the message in flight is failed here
-       *
-       * @param str The 421 reply
-       * @internal
-       */
-      _onServerClosing(str2) {
-        if (this._destroyed) {
-          return;
-        }
-        const pendingSend = this._pendingSend;
-        const envelope = this._envelope;
-        this._responseActions = [];
-        this.close();
-        if (pendingSend) {
-          pendingSend.callback(envelope && envelope.mailError || this._formatError("Server closed the connection", "ECONNECTION", str2, "CONN"));
-        }
-      }
-      /**
-       * 'data' listener for data coming from the server
-       *
-       * @event
-       * @param chunk Data chunk coming from the server
-       * @internal
-       */
-      _onData(chunk) {
-        if (this._destroyed || !chunk || !chunk.length) {
-          return;
-        }
-        const maxResponseSize = this.options.maxResponseSize || MAX_RESPONSE_SIZE;
-        const data = chunk.toString("binary");
-        if (!data.includes("\n")) {
-          this._remainder += data;
-          if (this._remainder.length > maxResponseSize) {
-            return this._onResponseTooLarge();
-          }
-          return;
-        }
-        const lines = (this._remainder + data).split(/\r?\n/);
-        this._remainder = lines.pop();
-        for (let i = 0, len = lines.length; i < len; i++) {
-          if (this._responsePartial) {
-            this._responseQueue[this._responseQueue.length - 1] += "\n" + lines[i];
-          } else {
-            this._responseQueue.push(lines[i]);
-          }
-          this._responsePartial = isPartialLine(lines[i]);
-          if (this._responsePartial && this._responseQueue[this._responseQueue.length - 1].length > maxResponseSize) {
-            return this._onResponseTooLarge();
-          }
-        }
-        if (this._remainder.length > maxResponseSize) {
-          return this._onResponseTooLarge();
-        }
-        if (this._responsePartial) {
-          return;
-        }
-        this._processResponse();
-      }
-      /**
-       * Drops a connection whose peer keeps extending a reply it never completes, releasing
-       * whatever was buffered for that reply
-       * @internal
-       */
-      _onResponseTooLarge() {
-        this._remainder = "";
-        this._responseQueue = [];
-        this._responsePartial = false;
-        this._onError(new Error("Server response exceeds maximum allowed size"), "EPROTOCOL", false, "CONN");
-      }
-      /**
-       * 'error' listener for the socket
-       *
-       * @event
-       * @param err Error object
-       * @param type Error name
-       * @param data Server response that triggered the error, false if there is none
-       * @param command SMTP command that was in flight
-       * @internal
-       */
-      _onError(err, type, data, command) {
-        this._clearPhase();
-        if (this._destroyed) {
-          return;
-        }
-        err = this._formatError(err, type, data, command);
-        if (isTransientError(err)) {
-          this.logger.warn({ tnx: "smtp", err }, "%s", err.message);
-        } else {
-          this.logger.error({ tnx: "smtp", err }, "%s", err.message);
-        }
-        const pendingSend = this._pendingSend;
-        this.emit("error", err);
-        this.close();
-        if (pendingSend) {
-          pendingSend.callback(err);
-        }
-      }
-      /** @internal */
-      _formatError(message, type, response, command) {
-        let err;
-        if (/Error\]$/i.test(Object.prototype.toString.call(message))) {
-          err = message;
-        } else {
-          err = new Error(message);
-        }
-        if (type && type !== "Error" && err.code !== ERR_ACCESS_DENIED) {
-          if (err.code && err.code !== type && !err.originalCode) {
-            err.originalCode = err.code;
-          }
-          err.code = type;
-        }
-        if (response) {
-          err.response = response;
-          err.message += ": " + response;
-        }
-        const responseCode = typeof response === "string" && Number((response.match(/^\d+/) || [])[0]) || false;
-        if (responseCode) {
-          err.responseCode = responseCode;
-        }
-        if (command) {
-          err.command = command;
-        }
-        return err;
-      }
-      /**
-       * 'close' listener for the socket
-       *
-       * @event
-       * @internal
-       */
-      _onClose() {
-        let serverResponse = false;
-        if (this._remainder && this._remainder.trim()) {
-          this.lastServerResponse = serverResponse = decodeServerResponse(this._remainder.trim());
-          if (this.options.debug || this.options.transactionLog) {
-            this.logger.debug({
-              tnx: "server"
-            }, serverResponse);
-          }
-        }
-        this.logger.info({
-          tnx: "network"
-        }, "Connection closed");
-        const failureResponse = typeof serverResponse === "string" && /^[45]\d{2}[ -]/.test(serverResponse) ? serverResponse : false;
-        if (this.upgrading && !this._destroyed) {
-          return this._onError(new Error("Connection closed unexpectedly"), "ETLS", failureResponse, "CONN");
-        }
-        if (!failureResponse && this._responseActions[0] === this._actionGreeting && this._connectCallback && !this._destroyed) {
-          const connectCallback = this._connectCallback;
-          this._connectCallback = false;
-          const err = this._formatError(new Error("Connection closed unexpectedly"), "ECONNECTION", false, "CONN");
-          this.logger.warn({ tnx: "network" }, err.message);
-          connectCallback(err);
-          this.close();
-          return;
-        }
-        if (!failureResponse && this.stage === "connected" && !this._responseActions.length && !this._pendingSend && !this._destroyed && !this._closing) {
-          this.logger.info({
-            tnx: "network"
-          }, "Server closed the idle connection");
-          return this._destroy();
-        }
-        if (failureResponse || this._responseActions[0] !== this.close && !this._destroyed) {
-          return this._onError(new Error("Connection closed unexpectedly"), "ECONNECTION", failureResponse, "CONN");
-        }
-        this._destroy();
-      }
-      /**
-       * 'end' listener for the socket
-       *
-       * @event
-       * @internal
-       */
-      _onEnd() {
-        if (this._socket && !this._socket.destroyed) {
-          this._socket.end();
-        }
-      }
-      /**
-       * 'timeout' listener for the socket
-       *
-       * @event
-       * @internal
-       */
-      _onTimeout() {
-        return this._onError(timeoutError("Timeout", "SOCKET_TIMEOUT"), "ETIMEDOUT", false, "CONN");
-      }
-      /**
-       * Destroys the client, emits 'end'
-       * @internal
-       */
-      _destroy() {
-        if (this._destroyed) {
-          return;
-        }
-        this._destroyed = true;
-        this.destroyed = true;
-        this._clearPhase();
-        this.emit("end");
-      }
-      /**
-       * Upgrades the connection to TLS
-       *
-       * @param callback Callback function to run when the connection
-       *        has been secured
-       * @internal
-       */
-      _upgradeConnection(callback) {
-        const discarded = this._remainder.length + this._responseQueue.reduce((total, response) => total + response.length, 0);
-        if (discarded) {
-          this.logger.warn({
-            tnx: "smtp",
-            discarded
-          }, "Discarded %s bytes received in plaintext after the STARTTLS response", discarded);
-        }
-        this._plaintextEhlo = false;
-        this._remainder = "";
-        this._responseQueue = [];
-        this._responsePartial = false;
-        const socketPlain = this._socket;
-        socketPlain.removeListener("data", this._onSocketData);
-        socketPlain.removeListener("timeout", this._onSocketTimeout);
-        socketPlain.setTimeout(0);
-        const opts = Object.assign({
-          socket: socketPlain,
-          host: this.host
-        }, this.options.tls || {});
-        if (this.servername && !opts.servername) {
-          opts.servername = this.servername;
-        }
-        const removePlainSocketListeners = () => {
-          socketPlain.removeListener("close", this._onSocketClose);
-          socketPlain.removeListener("end", this._onSocketEnd);
-          socketPlain.removeListener("error", this._onSocketError);
-          socketPlain.removeListener("error", this._onConnectionSocketError);
-        };
-        this.upgrading = true;
-        this._startPhase(this._remainingSetupTime(), timeoutError("TLS handshake timed out", "UPGRADE_TIMEOUT"));
-        try {
-          this._socket = tls2.connect(opts, () => {
-            this._clearPhase();
-            this.secure = true;
-            this.upgrading = false;
-            this._socket.on("data", this._onSocketData);
-            removePlainSocketListeners();
-            return callback(null, true);
-          });
-        } catch (err) {
-          this._clearPhase();
-          removePlainSocketListeners();
-          return callback(err);
-        }
-        this._socket.on("error", this._onSocketError);
-        this._socket.once("close", this._onSocketClose);
-        this._socket.once("end", this._onSocketEnd);
-        this._socket.setTimeout(this.options.socketTimeout || SOCKET_TIMEOUT);
-        this._socket.on("timeout", this._onSocketTimeout);
-        socketPlain.resume();
-      }
-      /**
-       * Processes queued responses from the server
-       * @internal
-       */
-      _processResponse() {
-        if (!this._responseQueue.length) {
-          return false;
-        }
-        const raw = (this._responseQueue.shift() || "").toString();
-        if (!raw.trim()) {
-          setImmediate(() => this._processResponse());
-          return;
-        }
-        if (isPartialResponse(raw)) {
-          this._responseQueue.unshift(raw);
-          return;
-        }
-        const str2 = this.lastServerResponse = decodeServerResponse(raw);
-        if (this.options.debug || this.options.transactionLog) {
-          this.logger.debug({
-            tnx: "server"
-          }, str2.replace(/\r?\n$/, ""));
-        }
-        const action = this._responseActions.shift();
-        const closing = /^421[ -]/.test(str2);
-        if (typeof action === "function") {
-          action.call(this, str2);
-          if (closing) {
-            return this._onServerClosing(str2);
-          }
-          setImmediate(() => this._processResponse());
-        } else if (closing && !this._pendingSend && this.stage === "connected") {
-          this.logger.info({
-            tnx: "smtp"
-          }, "Server closed the idle connection: %s", str2);
-          this.close();
-        } else {
-          return this._onError(new Error("Unexpected Response"), "EPROTOCOL", str2, "CONN");
-        }
-      }
-      /**
-       * Send a command to the server, append \r\n
-       *
-       * @param str String to be sent to the server
-       * @param logStr Optional string to be used for logging instead of the actual string
-       * @internal
-       */
-      _sendCommand(str2, logStr) {
-        if (this._destroyed) {
-          return;
-        }
-        const socket = this._socket;
-        if (socket.destroyed) {
-          return this.close();
-        }
-        if (this.options.debug || this.options.transactionLog) {
-          this.logger.debug({
-            tnx: "client"
-          }, (logStr || str2 || "").toString().replace(/\r?\n$/, ""));
-        }
-        socket.write(Buffer.from(str2 + "\r\n", "utf-8"));
-      }
-      /**
-       * Initiates a new message by submitting envelope data, starting with
-       * MAIL FROM: command
-       *
-       * @param envelope Envelope object in the form of
-       *        {from:'...', to:['...']}
-       *        or
-       *        {from:{address:'...',name:'...'}, to:[address:'...',name:'...']}
-       * @param callback Callback to run once the envelope is processed
-       * @internal
-       */
-      _setEnvelope(envelope, callback) {
-        const args = [];
-        let useSmtpUtf8 = false;
-        this._envelope = envelope || {};
-        this._envelope.from = (this._envelope.from && this._envelope.from.address || this._envelope.from || "").toString().trim();
-        this._envelope.to = [].concat(this._envelope.to || []).map((to) => (to && to.address || to || "").toString().trim());
-        if (!this._envelope.to.length) {
-          return callback(this._formatError("No recipients defined", "EENVELOPE", false, "API"));
-        }
-        if (this._envelope.from && /[\r\n<>]/.test(this._envelope.from)) {
-          return callback(this._formatError("Invalid sender " + JSON.stringify(this._envelope.from), "EENVELOPE", false, "API"));
-        }
-        if (/[\x80-\uFFFF]/.test(this._envelope.from)) {
-          useSmtpUtf8 = true;
-        }
-        for (let i = 0, len = this._envelope.to.length; i < len; i++) {
-          if (!this._envelope.to[i] || /[\r\n<>]/.test(this._envelope.to[i])) {
-            return callback(this._formatError("Invalid recipient " + JSON.stringify(this._envelope.to[i]), "EENVELOPE", false, "API"));
-          }
-          if (/[\x80-\uFFFF]/.test(this._envelope.to[i])) {
-            useSmtpUtf8 = true;
-          }
-        }
-        this._envelope.rcptQueue = [].concat(this._envelope.to || []);
-        this._envelope.rejected = [];
-        this._envelope.rejectedErrors = [];
-        this._envelope.accepted = [];
-        if (this._envelope.dsn) {
-          try {
-            this._envelope.dsn = this._setDsnEnvelope(this._envelope.dsn);
-          } catch (err) {
-            return callback(this._formatError("Invalid DSN " + err.message, "EENVELOPE", false, "API"));
-          }
-        }
-        if (this._envelope.requireTLSExtensionEnabled) {
-          if (!this.secure) {
-            return callback(this._formatError("REQUIRETLS can only be used over TLS connections (RFC 8689)", "EREQUIRETLS", false, "MAIL FROM"));
-          }
-          if (!this._supportedExtensions.includes("REQUIRETLS")) {
-            return callback(this._formatError("Server does not support REQUIRETLS extension (RFC 8689)", "EREQUIRETLS", false, "MAIL FROM"));
-          }
-        }
-        this._envelope.pipelined = this._supportedExtensions.includes("PIPELINING");
-        this._responseActions.push((str2) => {
-          this._actionMAIL(str2, callback);
-        });
-        if (useSmtpUtf8 && this._supportedExtensions.includes("SMTPUTF8")) {
-          args.push("SMTPUTF8");
-          this._usingSmtpUtf8 = true;
-        }
-        if (this._envelope.use8BitMime && this._supportedExtensions.includes("8BITMIME")) {
-          args.push("BODY=8BITMIME");
-          this._using8BitMime = true;
-        }
-        if (this._envelope.size && this._supportedExtensions.includes("SIZE")) {
-          const sizeValue = Number(this._envelope.size) || 0;
-          if (sizeValue > 0) {
-            args.push("SIZE=" + sizeValue);
-          }
-        }
-        if (this._envelope.dsn && this._supportedExtensions.includes("DSN")) {
-          if (this._envelope.dsn.ret) {
-            args.push("RET=" + encodeXText(this._envelope.dsn.ret));
-          }
-          if (this._envelope.dsn.envid) {
-            args.push("ENVID=" + encodeXText(this._envelope.dsn.envid));
-          }
-        }
-        if (this._envelope.requireTLSExtensionEnabled) {
-          args.push("REQUIRETLS");
-        }
-        const mailFrom = "MAIL FROM:<" + this._envelope.from + ">" + (args.length ? " " + args.join(" ") : "");
-        this._recipientQueue = [];
-        if (!this._envelope.pipelined) {
-          this._sendCommand(mailFrom);
-          return;
-        }
-        const socket = this._socket;
-        socket.cork();
-        this._sendCommand(mailFrom);
-        while (this._envelope.rcptQueue.length) {
-          this._sendRcpt(this._envelope.rcptQueue.shift(), callback);
-        }
-        this._responseActions.push((str2) => {
-          this._actionDATA(str2, callback);
-        });
-        this._sendCommand("DATA");
-        socket.uncork();
-      }
-      /**
-       * Sends RCPT TO for a recipient and queues the handler for the reply
-       *
-       * @param recipient Recipient address
-       * @param callback Callback to run once the envelope is processed
-       * @internal
-       */
-      _sendRcpt(recipient, callback) {
-        this._recipientQueue.push(recipient);
-        this._responseActions.push((str2) => {
-          this._actionRCPT(str2, callback);
-        });
-        this._sendCommand("RCPT TO:<" + recipient + ">" + this._getDsnRcptToArgs());
-      }
-      /** @internal */
-      _setDsnEnvelope(params) {
-        let ret = (params.ret || params.return || "").toString().toUpperCase() || null;
-        if (ret) {
-          switch (ret) {
-            case "HDRS":
-            case "HEADERS":
-              ret = "HDRS";
-              break;
-            case "FULL":
-            case "BODY":
-              ret = "FULL";
-              break;
-          }
-        }
-        if (ret && !["FULL", "HDRS"].includes(ret)) {
-          throw new Error("ret: " + JSON.stringify(ret));
-        }
-        const envid = (params.envid || params.id || "").toString() || null;
-        let notify = params.notify || null;
-        if (notify) {
-          if (typeof notify === "string") {
-            notify = notify.split(",");
-          }
-          notify = notify.map((n) => n.trim().toUpperCase());
-          const validNotify = ["NEVER", "SUCCESS", "FAILURE", "DELAY"];
-          const invalidNotify = notify.filter((n) => !validNotify.includes(n));
-          if (invalidNotify.length || notify.length > 1 && notify.includes("NEVER")) {
-            throw new Error("notify: " + JSON.stringify(notify.join(",")));
-          }
-          notify = notify.join(",");
-        }
-        let orcpt = (params.recipient || params.orcpt || "").toString() || null;
-        if (orcpt && orcpt.indexOf(";") < 0) {
-          orcpt = "rfc822;" + orcpt;
-        }
-        return {
-          ret,
-          envid,
-          notify,
-          orcpt
-        };
-      }
-      /** @internal */
-      _getDsnRcptToArgs() {
-        const envelope = this._envelope;
-        const args = [];
-        if (envelope.dsn && this._supportedExtensions.includes("DSN")) {
-          if (envelope.dsn.notify) {
-            args.push("NOTIFY=" + encodeXText(envelope.dsn.notify));
-          }
-          if (envelope.dsn.orcpt) {
-            args.push("ORCPT=" + encodeXText(envelope.dsn.orcpt));
-          }
-        }
-        return args.length ? " " + args.join(" ") : "";
-      }
-      /** @internal */
-      _createSendStream(callback) {
-        const envelope = this._envelope;
-        const dataStream = new DataStream();
-        if (this.options.lmtp) {
-          envelope.accepted.forEach((recipient, i) => {
-            const final = i === envelope.accepted.length - 1;
-            this._responseActions.push((str2) => {
-              this._actionLMTPStream(recipient, final, str2, callback);
-            });
-          });
-        } else {
-          this._responseActions.push((str2) => {
-            this._actionSMTPStream(str2, callback);
-          });
-        }
-        this._currentDataStream = dataStream;
-        dataStream.pipe(this._socket, {
-          end: false
-        });
-        if (this.options.debug) {
-          const logStream = new PassThrough4();
-          logStream.on("readable", () => {
-            let chunk;
-            while (chunk = logStream.read()) {
-              this.logger.debug({
-                tnx: "message"
-              }, chunk.toString("binary").replace(/\r?\n$/, ""));
-            }
-          });
-          dataStream.pipe(logStream);
-        }
-        dataStream.once("end", () => {
-          if (this._currentDataStream === dataStream) {
-            this._currentDataStream = false;
-          }
-          this.logger.info({
-            tnx: "message",
-            inByteCount: dataStream.inByteCount,
-            outByteCount: dataStream.outByteCount
-          }, "<%s bytes encoded mime message (source size %s bytes)>", dataStream.outByteCount, dataStream.inByteCount);
-        });
-        return dataStream;
-      }
-      /** ACTIONS **/
-      /**
-       * Will be run after the connection is created and the server sends
-       * a greeting. If the incoming message starts with 220 initiate
-       * SMTP session by sending EHLO command
-       *
-       * @param str Message from the server
-       * @internal
-       */
-      _actionGreeting(str2) {
-        this._clearPhase();
-        if (str2.substr(0, 3) !== "220") {
-          this._onError(new Error("Invalid greeting. response=" + str2), "EPROTOCOL", str2, "CONN");
-          return;
-        }
-        if (this.options.lmtp) {
-          this._responseActions.push(this._actionLHLO);
-          this._sendCommand("LHLO " + this.name);
-        } else {
-          this._responseActions.push(this._actionEHLO);
-          this._sendCommand("EHLO " + this.name);
-        }
-      }
-      /**
-       * Handles server response for LHLO command. If it yielded in
-       * error, emit 'error', otherwise treat this as an EHLO response
-       *
-       * @param str Message from the server
-       * @internal
-       */
-      _actionLHLO(str2) {
-        if (str2.charAt(0) !== "2") {
-          this._onError(new Error("Invalid LHLO. response=" + str2), "EPROTOCOL", str2, "LHLO");
-          return;
-        }
-        this._actionEHLO(str2);
-      }
-      /**
-       * Handles server response for EHLO command. If it yielded in
-       * error, try HELO instead, otherwise initiate TLS negotiation
-       * if STARTTLS is supported by the server or move into the
-       * authentication phase.
-       *
-       * @param str Message from the server
-       * @internal
-       */
-      _actionEHLO(str2) {
-        if (str2.substr(0, 3) === "421") {
-          this._onError(new Error("Server terminates connection. response=" + str2), "ECONNECTION", str2, "EHLO");
-          return;
-        }
-        if (str2.charAt(0) !== "2") {
-          if (this.options.requireTLS) {
-            this._onError(new Error("EHLO failed but HELO does not support required STARTTLS. response=" + str2), "ECONNECTION", str2, "EHLO");
-            return;
-          }
-          this._responseActions.push(this._actionHELO);
-          this._sendCommand("HELO " + this.name);
-          return;
-        }
-        if (!this.secure && !this.options.ignoreTLS && (/[ -]STARTTLS\b/im.test(str2) || this.options.requireTLS)) {
-          this._plaintextEhlo = str2;
-          this._sendCommand("STARTTLS");
-          this._responseActions.push(this._actionSTARTTLS);
-          return;
-        }
-        this._parseEhloExtensions(str2);
-        this.emit("connect");
-      }
-      /**
-       * Reads the extensions and the authentication mechanisms out of an EHLO response
-       *
-       * @param str EHLO response from the server
-       * @internal
-       */
-      _parseEhloExtensions(str2) {
-        let match;
-        this._ehloLines = str2.split(/\r?\n/).map((line) => line.replace(/^\d+[ -]/, "").trim()).filter((line) => line).slice(1);
-        if (/[ -]SMTPUTF8\b/im.test(str2)) {
-          this._supportedExtensions.push("SMTPUTF8");
-        }
-        if (/[ -]DSN\b/im.test(str2)) {
-          this._supportedExtensions.push("DSN");
-        }
-        if (/[ -]8BITMIME\b/im.test(str2)) {
-          this._supportedExtensions.push("8BITMIME");
-        }
-        if (/[ -]REQUIRETLS\b/im.test(str2)) {
-          this._supportedExtensions.push("REQUIRETLS");
-        }
-        if (/[ -]PIPELINING\b/im.test(str2)) {
-          this._supportedExtensions.push("PIPELINING");
-        }
-        if (/[ -]AUTH\b/i.test(str2)) {
-          this.allowsAuth = true;
-        }
-        const authMechanisms = /* @__PURE__ */ new Set();
-        for (const line of this._ehloLines) {
-          const authMatch = /^AUTH[\s=](.*)/i.exec(line);
-          if (authMatch) {
-            for (const mechanism of authMatch[1].split(/[\s=]+/)) {
-              authMechanisms.add(mechanism.toUpperCase());
-            }
-          }
-        }
-        for (const mechanism of ["PLAIN", "LOGIN", "CRAM-MD5", "XOAUTH2"]) {
-          if (authMechanisms.has(mechanism)) {
-            this._supportedAuth.push(mechanism);
-          }
-        }
-        if (match = str2.match(/[ -]SIZE(?:[ \t]+(\d+))?/im)) {
-          this._supportedExtensions.push("SIZE");
-          this._maxAllowedSize = Number(match[1]) || 0;
-        }
-      }
-      /**
-       * Handles server response for HELO command. If it yielded in
-       * error, emit 'error', otherwise move into the authentication phase.
-       *
-       * @param str Message from the server
-       * @internal
-       */
-      _actionHELO(str2) {
-        if (str2.charAt(0) !== "2") {
-          this._onError(new Error("Invalid HELO. response=" + str2), "EPROTOCOL", str2, "HELO");
-          return;
-        }
-        this.allowsAuth = true;
-        this.emit("connect");
-      }
-      /**
-       * Handles server response for STARTTLS command. If there's an error
-       * try HELO instead, otherwise initiate TLS upgrade. If the upgrade
-       * succeedes restart the EHLO
-       *
-       * @param str Message from the server
-       * @internal
-       */
-      _actionSTARTTLS(str2) {
-        if (str2.charAt(0) !== "2") {
-          if (this.options.opportunisticTLS) {
-            this.logger.info({
-              tnx: "smtp"
-            }, "Failed STARTTLS upgrade, continuing unencrypted");
-            if (this._plaintextEhlo) {
-              this._parseEhloExtensions(this._plaintextEhlo);
-              this._plaintextEhlo = false;
-              this.allowsAuth = false;
-              this._supportedAuth = [];
-            }
-            this.emit("connect");
-            return;
-          }
-          this._onError(new Error("Error upgrading connection with STARTTLS"), "ETLS", str2, "STARTTLS");
-          return;
-        }
-        this._upgradeConnection((err, secured) => {
-          if (err) {
-            this._onError(new Error("Error initiating TLS - " + (err.message || err)), "ETLS", false, "STARTTLS");
-            return;
-          }
-          this.logger.info({
-            tnx: "smtp"
-          }, "Connection upgraded with STARTTLS");
-          if (secured) {
-            if (this.options.lmtp) {
-              this._responseActions.push(this._actionLHLO);
-              this._sendCommand("LHLO " + this.name);
-            } else {
-              this._responseActions.push(this._actionEHLO);
-              this._sendCommand("EHLO " + this.name);
-            }
-          } else {
-            this.emit("connect");
-          }
-        });
-      }
-      /**
-       * Handle the response for AUTH LOGIN command. We are expecting
-       * '334 VXNlcm5hbWU6' (base64 for 'Username:'). Data to be sent as
-       * response needs to be base64 encoded username. We do not need
-       * exact match but settle with 334 response in general as some
-       * hosts invalidly use a longer message than VXNlcm5hbWU6
-       *
-       * @param str Message from the server
-       * @param callback Callback to run once the authentication sequence completes
-       * @internal
-       */
-      _actionAUTH_LOGIN_USER(str2, callback) {
-        if (!/^334[ -]/.test(str2)) {
-          callback(this._formatError('Invalid login sequence while waiting for "334 VXNlcm5hbWU6"', "EAUTH", str2, "AUTH LOGIN"));
-          return;
-        }
-        this._responseActions.push((str3) => {
-          this._actionAUTH_LOGIN_PASS(str3, callback);
-        });
-        this._sendCommand(Buffer.from(this._auth.credentials.user + "", "utf-8").toString("base64"));
-      }
-      /**
-       * Handle the response for AUTH CRAM-MD5 command. We are expecting
-       * '334 <challenge string>'. Data to be sent as response needs to be
-       * base64 decoded challenge string, MD5 hashed using the password as
-       * a HMAC key, prefixed by the username and a space, and finally all
-       * base64 encoded again.
-       *
-       * @param str Message from the server
-       * @param callback Callback to run once the authentication sequence completes
-       * @internal
-       */
-      _actionAUTH_CRAM_MD5(str2, callback) {
-        const challengeMatch = str2.match(/^334\s+(.+)$/);
-        if (!challengeMatch) {
-          return callback(this._formatError("Invalid login sequence while waiting for server challenge string", "EAUTH", str2, "AUTH CRAM-MD5"));
-        }
-        const base64decoded = Buffer.from(challengeMatch[1], "base64").toString("ascii");
-        const hmacMD5 = crypto6.createHmac("md5", this._auth.credentials.pass);
-        hmacMD5.update(base64decoded);
-        const prepended = this._auth.credentials.user + " " + hmacMD5.digest("hex");
-        this._responseActions.push((str3) => {
-          this._actionAUTH_CRAM_MD5_PASS(str3, callback);
-        });
-        this._sendCommand(
-          Buffer.from(prepended).toString("base64"),
-          // hidden hash for logs
-          Buffer.from(this._auth.credentials.user + " /* secret */").toString("base64")
-        );
-      }
-      /**
-       * Handles the response to CRAM-MD5 authentication, if there's no error,
-       * the user can be considered logged in. Start waiting for a message to send
-       *
-       * @param str Message from the server
-       * @param callback Callback to run once the authentication sequence completes
-       * @internal
-       */
-      _actionAUTH_CRAM_MD5_PASS(str2, callback) {
-        if (!str2.match(/^235\s+/)) {
-          return callback(this._formatError('Invalid login sequence while waiting for "235"', "EAUTH", str2, "AUTH CRAM-MD5"));
-        }
-        this.logger.info({
-          tnx: "smtp",
-          username: this._auth.user,
-          action: "authenticated",
-          method: this._authMethod
-        }, "User %s authenticated", JSON.stringify(this._auth.user));
-        this.authenticated = true;
-        callback(null, true);
-      }
-      /**
-       * Handle the response for AUTH LOGIN command. We are expecting
-       * '334 UGFzc3dvcmQ6' (base64 for 'Password:'). Data to be sent as
-       * response needs to be base64 encoded password.
-       *
-       * @param str Message from the server
-       * @param callback Callback to run once the authentication sequence completes
-       * @internal
-       */
-      _actionAUTH_LOGIN_PASS(str2, callback) {
-        if (!/^334[ -]/.test(str2)) {
-          return callback(this._formatError('Invalid login sequence while waiting for "334 UGFzc3dvcmQ6"', "EAUTH", str2, "AUTH LOGIN"));
-        }
-        this._responseActions.push((str3) => {
-          this._actionAUTHComplete(str3, callback);
-        });
-        this._sendCommand(
-          Buffer.from((this._auth.credentials.pass || "").toString(), "utf-8").toString("base64"),
-          // Hidden pass for logs
-          Buffer.from("/* secret */", "utf-8").toString("base64")
-        );
-      }
-      /**
-       * Handles the response for authentication, if there's no error,
-       * the user can be considered logged in. Start waiting for a message to send
-       *
-       * @param str Message from the server
-       * @param isRetry True if this is a retry after a failed login, or the callback itself
-       * @param [callback] Callback to run once the authentication sequence completes
-       * @internal
-       */
-      _actionAUTHComplete(str2, isRetry, callback) {
-        if (!callback && typeof isRetry === "function") {
-          callback = isRetry;
-          isRetry = false;
-        }
-        if (str2.substr(0, 3) === "334") {
-          this._responseActions.push((str3) => {
-            if (isRetry || this._authMethod !== "XOAUTH2") {
-              this._actionAUTHComplete(str3, true, callback);
-            } else {
-              setImmediate(() => this._handleXOauth2Token(true, callback));
-            }
-          });
-          this._sendCommand("");
-          return;
-        }
-        if (str2.charAt(0) !== "2") {
-          this.logger.info({
-            tnx: "smtp",
-            username: this._auth.user,
-            action: "authfail",
-            method: this._authMethod
-          }, "User %s failed to authenticate", JSON.stringify(this._auth.user));
-          return callback(this._formatError("Invalid login", "EAUTH", str2, "AUTH " + this._authMethod));
-        }
-        this.logger.info({
-          tnx: "smtp",
-          username: this._auth.user,
-          action: "authenticated",
-          method: this._authMethod
-        }, "User %s authenticated", JSON.stringify(this._auth.user));
-        this.authenticated = true;
-        callback(null, true);
-      }
-      /**
-       * Handle response for a MAIL FROM: command
-       *
-       * @param str Message from the server
-       * @param callback Callback to run once the envelope is processed
-       * @internal
-       */
-      _actionMAIL(str2, callback) {
-        const envelope = this._envelope;
-        if (Number(str2.charAt(0)) !== 2) {
-          const message = this._usingSmtpUtf8 && /^550 /.test(str2) && /[\x80-\uFFFF]/.test(envelope.from) ? "Internationalized mailbox name not allowed" : "Mail command failed";
-          envelope.mailError = this._formatError(message, "EENVELOPE", str2, "MAIL FROM");
-        }
-        this._advanceEnvelope(str2, callback);
-      }
-      /**
-       * Handle response for a RCPT TO: command
-       *
-       * @param str Message from the server
-       * @param callback Callback to run once the envelope is processed
-       * @internal
-       */
-      _actionRCPT(str2, callback) {
-        const envelope = this._envelope;
-        let err;
-        const curRecipient = this._recipientQueue.shift();
-        if (Number(str2.charAt(0)) !== 2) {
-          const message = this._usingSmtpUtf8 && /^553 /.test(str2) && /[\x80-\uFFFF]/.test(curRecipient) ? "Internationalized mailbox name not allowed" : "Recipient command failed";
-          envelope.rejected.push(curRecipient);
-          err = this._formatError(message, "EENVELOPE", str2, "RCPT TO");
-          err.recipient = curRecipient;
-          envelope.rejectedErrors.push(err);
-        } else {
-          envelope.accepted.push(curRecipient);
-        }
-        this._advanceEnvelope(str2, callback);
-      }
-      /**
-       * Moves the envelope on after a reply to MAIL FROM or RCPT TO. A pipelined envelope sent every
-       * command at once and is decided by the reply to DATA. Otherwise the commands go one at a
-       * time: the next recipient, or once every reply is in, DATA or the error that ends the message
-       *
-       * @param str The reply that was handled
-       * @param callback Callback to run once the envelope is processed
-       * @internal
-       */
-      _advanceEnvelope(str2, callback) {
-        const envelope = this._envelope;
-        if (envelope.pipelined) {
-          return;
-        }
-        if (envelope.mailError) {
-          return callback(envelope.mailError);
-        }
-        if (envelope.rcptQueue.length) {
-          return this._sendRcpt(envelope.rcptQueue.shift(), callback);
-        }
-        if (this._recipientQueue.length) {
-          return;
-        }
-        const err = this._envelopeError(str2);
-        if (err) {
-          return callback(err);
-        }
-        this._responseActions.push((str3) => {
-          this._actionDATA(str3, callback);
-        });
-        this._sendCommand("DATA");
-      }
-      /**
-       * Decides how the envelope went once every reply to MAIL FROM and RCPT TO is in. Called after
-       * the last RCPT TO reply, or with PIPELINING on the reply to the DATA command sent along
-       *
-       * @param str The reply being handled
-       * @returns The error to fail the message with, or null when DATA can go ahead
-       * @internal
-       */
-      _envelopeError(str2) {
-        const envelope = this._envelope;
-        if (envelope.mailError) {
-          return envelope.mailError;
-        }
-        if (envelope.accepted.length) {
-          return null;
-        }
-        const deferred = envelope.rejectedErrors.find((rejectedErr) => rejectedErr.responseCode && rejectedErr.responseCode < 500);
-        const lastRejected = envelope.rejectedErrors[envelope.rejectedErrors.length - 1];
-        const reply = deferred?.response ?? (envelope.pipelined && lastRejected ? lastRejected.response : str2);
-        const err = this._formatError("Can't send mail - all recipients were rejected", "EENVELOPE", reply, "RCPT TO");
-        err.rejected = envelope.rejected;
-        err.rejectedErrors = envelope.rejectedErrors;
-        return err;
-      }
-      /**
-       * Handle response for a DATA command
-       *
-       * @param str Message from the server
-       * @param callback Callback to run once the envelope is processed
-       * @internal
-       */
-      _actionDATA(str2, callback) {
-        const envelope = this._envelope;
-        if (envelope.pipelined) {
-          const err = this._envelopeError(str2);
-          if (err) {
-            if (/^3/.test(str2)) {
-              if (envelope.mailError) {
-                this.close();
-                return callback(err);
-              }
-              this._responseActions.push(() => callback(err));
-              this._sendCommand(".");
-              return;
-            }
-            return callback(err);
-          }
-        }
-        if (!/^[23]/.test(str2)) {
-          return callback(this._formatError("Data command failed", "EENVELOPE", str2, "DATA"));
-        }
-        const response = {
-          accepted: envelope.accepted,
-          rejected: envelope.rejected
-        };
-        if (this._ehloLines && this._ehloLines.length) {
-          response.ehlo = this._ehloLines;
-        }
-        if (envelope.rejectedErrors.length) {
-          response.rejectedErrors = envelope.rejectedErrors;
-        }
-        callback(null, response);
-      }
-      /**
-       * Handle response for a DATA stream when using SMTP
-       * We expect a single response that defines if the sending succeeded or failed
-       *
-       * @param str Message from the server
-       * @param callback Callback to run with the final send result
-       * @internal
-       */
-      _actionSMTPStream(str2, callback) {
-        if (Number(str2.charAt(0)) !== 2) {
-          return callback(this._formatError("Message failed", "EMESSAGE", str2, "DATA"));
-        }
-        return callback(null, str2);
-      }
-      /**
-       * Handle response for a DATA stream
-       * We expect a separate response for every recipient. All recipients can either
-       * succeed or fail separately
-       *
-       * @param recipient The recipient this response applies to
-       * @param final Is this the final recipient?
-       * @param str Message from the server
-       * @param callback Callback to run with the final send result
-       * @internal
-       */
-      _actionLMTPStream(recipient, final, str2, callback) {
-        const envelope = this._envelope;
-        let err;
-        if (Number(str2.charAt(0)) !== 2) {
-          err = this._formatError("Message failed for recipient " + recipient, "EMESSAGE", str2, "DATA");
-          err.recipient = recipient;
-          envelope.rejected.push(recipient);
-          envelope.rejectedErrors.push(err);
-          for (let i = 0, len = envelope.accepted.length; i < len; i++) {
-            if (envelope.accepted[i] === recipient) {
-              envelope.accepted.splice(i, 1);
-            }
-          }
-        }
-        if (final) {
-          return callback(null, str2);
-        }
-      }
-      /** @internal */
-      _handleXOauth2Token(isRetry, callback) {
-        this._auth.oauth2.getToken(isRetry, (err, accessToken) => {
-          if (err) {
-            this.logger.info({
-              tnx: "smtp",
-              username: this._auth.user,
-              action: "authfail",
-              method: this._authMethod
-            }, "User %s failed to authenticate", JSON.stringify(this._auth.user));
-            return callback(this._formatError(err, "EAUTH", false, "AUTH XOAUTH2"));
-          }
-          this._responseActions.push((str2) => {
-            this._actionAUTHComplete(str2, isRetry, callback);
-          });
-          this._sendCommand(
-            "AUTH XOAUTH2 " + this._auth.oauth2.buildXOAuth2Token(accessToken),
-            //  Hidden for logs
-            "AUTH XOAUTH2 " + this._auth.oauth2.buildXOAuth2Token("/* secret */")
-          );
-        });
-      }
-      /**
-       *
-       * @param command
-       * @internal
-       */
-      _isDestroyedMessage(command) {
-        if (this._destroyed) {
-          return "Cannot " + command + " - smtp connection is already destroyed.";
-        }
-        if (this._socket) {
-          if (this._socket.destroyed) {
-            return "Cannot " + command + " - smtp connection socket is already destroyed.";
-          }
-          if (!this._socket.writable) {
-            return "Cannot " + command + " - smtp connection socket is already half-closed.";
-          }
-        }
-      }
-      /** @internal */
-      _getHostname() {
-        let defaultHostname;
-        try {
-          defaultHostname = os2.hostname() || "";
-        } catch (_err) {
-          defaultHostname = "localhost";
-        }
-        if (!defaultHostname || defaultHostname.indexOf(".") < 0) {
-          defaultHostname = "[127.0.0.1]";
-        }
-        if (defaultHostname.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/)) {
-          defaultHostname = "[" + defaultHostname + "]";
-        }
-        return defaultHostname;
-      }
-    };
-    smtp_connection_default = SMTPConnection;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/xoauth2/index.js
-import { Stream } from "node:stream";
-import crypto7 from "node:crypto";
-var XOAuth2, xoauth2_default;
 var init_xoauth2 = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/xoauth2/index.js"() {
     init_fetch();
     init_shared();
     init_errors();
-    XOAuth2 = class extends Stream {
-      constructor(options, logger) {
-        super();
-        this.options = options || {};
-        this.configError = false;
-        if (options && options.serviceClient) {
-          if (!options.privateKey || !options.user) {
-            const err = new Error('Options "privateKey" and "user" are required for service account!');
-            err.code = EOAUTH2;
-            this.configError = err;
-          }
-          const serviceRequestTimeout = Math.min(Math.max(Number(this.options.serviceRequestTimeout) || 0, 0), 3600);
-          this.options.serviceRequestTimeout = serviceRequestTimeout || 5 * 60;
-        }
-        this.logger = getLogger({
-          logger
-        }, {
-          component: this.options.component || "OAuth2"
-        });
-        this.provisionCallback = typeof this.options.provisionCallback === "function" ? this.options.provisionCallback : false;
-        this.options.accessUrl = this.options.accessUrl || "https://accounts.google.com/o/oauth2/token";
-        this.options.customHeaders = this.options.customHeaders || {};
-        this.options.customParams = this.options.customParams || {};
-        this.accessToken = this.options.accessToken || false;
-        if (this.options.expires && Number(this.options.expires)) {
-          this.expires = this.options.expires;
-        } else {
-          const timeout = Math.max(Number(this.options.timeout) || 0, 0);
-          this.expires = timeout && Date.now() + timeout * 1e3 || 0;
-        }
-        this.renewing = false;
-        this.renewalQueue = [];
-      }
-      /**
-       * Returns or generates (if previous has expired) a XOAuth2 token
-       *
-       * @param renew If false then use cached access token (if available)
-       * @param callback Callback function with error object and token string
-       */
-      getToken(renew, callback) {
-        const done = callback;
-        if (this.configError) {
-          return done(this.configError);
-        }
-        if (!renew && this.accessToken && (!this.expires || this.expires > Date.now())) {
-          this.logger.debug({
-            tnx: "OAUTH2",
-            user: this.options.user,
-            action: "reuse"
-          }, "Reusing existing access token for %s", this.options.user);
-          return callback(null, this.accessToken);
-        }
-        if (!this.provisionCallback && !this.options.refreshToken && !this.options.serviceClient) {
-          if (this.accessToken) {
-            this.logger.debug({
-              tnx: "OAUTH2",
-              user: this.options.user,
-              action: "reuse"
-            }, "Reusing existing access token (no refresh capability) for %s", this.options.user);
-            return callback(null, this.accessToken);
-          }
-          this.logger.error({
-            tnx: "OAUTH2",
-            user: this.options.user,
-            action: "renew"
-          }, "Cannot renew access token for %s: No refresh mechanism available", this.options.user);
-          const err = new Error("Can't create new access token for user");
-          err.code = EOAUTH2;
-          return done(err);
-        }
-        if (this.renewing) {
-          this.renewalQueue.push({ renew, callback: done });
-          return;
-        }
-        this.renewing = true;
-        const generateCallback = (err, accessToken) => {
-          this.renewalQueue.forEach((item) => item.callback(err, accessToken));
-          this.renewalQueue = [];
-          this.renewing = false;
-          if (err) {
-            this.logger.error({
-              err,
-              tnx: "OAUTH2",
-              user: this.options.user,
-              action: "renew"
-            }, "Failed generating new Access Token for %s", this.options.user);
-          } else {
-            this.logger.info({
-              tnx: "OAUTH2",
-              user: this.options.user,
-              action: "renew"
-            }, "Generated new Access Token for %s", this.options.user);
-          }
-          done(err, accessToken);
-        };
-        if (this.provisionCallback) {
-          this.provisionCallback(this.options.user, !!renew, (err, accessToken, expires) => {
-            if (!err && accessToken) {
-              this.accessToken = accessToken;
-              this.expires = expires || 0;
-            }
-            generateCallback(err, accessToken);
-          });
-        } else {
-          this.generateToken(generateCallback);
-        }
-      }
-      /**
-       * Updates token values
-       *
-       * @param accessToken New access token
-       * @param timeout Access token lifetime in seconds
-       *
-       * Emits 'token': { user: User email-address, accessToken: the new accessToken, timeout: TTL in seconds}
-       */
-      updateToken(accessToken, timeout) {
-        this.accessToken = accessToken;
-        timeout = Math.max(Number(timeout) || 0, 0);
-        this.expires = timeout && Date.now() + timeout * 1e3 || 0;
-        this.emit("token", {
-          user: this.options.user,
-          accessToken: accessToken || "",
-          expires: this.expires
-        });
-      }
-      /**
-       * Generates a new XOAuth2 token with the credentials provided at initialization
-       *
-       * @param callback Callback function with error object and token string
-       */
-      generateToken(callback) {
-        const done = callback;
-        let urlOptions;
-        let loggedUrlOptions;
-        if (this.options.serviceClient) {
-          const iat = Math.floor(Date.now() / 1e3);
-          const tokenData = {
-            iss: this.options.serviceClient,
-            scope: this.options.scope || "https://mail.google.com/",
-            sub: this.options.user,
-            aud: this.options.accessUrl,
-            iat,
-            exp: iat + this.options.serviceRequestTimeout
-          };
-          let token;
-          try {
-            token = this.jwtSignRS256(tokenData);
-          } catch (_err) {
-            const err = new Error("Can't generate token. Check your auth options");
-            err.code = EOAUTH2;
-            return done(err);
-          }
-          urlOptions = {
-            grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-            assertion: token
-          };
-          loggedUrlOptions = {
-            grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-            assertion: tokenData
-          };
-        } else {
-          if (!this.options.refreshToken) {
-            const err = new Error("Can't create new access token for user");
-            err.code = EOAUTH2;
-            return done(err);
-          }
-          urlOptions = {
-            client_id: this.options.clientId || "",
-            client_secret: this.options.clientSecret || "",
-            refresh_token: this.options.refreshToken,
-            grant_type: "refresh_token"
-          };
-          loggedUrlOptions = {
-            client_id: this.options.clientId || "",
-            client_secret: (this.options.clientSecret || "").substr(0, 6) + "...",
-            refresh_token: (this.options.refreshToken || "").substr(0, 6) + "...",
-            grant_type: "refresh_token"
-          };
-        }
-        const customParams = this.options.customParams || {};
-        Object.assign(urlOptions, customParams);
-        for (const key of Object.keys(customParams)) {
-          const param = customParams[key];
-          loggedUrlOptions[key] = (param === void 0 || param === null ? "" : String(param)).substr(0, 6) + "...";
-        }
-        this.logger.debug({
-          tnx: "OAUTH2",
-          user: this.options.user,
-          action: "generate"
-        }, "Requesting token using: %s", JSON.stringify(loggedUrlOptions));
-        this.postRequest(this.options.accessUrl, urlOptions, this.options, (error63, body) => {
-          let data;
-          if (error63) {
-            return done(error63);
-          }
-          try {
-            data = JSON.parse(body.toString());
-          } catch (E) {
-            return done(E);
-          }
-          if (!data || typeof data !== "object") {
-            this.logger.debug({
-              tnx: "OAUTH2",
-              user: this.options.user,
-              action: "post"
-            }, "Response: %s", (body || "").toString());
-            const err2 = new Error("Invalid authentication response");
-            err2.code = EOAUTH2;
-            return done(err2);
-          }
-          const logData = Object.assign({}, data);
-          if (logData.access_token) {
-            logData.access_token = (logData.access_token || "").toString().substr(0, 6) + "...";
-          }
-          this.logger.debug({
-            tnx: "OAUTH2",
-            user: this.options.user,
-            action: "post"
-          }, "Response: %s", JSON.stringify(logData));
-          if (data.error) {
-            let errorMessage = data.error;
-            if (data.error_description) {
-              errorMessage += ": " + data.error_description;
-            }
-            if (data.error_uri) {
-              errorMessage += " (" + data.error_uri + ")";
-            }
-            const err2 = new Error(errorMessage);
-            err2.code = EOAUTH2;
-            return done(err2);
-          }
-          if (data.access_token) {
-            this.updateToken(data.access_token, data.expires_in);
-            return callback(null, this.accessToken);
-          }
-          const err = new Error("No access token");
-          err.code = EOAUTH2;
-          return done(err);
-        });
-      }
-      /**
-       * Converts an access_token and user id into a base64 encoded XOAuth2 token
-       *
-       * @param [accessToken] Access token string
-       * @return Base64 encoded token for IMAP or SMTP login
-       */
-      buildXOAuth2Token(accessToken) {
-        const authData = ["user=" + (this.options.user || ""), "auth=Bearer " + (accessToken || this.accessToken), "", ""];
-        return Buffer.from(authData.join(""), "utf-8").toString("base64");
-      }
-      /**
-       * Custom POST request handler.
-       * This is only needed to keep paths short in Windows, usually this module
-       * is a dependency of a dependency and if it tries to require something
-       * like the request module the paths get way too long to handle for Windows.
-       * As we do only a simple POST request we do not actually require complicated
-       * logic support (no redirects, no nothing) anyway.
-       *
-       * @param url Url to POST to
-       * @param payload Payload to POST
-       * @param params Client options, the customHeaders and tls values are used for the request
-       * @param callback Callback function with (err, buff)
-       */
-      postRequest(url2, payload, params, callback) {
-        let returned = false;
-        const chunks = [];
-        let chunklen = 0;
-        const fetchOptions = {
-          method: "post",
-          headers: params.customHeaders,
-          body: payload,
-          allowErrorResponse: true,
-          // unset falls back to the fetch default, a stalled token endpoint would otherwise keep
-          // `renewing` set and queue every later request
-          timeout: params.requestTimeout
-        };
-        if (/^https:/i.test(url2)) {
-          fetchOptions.tls = Object.assign({ rejectUnauthorized: true }, params.tls || {});
-        }
-        const req = fetch_default(url2, fetchOptions);
-        req.on("readable", () => {
-          let chunk;
-          while ((chunk = req.read()) !== null) {
-            chunks.push(chunk);
-            chunklen += chunk.length;
-          }
-        });
-        req.once("error", (err) => {
-          if (returned) {
-            return;
-          }
-          returned = true;
-          return callback(err);
-        });
-        req.once("end", () => {
-          if (returned) {
-            return;
-          }
-          returned = true;
-          return callback(null, Buffer.concat(chunks, chunklen));
-        });
-      }
-      /**
-       * Encodes a buffer or a string into Base64url format
-       *
-       * @param data The data to convert
-       * @return The encoded string
-       */
-      toBase64URL(data) {
-        if (typeof data === "string") {
-          data = Buffer.from(data);
-        }
-        return data.toString("base64").replace(/[=]+/g, "").replace(/\+/g, "-").replace(/\//g, "_");
-      }
-      /**
-       * Creates a JSON Web Token signed with RS256 (SHA256 + RSA)
-       *
-       * @param payload The payload to include in the generated token
-       * @return The generated and signed token
-       */
-      jwtSignRS256(payload) {
-        const signedPayload = ['{"alg":"RS256","typ":"JWT"}', JSON.stringify(payload)].map((val) => this.toBase64URL(val)).join(".");
-        const signature = crypto7.createSign("RSA-SHA256").update(signedPayload).sign(this.options.privateKey);
-        return signedPayload + "." + this.toBase64URL(signature);
-      }
-    };
-    xoauth2_default = XOAuth2;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-pool/pool-resource.js
-import { EventEmitter as EventEmitter3 } from "node:events";
-var PoolResource;
 var init_pool_resource = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-pool/pool-resource.js"() {
     init_smtp_connection();
     init_shared();
     init_xoauth2();
     init_errors();
-    PoolResource = class extends EventEmitter3 {
-      constructor(pool) {
-        super();
-        this.pool = pool;
-        this.options = pool.options;
-        this.logger = this.pool.logger;
-        if (this.options.auth) {
-          switch ((this.options.auth.type || "").toString().toUpperCase()) {
-            case "OAUTH2": {
-              const oauth2 = new xoauth2_default(this.options.auth, this.logger);
-              oauth2.provisionCallback = this.pool.mailer && this.pool.mailer.get("oauth2_provision_cb") || oauth2.provisionCallback;
-              this.auth = {
-                type: "OAUTH2",
-                user: this.options.auth.user,
-                oauth2,
-                method: "XOAUTH2"
-              };
-              oauth2.on("token", (token) => this.pool.mailer.emit("token", token));
-              oauth2.on("error", (err) => this._fail(err));
-              break;
-            }
-            default:
-              if (!this.options.auth.user && !this.options.auth.pass) {
-                break;
-              }
-              this.auth = {
-                type: (this.options.auth.type || "").toString().toUpperCase() || "LOGIN",
-                user: this.options.auth.user,
-                credentials: {
-                  user: this.options.auth.user || "",
-                  pass: this.options.auth.pass,
-                  options: this.options.auth.options
-                },
-                method: (this.options.auth.method || "").trim().toUpperCase() || this.options.authMethod || false
-              };
-          }
-        }
-        this._connection = false;
-        this._connected = false;
-        this.messages = 0;
-        this.available = true;
-        this._failed = false;
-        this._sending = false;
-        this._idleTimer = false;
-      }
-      /**
-       * Emits 'error' for the first failure only. A dead resource can report the same failure more
-       * than once (the connection error, then the send callback), the pool handles it once
-       * @internal
-       */
-      _fail(err) {
-        if (this._failed) {
-          return;
-        }
-        this._failed = true;
-        this.emit("error", err);
-      }
-      /**
-       * Initiates a connection to the SMTP server
-       *
-       * @param callback Callback function to run once the connection is established or failed
-       */
-      connect(callback) {
-        const connectStartedAt = Date.now();
-        this.pool.getSocket(Object.assign({}, this.options, { connectStartedAt }), (err, socketOptions) => {
-          if (err) {
-            this._fail(err);
-            return callback(err);
-          }
-          let returned = false;
-          let options = this.options;
-          if (socketOptions && socketOptions.connection) {
-            this.logger.info({
-              tnx: "proxy",
-              remoteAddress: socketOptions.connection.remoteAddress,
-              remotePort: socketOptions.connection.remotePort,
-              destHost: options.host || "",
-              destPort: options.port || "",
-              action: "connected"
-            }, "Using proxied socket from %s:%s to %s:%s", socketOptions.connection.remoteAddress, socketOptions.connection.remotePort, options.host || "", options.port || "");
-            options = Object.assign(assign(false, options), socketOptions);
-          }
-          this.connection = new smtp_connection_default(options);
-          this.connection._connectStartedAt = connectStartedAt;
-          this.connection.on("error", (err2) => {
-            if (this._sending) {
-              return;
-            }
-            if (this._connected && isTransientError(err2)) {
-              this.logger.info({
-                tnx: "pool",
-                cid: this.id
-              }, "Connection #%s was closed by the server: %s", this.id, err2.message);
-              return;
-            }
-            this._fail(err2);
-            if (returned) {
-              return;
-            }
-            returned = true;
-            return callback(err2);
-          });
-          this.connection.once("end", () => {
-            this.close();
-            returned = true;
-          });
-          this.connection.connect((err2) => {
-            if (returned) {
-              return;
-            }
-            if (err2) {
-              returned = true;
-              return;
-            }
-            if (this.auth && (this.connection.allowsAuth || options.forceAuth)) {
-              this.connection.login(this.auth, (err3) => {
-                if (returned) {
-                  return;
-                }
-                returned = true;
-                if (err3) {
-                  this.connection.close();
-                  this._fail(err3);
-                  return callback(err3);
-                }
-                this._connected = true;
-                callback(null, true);
-              });
-            } else {
-              returned = true;
-              this._connected = true;
-              return callback(null, true);
-            }
-          });
-        });
-      }
-      /**
-       * Sends an e-mail to be sent using the selected settings
-       *
-       * @param mail Mail object
-       * @param callback Callback function
-       */
-      send(mail, callback) {
-        if (!this._connected) {
-          return this.connect((err) => {
-            if (err) {
-              return callback(err);
-            }
-            return this.send(mail, callback);
-          });
-        }
-        const envelope = mail.message.getEnvelope();
-        const messageId = mail.message.messageId();
-        const recipients = [].concat(envelope.to || []);
-        if (recipients.length > 3) {
-          recipients.push("...and " + recipients.splice(2).length + " more");
-        }
-        this.logger.info({
-          tnx: "send",
-          messageId,
-          cid: this.id
-        }, "Sending message %s using #%s to <%s>", messageId, this.id, recipients.join(", "));
-        if (mail.data.dsn) {
-          envelope.dsn = mail.data.dsn;
-        }
-        if (mail.data.requireTLSExtensionEnabled) {
-          envelope.requireTLSExtensionEnabled = mail.data.requireTLSExtensionEnabled;
-        }
-        this._sending = true;
-        const reused = this.messages > 0;
-        const messageStream = mail.message.createReadStream();
-        this.connection.send(envelope, messageStream, (err, info) => {
-          this._sending = false;
-          this.messages++;
-          if (err) {
-            if (reused && messageStream.readableDidRead === false && isTransientError(err)) {
-              this.logger.info({
-                tnx: "pool",
-                cid: this.id,
-                messageId
-              }, "Connection #%s was closed by the server before message %s was sent: %s", this.id, messageId, err.message);
-              this.connection.close();
-              return;
-            }
-            if ((err.code === EENVELOPE || err.code === EMESSAGE) && err.responseCode !== 421 && !this.connection._destroyed) {
-              this.connection.reset((resetErr) => {
-                if (resetErr) {
-                  this.connection.close();
-                  return;
-                }
-                this._release();
-              });
-              return callback(err);
-            }
-            this.connection.close();
-            this._fail(err);
-            return callback(err);
-          }
-          info.envelope = {
-            from: envelope.from,
-            to: envelope.to
-          };
-          info.messageId = messageId;
-          setImmediate(() => this._release());
-          callback(null, info);
-        });
-      }
-      /**
-       * Makes the connection available for the next message, or closes it once it has sent
-       * maxMessages messages
-       *
-       * @internal
-       */
-      _release() {
-        if (this.messages >= this.options.maxMessages) {
-          const err = new Error("Resource exhausted");
-          err.code = EMAXLIMIT;
-          this.connection.close();
-          this._fail(err);
-          return;
-        }
-        this.pool._checkRateLimit(() => {
-          this.available = true;
-          this._startIdleTimer();
-          this.emit("available");
-        });
-      }
-      /** @internal */
-      _startIdleTimer() {
-        if (!this.options.idleTimeout || this.options.idleTimeout < 0) {
-          return;
-        }
-        if (this._idleTimer && typeof this._idleTimer.refresh === "function") {
-          this._idleTimer.refresh();
-          return;
-        }
-        clearTimeout(this._idleTimer);
-        this._idleTimer = setTimeout(() => {
-          if (!this.available) {
-            return;
-          }
-          this.logger.debug({
-            tnx: "pool",
-            cid: this.id
-          }, "Closing connection #%s after it was idle for %sms", this.id, this.options.idleTimeout);
-          this.available = false;
-          this.connection.quit();
-        }, this.options.idleTimeout);
-        if (typeof this._idleTimer.unref === "function") {
-          this._idleTimer.unref();
-        }
-      }
-      /** @internal */
-      _stopIdleTimer() {
-        clearTimeout(this._idleTimer);
-        this._idleTimer = false;
-      }
-      /**
-       * Closes the connection
-       */
-      close() {
-        this._connected = false;
-        this._stopIdleTimer();
-        if (this.auth && this.auth.oauth2) {
-          this.auth.oauth2.removeAllListeners();
-        }
-        if (this.connection) {
-          this.connection.close();
-        }
-        this.emit("close");
-      }
-    };
   }
 });
 
@@ -64102,10 +60026,6 @@ function normalizeService(service) {
   });
   return response;
 }
-function wellKnown(key) {
-  key = normalizeKey(key.split("@").pop());
-  return normalized[key] || false;
-}
 var normalized;
 var init_well_known = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/well-known/index.js"() {
@@ -64126,8 +60046,6 @@ var init_well_known = __esm({
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-pool/index.js
-import { EventEmitter as EventEmitter4 } from "node:events";
-var REQUEUE_BASE_DELAY, REQUEUE_MAX_DELAY, SMTPPool, smtp_pool_default;
 var init_smtp_pool = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-pool/index.js"() {
     init_pool_resource();
@@ -64136,494 +60054,10 @@ var init_smtp_pool = __esm({
     init_shared();
     init_errors();
     init_package_info();
-    REQUEUE_BASE_DELAY = 50;
-    REQUEUE_MAX_DELAY = 2e3;
-    SMTPPool = class extends EventEmitter4 {
-      constructor(options) {
-        super();
-        options = options || {};
-        if (typeof options === "string") {
-          options = {
-            url: options
-          };
-        }
-        let urlData;
-        let service = options.service;
-        if (typeof options.getSocket === "function") {
-          this.getSocket = options.getSocket;
-        }
-        if (options.url) {
-          urlData = parseConnectionUrl(options.url);
-          service = service || urlData.service;
-        }
-        this.options = assign(
-          false,
-          // create new object
-          options,
-          // regular options
-          urlData,
-          // url options
-          service && wellKnown(service)
-          // wellknown options
-        );
-        this.options.maxConnections = this.options.maxConnections || 5;
-        this.options.maxMessages = this.options.maxMessages || 100;
-        this.options.maxRequeues = typeof this.options.maxRequeues === "number" ? this.options.maxRequeues : 5;
-        this.options.idleTimeout = typeof this.options.idleTimeout === "number" ? this.options.idleTimeout : 4 * 60 * 1e3;
-        this.logger = getLogger(this.options, {
-          component: this.options.component || "smtp-pool"
-        });
-        this.name = "SMTP (pool)";
-        this.version = version2 + "[client:" + version2 + "]";
-        this._rateLimit = {
-          counter: 0,
-          timeout: null,
-          waiting: [],
-          checkpoint: false,
-          delta: Number(this.options.rateDelta) || 1e3,
-          limit: Number(this.options.rateLimit) || 0
-        };
-        this._closed = false;
-        this._queue = [];
-        this._connections = [];
-        this._connectionCounter = 0;
-        this.idling = true;
-        setImmediate(() => {
-          if (this.idling) {
-            this.emit("idle");
-          }
-        });
-      }
-      /**
-       * Placeholder function for creating proxy sockets. This method immediatelly returns
-       * without a socket
-       *
-       * @param options Connection options
-       * @param callback Callback function to run with the socket keys
-       */
-      getSocket(options, callback) {
-        setImmediate(() => callback(null, false));
-      }
-      /**
-       * Queues an e-mail to be sent using the selected settings
-       *
-       * @param mail Mail object
-       * @param callback Callback function
-       */
-      send(mail, callback) {
-        if (this._closed) {
-          const err = new Error("Connection pool was closed");
-          err.code = ECONNECTION;
-          setImmediate(() => callback(err));
-          return false;
-        }
-        this._queue.push({
-          mail,
-          requeueAttempts: 0,
-          callback
-        });
-        if (this.idling && this._queue.length >= this.options.maxConnections) {
-          this.idling = false;
-        }
-        setImmediate(() => this._processMessages());
-        return true;
-      }
-      /**
-       * Closes all connections in the pool. If there is a message being sent, the connection
-       * is closed later
-       */
-      close() {
-        let connection;
-        const len = this._connections.length;
-        this._closed = true;
-        this._clearRateLimit();
-        if (!len && !this._queue.length) {
-          return;
-        }
-        for (let i = len - 1; i >= 0; i--) {
-          if (this._connections[i] && this._connections[i].available) {
-            connection = this._connections[i];
-            connection.close();
-            this.logger.info({
-              tnx: "connection",
-              cid: connection.id,
-              action: "removed"
-            }, "Connection #%s removed", connection.id);
-          }
-        }
-        if (len && !this._connections.length) {
-          this.logger.debug({
-            tnx: "connection"
-          }, "All connections removed");
-        }
-        if (!this._queue.length) {
-          return;
-        }
-        const invokeCallbacks = () => {
-          if (!this._queue.length) {
-            this.logger.debug({
-              tnx: "connection"
-            }, "Pending queue entries cleared");
-            return;
-          }
-          const entry = this._queue.shift();
-          if (entry && typeof entry.callback === "function") {
-            try {
-              entry.callback(new Error("Connection pool was closed"));
-            } catch (E) {
-              this.logger.error({
-                err: E,
-                tnx: "callback"
-              }, "Callback error: %s", E.message);
-            }
-          }
-          setImmediate(invokeCallbacks);
-        };
-        setImmediate(invokeCallbacks);
-      }
-      /**
-       * Check the queue and available connections. If there is a message to be sent and there is
-       * an available connection, then use this connection to send the mail
-       * @internal
-       */
-      _processMessages() {
-        if (this._closed) {
-          return;
-        }
-        if (!this._queue.length) {
-          if (!this.idling) {
-            this.idling = true;
-            this.emit("idle");
-          }
-          return;
-        }
-        let connection = this._connections.find((c) => c.available);
-        if (!connection && this._connections.length < this.options.maxConnections) {
-          connection = this._createConnection();
-        }
-        if (!connection) {
-          this.idling = false;
-          return;
-        }
-        if (!this.idling && this._queue.length < this.options.maxConnections) {
-          this.idling = true;
-          this.emit("idle");
-        }
-        const entry = connection.queueEntry = this._queue.shift();
-        entry.messageId = (connection.queueEntry.mail.message.getHeader("message-id") || "").replace(/[<>\s]/g, "");
-        connection.available = false;
-        this.logger.debug({
-          tnx: "pool",
-          cid: connection.id,
-          messageId: entry.messageId,
-          action: "assign"
-        }, "Assigned message <%s> to #%s (%s)", entry.messageId, connection.id, connection.messages + 1);
-        if (this._rateLimit.limit) {
-          this._rateLimit.counter++;
-          if (!this._rateLimit.checkpoint) {
-            this._rateLimit.checkpoint = Date.now();
-          }
-        }
-        connection.send(entry.mail, (err, info) => {
-          if (entry === connection.queueEntry) {
-            try {
-              entry.callback(err, info);
-            } catch (E) {
-              this.logger.error({
-                err: E,
-                tnx: "callback",
-                cid: connection.id
-              }, "Callback error for #%s: %s", connection.id, E.message);
-            }
-            connection.queueEntry = false;
-          }
-        });
-      }
-      /**
-       * Creates a new pool resource
-       * @internal
-       */
-      _createConnection() {
-        const connection = new PoolResource(this);
-        connection.id = ++this._connectionCounter;
-        this.logger.info({
-          tnx: "pool",
-          cid: connection.id,
-          action: "conection"
-        }, "Created new pool resource #%s", connection.id);
-        connection.on("available", () => {
-          this.logger.debug({
-            tnx: "connection",
-            cid: connection.id,
-            action: "available"
-          }, "Connection #%s became available", connection.id);
-          if (this._closed) {
-            this.close();
-          } else {
-            this._processMessages();
-          }
-        });
-        connection.once("error", (err) => {
-          if (err.code !== EMAXLIMIT) {
-            this.logger.warn({
-              err,
-              tnx: "pool",
-              cid: connection.id
-            }, "Pool Error for #%s: %s", connection.id, err.message);
-          } else {
-            this.logger.debug({
-              tnx: "pool",
-              cid: connection.id,
-              action: "maxlimit"
-            }, "Max messages limit exchausted for #%s", connection.id);
-          }
-          if (connection.queueEntry) {
-            try {
-              connection.queueEntry.callback(err);
-            } catch (E) {
-              this.logger.error({
-                err: E,
-                tnx: "callback",
-                cid: connection.id
-              }, "Callback error for #%s: %s", connection.id, E.message);
-            }
-            connection.queueEntry = false;
-          }
-          this._removeConnection(connection);
-          this._continueProcessing();
-        });
-        connection.once("close", () => {
-          this.logger.info({
-            tnx: "connection",
-            cid: connection.id,
-            action: "closed"
-          }, "Connection #%s was closed", connection.id);
-          this._removeConnection(connection);
-          if (connection.queueEntry) {
-            setTimeout(() => {
-              let delay = 0;
-              if (connection.queueEntry) {
-                if (this._shouldRequeuOnConnectionClose(connection.queueEntry)) {
-                  delay = this._requeueEntryOnConnectionClose(connection);
-                } else {
-                  this._failDeliveryOnConnectionClose(connection);
-                }
-              }
-              if (delay) {
-                setTimeout(() => this._continueProcessing(), delay);
-              } else {
-                this._continueProcessing();
-              }
-            }, 50);
-          } else {
-            if (!this._closed && this.idling && !this._connections.length) {
-              this.emit("clear");
-            }
-            this._continueProcessing();
-          }
-        });
-        this._connections.push(connection);
-        return connection;
-      }
-      /** @internal */
-      _shouldRequeuOnConnectionClose(queueEntry) {
-        if (this.options.maxRequeues < 0) {
-          return true;
-        }
-        return queueEntry.requeueAttempts < this.options.maxRequeues;
-      }
-      /** @internal */
-      _failDeliveryOnConnectionClose(connection) {
-        if (connection.queueEntry && connection.queueEntry.callback) {
-          try {
-            const err = new Error("Reached maximum number of retries after connection was closed");
-            err.code = ECONNECTION;
-            connection.queueEntry.callback(err);
-          } catch (E) {
-            this.logger.error({
-              err: E,
-              tnx: "callback",
-              messageId: connection.queueEntry.messageId,
-              cid: connection.id
-            }, "Callback error for #%s: %s", connection.id, E.message);
-          }
-          connection.queueEntry = false;
-        }
-      }
-      /** @internal */
-      _requeueEntryOnConnectionClose(connection) {
-        const delay = Math.min(REQUEUE_BASE_DELAY * 2 ** connection.queueEntry.requeueAttempts, REQUEUE_MAX_DELAY);
-        connection.queueEntry.requeueAttempts += 1;
-        this.logger.debug({
-          tnx: "pool",
-          cid: connection.id,
-          messageId: connection.queueEntry.messageId,
-          action: "requeue"
-        }, "Re-queued message <%s> for #%s. Attempt: #%s", connection.queueEntry.messageId, connection.id, connection.queueEntry.requeueAttempts);
-        this._queue.unshift(connection.queueEntry);
-        connection.queueEntry = false;
-        return delay;
-      }
-      /**
-       * Continue to process message if the pool hasn't closed
-       * @internal
-       */
-      _continueProcessing() {
-        if (this._closed) {
-          this.close();
-        } else {
-          setTimeout(() => this._processMessages(), 100);
-        }
-      }
-      /**
-       * Remove resource from pool
-       *
-       * @param connection The PoolResource to remove
-       * @internal
-       */
-      _removeConnection(connection) {
-        const index = this._connections.indexOf(connection);
-        if (index !== -1) {
-          this._connections.splice(index, 1);
-        }
-      }
-      /**
-       * Checks if connections have hit current rate limit and if so, queues the availability callback
-       *
-       * @param callback Callback function to run once rate limiter has been cleared
-       * @internal
-       */
-      _checkRateLimit(callback) {
-        if (!this._rateLimit.limit) {
-          return callback();
-        }
-        const now = Date.now();
-        if (this._rateLimit.counter < this._rateLimit.limit) {
-          return callback();
-        }
-        this._rateLimit.waiting.push(callback);
-        if (this._rateLimit.checkpoint <= now - this._rateLimit.delta) {
-          return this._clearRateLimit();
-        }
-        if (!this._rateLimit.timeout) {
-          this._rateLimit.timeout = setTimeout(() => this._clearRateLimit(), this._rateLimit.delta - (now - this._rateLimit.checkpoint));
-          this._rateLimit.checkpoint = now;
-        }
-      }
-      /**
-       * Clears current rate limit limitation and runs paused callback
-       * @internal
-       */
-      _clearRateLimit() {
-        clearTimeout(this._rateLimit.timeout);
-        this._rateLimit.timeout = null;
-        this._rateLimit.counter = 0;
-        this._rateLimit.checkpoint = false;
-        while (this._rateLimit.waiting.length) {
-          const cb = this._rateLimit.waiting.shift();
-          setImmediate(cb);
-        }
-      }
-      /**
-       * Returns true if there are free slots in the queue
-       */
-      isIdle() {
-        return this.idling;
-      }
-      verify(callback) {
-        let promise2;
-        if (!callback) {
-          promise2 = new Promise((resolve5, reject) => {
-            callback = callbackPromise(resolve5, reject);
-          });
-        }
-        const done = callback;
-        const auth = new PoolResource(this).auth;
-        const connectStartedAt = Date.now();
-        this.getSocket(Object.assign({}, this.options, { connectStartedAt }), (err, socketOptions) => {
-          if (err) {
-            return done(err);
-          }
-          let options = this.options;
-          if (socketOptions && socketOptions.connection) {
-            this.logger.info({
-              tnx: "proxy",
-              remoteAddress: socketOptions.connection.remoteAddress,
-              remotePort: socketOptions.connection.remotePort,
-              destHost: options.host || "",
-              destPort: options.port || "",
-              action: "connected"
-            }, "Using proxied socket from %s:%s to %s:%s", socketOptions.connection.remoteAddress, socketOptions.connection.remotePort, options.host || "", options.port || "");
-            options = Object.assign(assign(false, options), socketOptions);
-          }
-          const connection = new smtp_connection_default(options);
-          connection._connectStartedAt = connectStartedAt;
-          let returned = false;
-          connection.once("error", (err2) => {
-            if (returned) {
-              return;
-            }
-            returned = true;
-            connection.close();
-            return done(err2);
-          });
-          connection.once("end", () => {
-            if (returned) {
-              return;
-            }
-            returned = true;
-            return done(new Error("Connection closed"));
-          });
-          const finalize2 = () => {
-            if (returned) {
-              return;
-            }
-            returned = true;
-            connection.quit();
-            return done(null, true);
-          };
-          connection.connect((err2) => {
-            if (returned) {
-              return;
-            }
-            if (err2) {
-              returned = true;
-              connection.close();
-              return done(err2);
-            }
-            if (auth && (connection.allowsAuth || options.forceAuth)) {
-              connection.login(auth, (err3) => {
-                if (returned) {
-                  return;
-                }
-                if (err3) {
-                  returned = true;
-                  connection.close();
-                  return done(err3);
-                }
-                finalize2();
-              });
-            } else if (!auth && connection.allowsAuth && options.forceAuth) {
-              const err3 = new Error("Authentication info was not provided");
-              err3.code = ENOAUTH;
-              returned = true;
-              connection.close();
-              return done(err3);
-            } else {
-              finalize2();
-            }
-          });
-        });
-        return promise2;
-      }
-    };
-    smtp_pool_default = SMTPPool;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-transport/index.js
-import { EventEmitter as EventEmitter5 } from "node:events";
-var MESSAGE_AUTH_KEYS, SMTPTransport, smtp_transport_default;
 var init_smtp_transport = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/smtp-transport/index.js"() {
     init_smtp_connection();
@@ -64632,331 +60066,10 @@ var init_smtp_transport = __esm({
     init_xoauth2();
     init_errors();
     init_package_info();
-    MESSAGE_AUTH_KEYS = ["type", "user", "pass", "accessToken", "refreshToken", "expires"];
-    SMTPTransport = class extends EventEmitter5 {
-      constructor(options) {
-        super();
-        options = options || {};
-        if (typeof options === "string") {
-          options = {
-            url: options
-          };
-        }
-        let urlData;
-        let service = options.service;
-        if (typeof options.getSocket === "function") {
-          this.getSocket = options.getSocket;
-        }
-        if (options.url) {
-          urlData = parseConnectionUrl(options.url);
-          service = service || urlData.service;
-        }
-        this.options = assign(
-          false,
-          // create new object
-          options,
-          // regular options
-          urlData,
-          // url options
-          service && wellKnown(service)
-          // wellknown options
-        );
-        this.logger = getLogger(this.options, {
-          component: this.options.component || "smtp-transport"
-        });
-        this.name = "SMTP";
-        this.version = version2 + "[client:" + version2 + "]";
-        if (this.options.auth) {
-          this.auth = this.getAuth({});
-        }
-      }
-      /**
-       * Placeholder function for creating proxy sockets. This method immediatelly returns
-       * without a socket
-       *
-       * @param options Connection options
-       * @param callback Callback function to run with the socket keys
-       */
-      getSocket(options, callback) {
-        setImmediate(() => callback(null, false));
-      }
-      getAuth(authOpts) {
-        if (!authOpts) {
-          if (this.auth && this.auth.oauth2 && this.mailer) {
-            this.auth.oauth2.provisionCallback = this.mailer.get("oauth2_provision_cb") || this.auth.oauth2.provisionCallback;
-          }
-          return this.auth;
-        }
-        const authData = Object.assign({}, this.options.auth && typeof this.options.auth === "object" ? this.options.auth : {});
-        if (typeof authOpts === "object") {
-          copyOwnKeys(authData, authOpts, (key) => !MESSAGE_AUTH_KEYS.includes(key));
-        }
-        if (Object.keys(authData).length === 0) {
-          return false;
-        }
-        switch ((authData.type || "").toString().toUpperCase()) {
-          case "OAUTH2": {
-            if (!authData.service && !authData.user) {
-              return false;
-            }
-            const oauth2 = new xoauth2_default(authData, this.logger);
-            oauth2.provisionCallback = this.mailer && this.mailer.get("oauth2_provision_cb") || oauth2.provisionCallback;
-            oauth2.on("token", (token) => this.mailer.emit("token", token));
-            oauth2.on("error", (err) => this.emit("error", err));
-            return {
-              type: "OAUTH2",
-              user: authData.user,
-              oauth2,
-              method: "XOAUTH2"
-            };
-          }
-          default:
-            return {
-              type: (authData.type || "").toString().toUpperCase() || "LOGIN",
-              user: authData.user,
-              credentials: {
-                user: authData.user || "",
-                pass: authData.pass,
-                options: authData.options
-              },
-              method: (authData.method || "").trim().toUpperCase() || this.options.authMethod || false
-            };
-        }
-      }
-      /**
-       * Sends an e-mail using the selected settings
-       *
-       * @param mail Mail object
-       * @param callback Callback function
-       */
-      send(mail, callback) {
-        const connectStartedAt = Date.now();
-        this.getSocket(Object.assign({}, this.options, { connectStartedAt }), (err, socketOptions) => {
-          if (err) {
-            return callback(err);
-          }
-          let returned = false;
-          let options = this.options;
-          if (socketOptions && socketOptions.connection) {
-            this.logger.info({
-              tnx: "proxy",
-              remoteAddress: socketOptions.connection.remoteAddress,
-              remotePort: socketOptions.connection.remotePort,
-              destHost: options.host || "",
-              destPort: options.port || "",
-              action: "connected"
-            }, "Using proxied socket from %s:%s to %s:%s", socketOptions.connection.remoteAddress, socketOptions.connection.remotePort, options.host || "", options.port || "");
-            options = Object.assign(assign(false, options), socketOptions);
-          }
-          const connection = new smtp_connection_default(options);
-          connection._connectStartedAt = connectStartedAt;
-          let perCallAuth;
-          const cleanupPerCallAuth = () => {
-            if (perCallAuth && perCallAuth !== this.auth && perCallAuth.oauth2) {
-              perCallAuth.oauth2.removeAllListeners();
-            }
-            perCallAuth = null;
-          };
-          connection.once("error", (err2) => {
-            if (returned) {
-              return;
-            }
-            returned = true;
-            cleanupPerCallAuth();
-            connection.close();
-            return callback(err2);
-          });
-          const sendMessage = () => {
-            const envelope = mail.message.getEnvelope();
-            const messageId = mail.message.messageId();
-            const recipients = [].concat(envelope.to || []);
-            if (recipients.length > 3) {
-              recipients.push("...and " + recipients.splice(2).length + " more");
-            }
-            if (mail.data.dsn) {
-              envelope.dsn = mail.data.dsn;
-            }
-            if (mail.data.requireTLSExtensionEnabled) {
-              envelope.requireTLSExtensionEnabled = mail.data.requireTLSExtensionEnabled;
-            }
-            this.logger.info({
-              tnx: "send",
-              messageId
-            }, "Sending message %s to <%s>", messageId, recipients.join(", "));
-            connection.send(envelope, mail.message.createReadStream(), (err2, info) => {
-              if (returned) {
-                return;
-              }
-              returned = true;
-              cleanupPerCallAuth();
-              connection.close();
-              if (err2) {
-                this.logger.error({
-                  err: err2,
-                  tnx: "send"
-                }, "Send error for %s: %s", messageId, err2.message);
-                return callback(err2);
-              }
-              info.envelope = {
-                from: envelope.from,
-                to: envelope.to
-              };
-              info.messageId = messageId;
-              try {
-                return callback(null, info);
-              } catch (E) {
-                this.logger.error({
-                  err: E,
-                  tnx: "callback"
-                }, "Callback error for %s: %s", messageId, E.message);
-              }
-            });
-          };
-          connection.connect((err2) => {
-            if (returned) {
-              return;
-            }
-            if (err2) {
-              returned = true;
-              connection.close();
-              return callback(err2);
-            }
-            perCallAuth = this.getAuth(mail.data.auth);
-            if (perCallAuth && (connection.allowsAuth || options.forceAuth)) {
-              connection.login(perCallAuth, (err3) => {
-                cleanupPerCallAuth();
-                if (returned) {
-                  return;
-                }
-                if (err3) {
-                  returned = true;
-                  connection.close();
-                  return callback(err3);
-                }
-                sendMessage();
-              });
-            } else {
-              sendMessage();
-            }
-          });
-        });
-      }
-      verify(callback) {
-        let promise2;
-        if (!callback) {
-          promise2 = new Promise((resolve5, reject) => {
-            callback = callbackPromise(resolve5, reject);
-          });
-        }
-        const done = callback;
-        const connectStartedAt = Date.now();
-        this.getSocket(Object.assign({}, this.options, { connectStartedAt }), (err, socketOptions) => {
-          if (err) {
-            return done(err);
-          }
-          let options = this.options;
-          if (socketOptions && socketOptions.connection) {
-            this.logger.info({
-              tnx: "proxy",
-              remoteAddress: socketOptions.connection.remoteAddress,
-              remotePort: socketOptions.connection.remotePort,
-              destHost: options.host || "",
-              destPort: options.port || "",
-              action: "connected"
-            }, "Using proxied socket from %s:%s to %s:%s", socketOptions.connection.remoteAddress, socketOptions.connection.remotePort, options.host || "", options.port || "");
-            options = Object.assign(assign(false, options), socketOptions);
-          }
-          const connection = new smtp_connection_default(options);
-          connection._connectStartedAt = connectStartedAt;
-          let returned = false;
-          let perCallAuth;
-          const cleanupPerCallAuth = () => {
-            if (perCallAuth && perCallAuth !== this.auth && perCallAuth.oauth2) {
-              perCallAuth.oauth2.removeAllListeners();
-            }
-            perCallAuth = null;
-          };
-          connection.once("error", (err2) => {
-            if (returned) {
-              return;
-            }
-            returned = true;
-            cleanupPerCallAuth();
-            connection.close();
-            return done(err2);
-          });
-          connection.once("end", () => {
-            if (returned) {
-              return;
-            }
-            returned = true;
-            cleanupPerCallAuth();
-            return done(new Error("Connection closed"));
-          });
-          const finalize2 = () => {
-            if (returned) {
-              return;
-            }
-            returned = true;
-            cleanupPerCallAuth();
-            connection.quit();
-            return done(null, true);
-          };
-          connection.connect((err2) => {
-            if (returned) {
-              return;
-            }
-            if (err2) {
-              returned = true;
-              connection.close();
-              return done(err2);
-            }
-            perCallAuth = this.getAuth({});
-            if (perCallAuth && (connection.allowsAuth || options.forceAuth)) {
-              connection.login(perCallAuth, (err3) => {
-                cleanupPerCallAuth();
-                if (returned) {
-                  return;
-                }
-                if (err3) {
-                  returned = true;
-                  connection.close();
-                  return done(err3);
-                }
-                finalize2();
-              });
-            } else if (!perCallAuth && connection.allowsAuth && options.forceAuth) {
-              const err3 = new Error("Authentication info was not provided");
-              err3.code = ENOAUTH;
-              returned = true;
-              cleanupPerCallAuth();
-              connection.close();
-              return done(err3);
-            } else {
-              finalize2();
-            }
-          });
-        });
-        return promise2;
-      }
-      /**
-       * Releases resources
-       */
-      close() {
-        if (this.auth && this.auth.oauth2) {
-          this.auth.oauth2.removeAllListeners();
-        }
-        this.emit("close");
-      }
-    };
-    smtp_transport_default = SMTPTransport;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/sendmail-transport/index.js
-import { spawn } from "node:child_process";
-import { pipeline as pipeline2 } from "node:stream";
-var STDIN_ERROR_EXIT_WAIT, SendmailTransport, sendmail_transport_default;
 var init_sendmail_transport = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/sendmail-transport/index.js"() {
     init_package_info();
@@ -64964,334 +60077,28 @@ var init_sendmail_transport = __esm({
     init_errors();
     init_le_windows();
     init_le_unix();
-    STDIN_ERROR_EXIT_WAIT = 1e3;
-    SendmailTransport = class {
-      constructor(options) {
-        options = options || {};
-        this._spawn = spawn;
-        this.options = options;
-        this.name = "Sendmail";
-        this.version = version2;
-        this.path = "sendmail";
-        this.args = false;
-        this.logger = getLogger(this.options, {
-          component: this.options.component || "sendmail"
-        });
-        if (typeof options === "string") {
-          this.path = options;
-        } else if (typeof options === "object") {
-          if (options.path) {
-            this.path = options.path;
-          }
-          if (Array.isArray(options.args)) {
-            this.args = options.args;
-          }
-        }
-        this.winbreak = ["win", "windows", "dos", "\r\n"].includes((options.newline || "").toString().toLowerCase());
-      }
-      /**
-       * <p>Compiles a mailcomposer message and forwards it to handler that sends it.</p>
-       *
-       * @param mail MailComposer object
-       * @param done Callback function to run when the sending is completed
-       */
-      send(mail, done) {
-        mail.message.keepBcc = true;
-        const envelope = mail.message.getEnvelope();
-        const messageId = mail.message.messageId();
-        let returned;
-        const hasInvalidAddresses = [].concat(envelope.from || []).concat(envelope.to || []).some((addr) => /^"?-/.test(addr));
-        if (hasInvalidAddresses) {
-          const err = new Error("Can not send mail. Invalid envelope addresses.");
-          err.code = ESENDMAIL;
-          return done(err);
-        }
-        const args = this.args ? ["-i"].concat(this.args).concat(envelope.to) : ["-i"].concat(envelope.from ? ["-f", envelope.from] : []).concat(envelope.to);
-        const callback = (err) => {
-          if (returned) {
-            return;
-          }
-          returned = true;
-          if (typeof done === "function") {
-            if (err) {
-              return done(err);
-            }
-            return done(null, {
-              envelope,
-              messageId,
-              response: "Messages queued for delivery"
-            });
-          }
-        };
-        let sendmail;
-        try {
-          sendmail = this._spawn(this.path, args);
-        } catch (E) {
-          this.logger.error({
-            err: E,
-            tnx: "spawn",
-            messageId
-          }, "Error occurred while spawning sendmail. %s", E.message);
-          return callback(E);
-        }
-        if (sendmail) {
-          let stream;
-          const messageWritten = () => !!stream && stream.readableEnded;
-          let stdinError = null;
-          const release = () => {
-            if (stream && !messageWritten()) {
-              stream.destroy();
-            }
-          };
-          const fail = (err) => {
-            release();
-            callback(err);
-          };
-          sendmail.on("error", (err) => {
-            this.logger.error({
-              err,
-              tnx: "spawn",
-              messageId
-            }, "Error occurred when sending message %s. %s", messageId, err.message);
-            fail(err);
-          });
-          const onExit = (code, signal) => {
-            let err = null;
-            if (code) {
-              err = new Error(code === 127 ? "Sendmail command not found, process exited with code " + code : "Sendmail exited with code " + code);
-            } else if (signal) {
-              err = new Error("Sendmail was terminated by " + signal);
-            } else if (!messageWritten()) {
-              err = new Error("Sendmail exited before the message was written");
-            } else if (stdinError) {
-              err = stdinError;
-            }
-            if (!err) {
-              return callback();
-            }
-            err.code = err.code || ESENDMAIL;
-            this.logger.error({
-              err,
-              tnx: "stdin",
-              messageId
-            }, "Error sending message %s to sendmail. %s", messageId, err.message);
-            fail(err);
-          };
-          sendmail.once("exit", onExit);
-          sendmail.once("close", onExit);
-          sendmail.stdin.on("error", (err) => {
-            this.logger.error({
-              err,
-              tnx: "stdin",
-              messageId
-            }, "Error occurred when piping message %s to sendmail. %s", messageId, err.message);
-            if (stdinError) {
-              return;
-            }
-            stdinError = err;
-            release();
-            const exitTimer = setTimeout(() => fail(err), STDIN_ERROR_EXIT_WAIT);
-            sendmail.once("exit", () => clearTimeout(exitTimer));
-          });
-          const recipients = [].concat(envelope.to || []);
-          if (recipients.length > 3) {
-            recipients.push("...and " + recipients.splice(2).length + " more");
-          }
-          this.logger.info({
-            tnx: "send",
-            messageId
-          }, "Sending message %s to <%s>", messageId, recipients.join(", "));
-          const sourceStream = mail.message.createReadStream();
-          stream = sourceStream;
-          if (this.options.newline) {
-            stream = pipeline2(sourceStream, this.winbreak ? new LeWindows() : new LeUnix(), () => false);
-          }
-          stream.once("error", (err) => {
-            this.logger.error({
-              err,
-              tnx: "stdin",
-              messageId
-            }, "Error occurred when generating message %s. %s", messageId, err.message);
-            sendmail.kill("SIGINT");
-            callback(err);
-          });
-          stream.pipe(sendmail.stdin);
-        } else {
-          const err = new Error("sendmail was not found");
-          err.code = ESENDMAIL;
-          return callback(err);
-        }
-      }
-    };
-    sendmail_transport_default = SendmailTransport;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/stream-transport/index.js
-var StreamTransport, stream_transport_default;
 var init_stream_transport = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/stream-transport/index.js"() {
     init_package_info();
     init_shared();
     init_le_windows();
     init_le_unix();
-    StreamTransport = class {
-      constructor(options) {
-        options = options || {};
-        this.options = options;
-        this.name = "StreamTransport";
-        this.version = version2;
-        this.logger = getLogger(this.options, {
-          component: this.options.component || "stream-transport"
-        });
-        this.winbreak = ["win", "windows", "dos", "\r\n"].includes((options.newline || "").toString().toLowerCase());
-      }
-      /**
-       * Compiles a mailcomposer message and forwards it to handler that sends it
-       *
-       * @param mail MailComposer object
-       * @param done Callback function to run when the sending is completed
-       */
-      send(mail, done) {
-        mail.message.keepBcc = true;
-        const envelope = mail.message.getEnvelope();
-        const messageId = mail.message.messageId();
-        const recipients = [].concat(envelope.to || []);
-        if (recipients.length > 3) {
-          recipients.push("...and " + recipients.splice(2).length + " more");
-        }
-        this.logger.info({
-          tnx: "send",
-          messageId
-        }, "Sending message %s to <%s> using %s line breaks", messageId, recipients.join(", "), this.winbreak ? "<CR><LF>" : "<LF>");
-        setImmediate(() => {
-          let stream;
-          try {
-            stream = mail.message.createReadStream();
-            if (this.options.newline) {
-              const sourceStream = stream;
-              stream = sourceStream.pipe(this.winbreak ? new LeWindows() : new LeUnix());
-              sourceStream.once("error", (err) => stream.emit("error", err));
-            }
-          } catch (E) {
-            this.logger.error({
-              err: E,
-              tnx: "send",
-              messageId
-            }, "Creating send stream failed for %s. %s", messageId, E.message);
-            return done(E);
-          }
-          if (!this.options.buffer) {
-            stream.once("error", (err) => {
-              this.logger.error({
-                err,
-                tnx: "send",
-                messageId
-              }, "Failed creating message for %s. %s", messageId, err.message);
-            });
-            return done(null, {
-              envelope,
-              messageId,
-              message: stream
-            });
-          }
-          const chunks = [];
-          let chunklen = 0;
-          stream.on("readable", () => {
-            let chunk;
-            while ((chunk = stream.read()) !== null) {
-              chunks.push(chunk);
-              chunklen += chunk.length;
-            }
-          });
-          stream.once("error", (err) => {
-            this.logger.error({
-              err,
-              tnx: "send",
-              messageId
-            }, "Failed creating message for %s. %s", messageId, err.message);
-            return done(err);
-          });
-          stream.on("end", () => done(null, {
-            envelope,
-            messageId,
-            message: Buffer.concat(chunks, chunklen)
-          }));
-        });
-      }
-    };
-    stream_transport_default = StreamTransport;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/json-transport/index.js
-var JSONTransport, json_transport_default;
 var init_json_transport = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/json-transport/index.js"() {
     init_package_info();
     init_shared();
-    JSONTransport = class {
-      constructor(options) {
-        options = options || {};
-        this.options = options;
-        this.name = "JSONTransport";
-        this.version = version2;
-        this.logger = getLogger(this.options, {
-          component: this.options.component || "json-transport"
-        });
-      }
-      /**
-       * <p>Compiles a mailcomposer message and forwards it to handler that sends it.</p>
-       *
-       * @param mail MailComposer object
-       * @param done Callback function to run when the sending is completed
-       */
-      send(mail, done) {
-        mail.message.keepBcc = true;
-        const envelope = mail.message.getEnvelope();
-        const messageId = mail.message.messageId();
-        const recipients = [].concat(envelope.to || []);
-        if (recipients.length > 3) {
-          recipients.push("...and " + recipients.splice(2).length + " more");
-        }
-        this.logger.info({
-          tnx: "send",
-          messageId
-        }, "Composing JSON structure of %s to <%s>", messageId, recipients.join(", "));
-        setImmediate(() => {
-          mail.normalize((err, data) => {
-            if (err) {
-              this.logger.error({
-                err,
-                tnx: "send",
-                messageId
-              }, "Failed building JSON structure for %s. %s", messageId, err.message);
-              return done(err);
-            }
-            delete data.envelope;
-            delete data.normalizedHeaders;
-            return done(null, {
-              envelope,
-              messageId,
-              message: this.options.skipEncoding ? data : JSON.stringify(data)
-            });
-          });
-        });
-      }
-    };
-    json_transport_default = JSONTransport;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/ses-transport/index.js
-import EventEmitter6 from "node:events";
-function tagSesError(err) {
-  if (err && typeof err === "object" && !err.code) {
-    err.code = ESES;
-  }
-  return err;
-}
-var SESTransport, ses_transport_default;
 var init_ses_transport = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/ses-transport/index.js"() {
     init_package_info();
@@ -65299,304 +60106,10 @@ var init_ses_transport = __esm({
     init_errors();
     init_le_windows();
     init_mime_node();
-    SESTransport = class extends EventEmitter6 {
-      constructor(options) {
-        super();
-        if (!options || !options.SES || !options.SES.sesClient) {
-          const error63 = new Error("Missing SES configuration, expecting { sesClient, SendEmailCommand } from @aws-sdk/client-sesv2, see https://nodemailer.com/transports/ses/");
-          error63.code = ECONFIG;
-          throw error63;
-        }
-        this.options = options;
-        this.ses = this.options.SES;
-        this.name = "SESTransport";
-        this.version = version2;
-        this.logger = getLogger(this.options, {
-          component: this.options.component || "ses-transport"
-        });
-      }
-      getRegion(cb) {
-        if (this.ses.sesClient.config && typeof this.ses.sesClient.config.region === "function") {
-          this.ses.sesClient.config.region().then((region) => cb(null, region), (err) => cb(err));
-          return;
-        }
-        return cb(null, false);
-      }
-      /**
-       * Compiles a mailcomposer message and forwards it to SES
-       *
-       * @param mail MailComposer object
-       * @param callback Callback function to run when the sending is completed
-       */
-      send(mail, callback) {
-        let fromHeader = mail.message._headers.find((header) => /^from$/i.test(header.key));
-        if (fromHeader) {
-          const mimeNode = new mime_node_default("text/plain");
-          fromHeader = mimeNode._convertAddresses(mimeNode._parseAddresses(fromHeader.value));
-        }
-        const envelope = mail.message.getEnvelope();
-        const messageId = mail.message.messageId();
-        const recipients = [].concat(envelope.to || []);
-        if (recipients.length > 3) {
-          recipients.push("...and " + recipients.splice(2).length + " more");
-        }
-        this.logger.info({
-          tnx: "send",
-          messageId
-        }, "Sending message %s to <%s>", messageId, recipients.join(", "));
-        const getRawMessage = (next) => {
-          if (!mail.data._dkim) {
-            mail.data._dkim = {};
-          }
-          if (mail.data._dkim.skipFields && typeof mail.data._dkim.skipFields === "string") {
-            mail.data._dkim.skipFields += ":date:message-id";
-          } else {
-            mail.data._dkim.skipFields = "date:message-id";
-          }
-          const sourceStream = mail.message.createReadStream();
-          const stream = sourceStream.pipe(new LeWindows());
-          const chunks = [];
-          let chunklen = 0;
-          stream.on("readable", () => {
-            let chunk;
-            while ((chunk = stream.read()) !== null) {
-              chunks.push(chunk);
-              chunklen += chunk.length;
-            }
-          });
-          sourceStream.once("error", (err) => stream.emit("error", err));
-          stream.once("error", (err) => next(err));
-          stream.once("end", () => next(null, Buffer.concat(chunks, chunklen)));
-        };
-        setImmediate(() => getRawMessage((err, raw) => {
-          if (err) {
-            this.logger.error({
-              err,
-              tnx: "send",
-              messageId
-            }, "Failed creating message for %s. %s", messageId, err.message);
-            return callback(err);
-          }
-          const sesMessage = copyOwnKeys({
-            Content: {
-              Raw: {
-                // required
-                Data: raw
-                // required
-              }
-            },
-            FromEmailAddress: fromHeader || envelope.from,
-            Destination: {
-              ToAddresses: envelope.to
-            }
-          }, mail.data.ses);
-          this.getRegion((err2, region) => {
-            if (err2 || !region) {
-              region = "us-east-1";
-            }
-            let sendPromise;
-            try {
-              const command = new this.ses.SendEmailCommand(sesMessage);
-              sendPromise = this.ses.sesClient.send(command);
-            } catch (err3) {
-              tagSesError(err3);
-              this.logger.error({
-                err: err3,
-                tnx: "send"
-              }, "Send error for %s: %s", messageId, err3.message);
-              setImmediate(() => callback(err3));
-              return;
-            }
-            sendPromise.then((data) => {
-              if (region === "us-east-1") {
-                region = "email";
-              }
-              const info = {
-                envelope: {
-                  from: envelope.from,
-                  to: envelope.to
-                },
-                messageId: "<" + data.MessageId + (!/@/.test(data.MessageId) ? "@" + region + ".amazonses.com" : "") + ">",
-                response: data.MessageId,
-                raw
-              };
-              setImmediate(() => callback(null, info));
-            }).catch((err3) => {
-              tagSesError(err3);
-              this.logger.error({
-                err: err3,
-                tnx: "send"
-              }, "Send error for %s: %s", messageId, err3.message);
-              setImmediate(() => callback(err3));
-            });
-          });
-        }));
-      }
-      verify(callback) {
-        let promise2;
-        if (!callback) {
-          promise2 = new Promise((resolve5, reject) => {
-            callback = callbackPromise(resolve5, reject);
-          });
-        }
-        const done = callback;
-        const cb = (err) => {
-          if (err && !["InvalidParameterValue", "MessageRejected"].includes(err.code || err.Code || err.name)) {
-            return done(tagSesError(err));
-          }
-          return done(null, true);
-        };
-        const sesMessage = {
-          Content: {
-            Raw: {
-              Data: Buffer.from("From: <invalid@invalid>\r\nTo: <invalid@invalid>\r\n Subject: Invalid\r\n\r\nInvalid")
-            }
-          },
-          FromEmailAddress: "invalid@invalid",
-          Destination: {
-            ToAddresses: ["invalid@invalid"]
-          }
-        };
-        this.getRegion(() => {
-          let sendPromise;
-          try {
-            const command = new this.ses.SendEmailCommand(sesMessage);
-            sendPromise = this.ses.sesClient.send(command);
-          } catch (err) {
-            setImmediate(() => cb(err));
-            return;
-          }
-          sendPromise.then(() => setImmediate(() => cb(null))).catch((err) => setImmediate(() => cb(err)));
-        });
-        return promise2;
-      }
-    };
-    ses_transport_default = SESTransport;
   }
 });
 
 // node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/nodemailer.js
-function createTransport(transporter, defaults) {
-  let options;
-  if (
-    // provided transporter is a configuration object, not transporter plugin
-    typeof transporter === "object" && typeof transporter.send !== "function" || // provided transporter looks like a connection url
-    typeof transporter === "string" && /^(smtps?|direct):/i.test(transporter)
-  ) {
-    const urlConfig = typeof transporter === "string" ? transporter : transporter.url;
-    if (urlConfig) {
-      const parsed = parseConnectionUrl(urlConfig);
-      options = typeof transporter === "object" ? assign(false, copyOwnKeys({}, transporter, (key) => key === "url"), parsed) : parsed;
-    } else {
-      options = transporter;
-    }
-    if (options.pool) {
-      transporter = new smtp_pool_default(options);
-    } else if (options.sendmail) {
-      transporter = new sendmail_transport_default(options);
-    } else if (options.streamTransport) {
-      transporter = new stream_transport_default(options);
-    } else if (options.jsonTransport) {
-      transporter = new json_transport_default(options);
-    } else if (options.SES) {
-      const ses = options.SES;
-      if (ses.ses && ses.aws) {
-        const error63 = new Error("Using legacy SES configuration, expecting @aws-sdk/client-sesv2, see https://nodemailer.com/transports/ses/");
-        error63.code = ECONFIG;
-        throw error63;
-      }
-      transporter = new ses_transport_default(options);
-    } else {
-      transporter = new smtp_transport_default(options);
-    }
-  }
-  return new mailer_default(transporter, options, defaults);
-}
-function createTestAccount(apiUrl, callback) {
-  let promise2;
-  if (!callback && typeof apiUrl === "function") {
-    callback = apiUrl;
-    apiUrl = false;
-  }
-  if (!callback) {
-    promise2 = new Promise((resolve5, reject) => {
-      callback = callbackPromise(resolve5, reject);
-    });
-  }
-  const done = callback;
-  if (etherealCache() && testAccount) {
-    setImmediate(() => done(null, testAccount));
-    return promise2;
-  }
-  apiUrl = apiUrl || etherealApi();
-  const chunks = [];
-  let chunklen = 0;
-  const requestHeaders = {};
-  const requestBody = {
-    requestor: name,
-    version: version2
-  };
-  const apiKey = etherealApiKey();
-  if (apiKey) {
-    requestHeaders.Authorization = "Bearer " + apiKey;
-  }
-  const fetchOptions = {
-    contentType: "application/json",
-    method: "POST",
-    headers: requestHeaders,
-    body: Buffer.from(JSON.stringify(requestBody))
-  };
-  if (/^https:/i.test(apiUrl)) {
-    fetchOptions.tls = { rejectUnauthorized: true };
-  }
-  const req = fetch_default(apiUrl + "/user", fetchOptions);
-  req.on("readable", () => {
-    let chunk;
-    while ((chunk = req.read()) !== null) {
-      chunks.push(chunk);
-      chunklen += chunk.length;
-    }
-  });
-  req.once("error", (err) => done(err));
-  req.once("end", () => {
-    const res = Buffer.concat(chunks, chunklen);
-    let data;
-    try {
-      data = JSON.parse(res.toString());
-    } catch (E) {
-      return done(E);
-    }
-    if (data.status !== "success" || data.error) {
-      return done(new Error(data.error || "Request failed"));
-    }
-    delete data.status;
-    testAccount = data;
-    done(null, testAccount);
-  });
-  return promise2;
-}
-function getTestMessageUrl(info) {
-  if (!info || !info.response) {
-    return false;
-  }
-  const infoProps = /* @__PURE__ */ new Map();
-  const response = info.response.toString();
-  if (response.length > 2 && response.charAt(response.length - 1) === "]") {
-    const open2 = response.indexOf("[", response.lastIndexOf("]", response.length - 2) + 1);
-    if (open2 >= 0 && open2 < response.length - 2) {
-      const props = response.substring(open2 + 1, response.length - 1);
-      props.replace(/\b([A-Z0-9]+)=([^\s]+)/g, (m, key, value) => {
-        infoProps.set(key, value);
-        return m;
-      });
-    }
-  }
-  if (infoProps.has("STATUS") && infoProps.has("MSGID")) {
-    return (testAccount && testAccount.web || etherealWeb()) + "/message/" + infoProps.get("MSGID");
-  }
-  return false;
-}
-var etherealApi, etherealWeb, etherealApiKey, etherealCache, testAccount, nodemailer, nodemailer_default;
 var init_nodemailer = __esm({
   "node_modules/.pnpm/nodemailer@10.1.4/node_modules/nodemailer/dist/esm/nodemailer.js"() {
     init_mailer();
@@ -65610,17 +60123,6 @@ var init_nodemailer = __esm({
     init_errors();
     init_fetch();
     init_package_info();
-    etherealApi = () => (process.env.ETHEREAL_API || "https://api.nodemailer.com").replace(/\/+$/, "");
-    etherealWeb = () => (process.env.ETHEREAL_WEB || "https://ethereal.email").replace(/\/+$/, "");
-    etherealApiKey = () => (process.env.ETHEREAL_API_KEY || "").replace(/\s*/g, "") || null;
-    etherealCache = () => ["true", "yes", "y", "1"].includes((process.env.ETHEREAL_CACHE || "yes").toString().trim().toLowerCase());
-    testAccount = false;
-    nodemailer = {
-      createTransport,
-      createTestAccount,
-      getTestMessageUrl
-    };
-    nodemailer_default = nodemailer;
   }
 });
 
@@ -65657,9 +60159,9 @@ var init_attachmentLimits = __esm({
 // src/utils/attachmentReadPolicy.ts
 import { realpathSync, statSync } from "fs";
 import { homedir, tmpdir } from "os";
-import { delimiter as delimiter2, isAbsolute, join, resolve as resolve3, sep } from "path";
-function canonicalize(path3) {
-  return realpathSync.native(path3);
+import { delimiter as delimiter2, isAbsolute, join, resolve as resolve2, sep } from "path";
+function canonicalize(path2) {
+  return realpathSync.native(path2);
 }
 function sensitiveRoots() {
   return SENSITIVE_HOME_ROOTS.map((root) => {
@@ -65694,7 +60196,7 @@ function userLibraryTail(candidate) {
   for (const i of volumeTops) {
     if (i >= 0 && lower[i] === "users" && lower[i + 2] === "library") return lower.slice(i + 3);
   }
-  const home = homeCanonical() ?? resolve3(homedir());
+  const home = homeCanonical() ?? resolve2(homedir());
   if (home === sep || !isWithinRoot(candidate, home)) return void 0;
   const relative = candidate.slice(home.length).split(sep).filter(Boolean);
   if (relative[0]?.toLowerCase() !== "library") return void 0;
@@ -65724,7 +60226,7 @@ function canonicalRoots(requested) {
   const resolved = [];
   for (const root of requested) {
     try {
-      const canonical = canonicalize(resolve3(root));
+      const canonical = canonicalize(resolve2(root));
       if (canonical !== sep && !resolved.includes(canonical)) resolved.push(canonical);
     } catch {
     }
@@ -65761,7 +60263,7 @@ function resolveAttachmentReadPath(filePath, env = process.env) {
   }
   const explicit = explicitRoots(env);
   const exempt = [...explicit, ...canonicalTmpdir()];
-  if (isProtectedPath(canonical, exempt) || isProtectedPath(resolve3(filePath), exempt)) {
+  if (isProtectedPath(canonical, exempt) || isProtectedPath(resolve2(filePath), exempt)) {
     throw new Error(
       `Attachment path is in a protected location: "${filePath}". Hidden files, credential locations and user Library folders (except iCloud Drive and CloudStorage) cannot be sent as attachments unless ${ATTACHMENT_READ_ROOTS_ENV} names a root for them.`
     );
@@ -65802,16 +60304,6 @@ var init_docsUrls = __esm({
 
 // src/services/smtpMailer.ts
 import { execFileSync } from "child_process";
-function errText(e) {
-  return e instanceof Error ? e.message : String(e);
-}
-async function defaultAppendSentCopy(smtpUser, raw, smtpHost) {
-  const { imapAppendSentCopy: imapAppendSentCopy2 } = await Promise.resolve().then(() => (init_imapClient(), imapClient_exports));
-  const result = await imapAppendSentCopy2(smtpUser, raw, {}, { smtpHost });
-  if (!result.attempted) return {};
-  if (!result.success) return { sentCopy: false, sentCopyError: result.error };
-  return result.alreadyFiled ? { sentCopy: true, sentCopyAlreadyFiled: true } : { sentCopy: true };
-}
 function buildRawMime(mail) {
   const message = new mail_composer_default(mail).compile();
   message.keepBcc = mail.keepBcc === true;
@@ -65819,13 +60311,6 @@ function buildRawMime(mail) {
 }
 function isSmtpConfigured(env = process.env) {
   return Boolean(env[SMTP_ENV.host]?.trim() && env[SMTP_ENV.user]?.trim());
-}
-function shouldUseSmtp(transport2, account, configured = isSmtpConfigured()) {
-  if (transport2 === "smtp") return true;
-  if (transport2 === "applescript") return false;
-  if (!configured) return false;
-  const isAccountLabel = Boolean(account && !account.includes("@"));
-  return !isAccountLabel;
 }
 function readKeychainPassword(service, account) {
   for (const kind of ["find-internet-password", "find-generic-password"]) {
@@ -65840,47 +60325,6 @@ function readKeychainPassword(service, account) {
     }
   }
   return null;
-}
-function resolveSmtpConfig(env = process.env) {
-  const host = env[SMTP_ENV.host]?.trim();
-  const user = env[SMTP_ENV.user]?.trim();
-  const missing = [];
-  if (!host) missing.push(SMTP_ENV.host);
-  if (!user) missing.push(SMTP_ENV.user);
-  if (missing.length > 0) {
-    throw new Error(
-      `SMTP transport is not configured. Set ${missing.join(" and ")} (plus a password via ${SMTP_ENV.password} or the Keychain). ` + SETUP_HINT
-    );
-  }
-  const secure = /^(1|true|yes)$/i.test(env[SMTP_ENV.secure]?.trim() ?? "");
-  const port = env[SMTP_ENV.port] ? Number.parseInt(env[SMTP_ENV.port], 10) : secure ? 465 : 587;
-  if (!Number.isInteger(port) || port <= 0) {
-    throw new Error(`Invalid ${SMTP_ENV.port}: "${env[SMTP_ENV.port]}" is not a valid port.`);
-  }
-  const from = env[SMTP_ENV.from]?.trim() || user;
-  const allowedFrom = (env[SMTP_ENV.allowedFrom] ?? "").split(",").map((value) => value.trim()).filter(Boolean);
-  let pass = env[SMTP_ENV.password];
-  if (!pass) {
-    const service = env[SMTP_ENV.keychainService]?.trim() || host;
-    const account = env[SMTP_ENV.keychainAccount]?.trim() || user;
-    pass = readKeychainPassword(service, account) ?? void 0;
-  }
-  if (!pass) {
-    throw new Error(
-      `No SMTP password found. Set ${SMTP_ENV.password}, or store an internet password in the Keychain for service "${env[SMTP_ENV.keychainService]?.trim() || host}" / account "${env[SMTP_ENV.keychainAccount]?.trim() || user}". ` + SETUP_HINT
-    );
-  }
-  const allowPlaintext = /^(1|true|yes|on)$/i.test(env[SMTP_ENV.allowPlaintext]?.trim() ?? "");
-  return {
-    host,
-    port,
-    secure,
-    allowPlaintext,
-    user,
-    pass,
-    from,
-    allowedFrom
-  };
 }
 function buildAttachments(attachments) {
   if (!attachments || attachments.length === 0) return void 0;
@@ -65922,117 +60366,6 @@ function composeRawMime(opts, from) {
     date: /* @__PURE__ */ new Date()
   });
 }
-function resolveSmtpFrom(from, config2) {
-  const requestedFrom = from?.trim();
-  const allowedFrom = new Set(
-    [config2.user, config2.from, ...config2.allowedFrom ?? []].map(
-      (value) => value.trim().toLowerCase()
-    )
-  );
-  if (requestedFrom && !allowedFrom.has(requestedFrom.toLowerCase())) {
-    throw new Error(`SMTP From "${requestedFrom}" is not a configured sender identity.`);
-  }
-  return requestedFrom || config2.from;
-}
-async function sendViaSmtp(opts, config2, createTransport2 = nodemailer_default.createTransport, appendSentCopy = defaultAppendSentCopy) {
-  let cfg;
-  let from;
-  try {
-    cfg = config2 ?? resolveSmtpConfig();
-    from = resolveSmtpFrom(opts.from, cfg);
-  } catch (error63) {
-    return { success: false, error: error63 instanceof Error ? error63.message : String(error63) };
-  }
-  let attachments;
-  try {
-    attachments = buildAttachments(opts.attachments);
-  } catch (error63) {
-    return { success: false, error: error63 instanceof Error ? error63.message : String(error63) };
-  }
-  const requireTLS = !cfg.secure && !cfg.allowPlaintext;
-  if (!cfg.secure && cfg.allowPlaintext) {
-    console.warn(
-      `SMTP plaintext explicitly enabled via ${SMTP_ENV.allowPlaintext}; credentials and message content may be exposed.`
-    );
-  }
-  const transporter = createTransport2({
-    host: cfg.host,
-    port: cfg.port,
-    secure: cfg.secure,
-    // Port 587/143-style configurations must not silently downgrade to
-    // plaintext when the server advertises no usable TLS upgrade.
-    requireTLS,
-    auth: { user: cfg.user, pass: cfg.pass }
-  });
-  const mailOptions = {
-    ...buildMailOptions(opts, from, attachments),
-    date: /* @__PURE__ */ new Date()
-  };
-  try {
-    const info = await transporter.sendMail(mailOptions);
-    let copyFields = {};
-    try {
-      const raw = await buildRawMime({
-        ...mailOptions,
-        keepBcc: true,
-        messageId: info.messageId
-      });
-      copyFields = await appendSentCopy(cfg.user, raw, cfg.host);
-    } catch (copyError) {
-      copyFields = { sentCopy: false, sentCopyError: errText(copyError) };
-    }
-    return { success: true, messageId: info.messageId, ...copyFields };
-  } catch (error63) {
-    const detail = error63 instanceof Error ? error63.message : String(error63);
-    const tlsHint = requireTLS ? ` STARTTLS is required for non-implicit TLS; to explicitly allow plaintext (not recommended), set ${SMTP_ENV.allowPlaintext}=1.` : "";
-    return {
-      success: false,
-      error: `SMTP send failed: ${detail}.${tlsHint}`
-    };
-  } finally {
-    transporter.close();
-  }
-}
-function applyPlaceholders(template, variables) {
-  let out = template;
-  for (const [key, value] of Object.entries(variables)) {
-    const safeKey = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    out = out.replace(new RegExp(`\\{\\{${safeKey}\\}\\}`, "g"), () => value);
-  }
-  return out;
-}
-async function sendSerialViaSmtp(recipients, subject, body, config2, opts = {}) {
-  const from = resolveSmtpFrom(opts.from, config2);
-  const send = opts.send ?? sendViaSmtp;
-  const sleep2 = opts.sleep ?? ((ms) => new Promise((r) => setTimeout(r, ms)));
-  const delay = Math.min(Math.max(opts.delayMs ?? 500, 0), 1e4);
-  const results = [];
-  for (let i = 0; i < recipients.length; i++) {
-    const r = recipients[i];
-    try {
-      const res = await send(
-        {
-          to: [r.email],
-          subject: applyPlaceholders(subject, r.variables),
-          body: applyPlaceholders(body, r.variables),
-          from
-        },
-        config2
-      );
-      results.push({ email: r.email, success: res.success, error: res.error });
-    } catch (error63) {
-      results.push({
-        email: r.email,
-        success: false,
-        error: error63 instanceof Error ? error63.message : String(error63)
-      });
-    }
-    if (delay > 0 && i < recipients.length - 1) {
-      await sleep2(delay);
-    }
-  }
-  return results;
-}
 var SMTP_ENV;
 var init_smtpMailer = __esm({
   "src/services/smtpMailer.ts"() {
@@ -66060,9 +60393,6 @@ var init_smtpMailer = __esm({
 // src/utils/mailboxName.ts
 function mailboxNameKey(name2) {
   return name2.trim().normalize("NFC").toLowerCase();
-}
-function nfc(name2) {
-  return name2.trim().normalize("NFC");
 }
 var init_mailboxName = __esm({
   "src/utils/mailboxName.ts"() {
@@ -66673,7 +61003,6 @@ var init_headers = __esm({
 });
 
 // src/services/auditLog.ts
-import { appendFileSync } from "node:fs";
 function isOn(raw) {
   return /^(1|true|yes|on)$/i.test((raw ?? "").trim());
 }
@@ -66709,41 +61038,6 @@ function classifyCountStatus(readable, expected, observed) {
   if (observed === 0) return { status: "unknown", unknownReason: "count-did-not-move" };
   return { status: "unknown", unknownReason: "count-partial" };
 }
-function writeAuditRecord(record2) {
-  const path3 = auditLogPath();
-  if (!path3) return;
-  try {
-    appendFileSync(path3, `${JSON.stringify(record2)}
-`, "utf8");
-  } catch (err) {
-    console.error(
-      `[apple-mail-mcp] audit log write failed (${path3}): ${err instanceof Error ? err.message : String(err)}`
-    );
-  }
-}
-function writeDestructiveAudit(ctx, report) {
-  if (!isAuditEnabled()) return;
-  writeAuditRecord({
-    ts: (/* @__PURE__ */ new Date()).toISOString(),
-    tool: ctx.tool,
-    serverVersion: ctx.serverVersion,
-    args: ctx.args,
-    preImages: report.preImages,
-    outcomes: report.outcomes,
-    countDeltas: report.countDeltas,
-    collateral: report.collateral,
-    subjectsLogged: auditSubjectsEnabled()
-  });
-}
-function countDeltaWarning(d) {
-  if (d.status !== "over" || d.expected === null) return null;
-  const extra = (d.observed ?? 0) - d.expected;
-  const where = d.account ? `"${d.mailbox}" in account "${d.account}"` : `"${d.mailbox}"`;
-  return `\u26A0\uFE0F Effect mismatch in ${where}: ${d.observed} message(s) left the mailbox but only ${d.expected} were operated on (count ${d.before} \u2192 ${d.after}). ${extra} message(s) are unaccounted for. Anything else removing mail from this mailbox at the same moment \u2014 a Mail rule, a server-side filter, another client, an IMAP expunge \u2014 reads the same way, so rule that out first. If nothing else was touching it, this is the signature of https://github.com/sweetrb/apple-mail-mcp/issues/155 \u2014 please report it there, and set ${AUDIT_LOG_ENV}=/path/to/audit.ndjson to capture which messages disappeared.`;
-}
-function reconciliationWarnings(report) {
-  return report.countDeltas.map((d) => countDeltaWarning(d)).filter((w) => w !== null);
-}
 var AUDIT_LOG_ENV, AUDIT_SUBJECTS_ENV, AUDIT_SNAPSHOT_MAX_ENV, AUDIT_SNAPSHOT_CHUNK_ENV, DEFAULT_SNAPSHOT_MAX, DEFAULT_SNAPSHOT_CHUNK, SNAPSHOT_SLICE_ATTEMPTS;
 var init_auditLog = __esm({
   "src/services/auditLog.ts"() {
@@ -66759,81 +61053,8 @@ var init_auditLog = __esm({
 });
 
 // src/services/imapClient.ts
-var imapClient_exports = {};
-__export(imapClient_exports, {
-  FLAG_COLOR_NAMES: () => FLAG_COLOR_NAMES,
-  HEADER_WINDOW_BYTES: () => HEADER_WINDOW_BYTES,
-  IMAP_ENV: () => IMAP_ENV,
-  LARGE_MAILBOX_MESSAGES: () => LARGE_MAILBOX_MESSAGES,
-  MAX_COMPOSE_SOURCE_BYTES: () => MAX_COMPOSE_SOURCE_BYTES,
-  MAX_RFC822_FILE_BYTES: () => MAX_RFC822_FILE_BYTES,
-  MAX_RFC822_INLINE_BYTES: () => MAX_RFC822_INLINE_BYTES,
-  MAX_UNSCOPED_SEARCH_DEPTH: () => MAX_UNSCOPED_SEARCH_DEPTH,
-  SENT_COPY_GMAIL_POLL_INTERVAL_MS: () => SENT_COPY_GMAIL_POLL_INTERVAL_MS,
-  SENT_COPY_GMAIL_POLL_MS: () => SENT_COPY_GMAIL_POLL_MS,
-  __resetPool: () => __resetPool,
-  __setPoolConnect: () => __setPoolConnect,
-  base64DecodedLength: () => base64DecodedLength,
-  base64DecodedSizeFromTail: () => base64DecodedSizeFromTail,
-  bodyStructureHasAttachments: () => bodyStructureHasAttachments,
-  buildImapConnectionOptions: () => buildImapConnectionOptions,
-  decodeImapId: () => decodeImapId,
-  decodedSizeWithoutBody: () => decodedSizeWithoutBody,
-  dropAllPools: () => dropAllPools,
-  encodeImapId: () => encodeImapId,
-  extractRawMessageId: () => extractRawMessageId,
-  flagColorName: () => flagColorName,
-  imapAppendDraft: () => imapAppendDraft,
-  imapAppendSentCopy: () => imapAppendSentCopy,
-  imapBatchDelete: () => imapBatchDelete,
-  imapBatchFlag: () => imapBatchFlag,
-  imapBatchMarkRead: () => imapBatchMarkRead,
-  imapBatchMarkUnread: () => imapBatchMarkUnread,
-  imapBatchMove: () => imapBatchMove,
-  imapBatchUnflag: () => imapBatchUnflag,
-  imapCreateMailbox: () => imapCreateMailbox,
-  imapDeleteMailbox: () => imapDeleteMailbox,
-  imapDeleteMessageById: () => imapDeleteMessageById,
-  imapFetchAttachment: () => imapFetchAttachment,
-  imapFetchMessageId: () => imapFetchMessageId,
-  imapFlagMessage: () => imapFlagMessage,
-  imapGetMessage: () => imapGetMessage,
-  imapGetMessageHeaders: () => imapGetMessageHeaders,
-  imapGetMessageRfc822: () => imapGetMessageRfc822,
-  imapGetMessageSource: () => imapGetMessageSource,
-  imapHealthCheck: () => imapHealthCheck,
-  imapListAttachments: () => imapListAttachments,
-  imapListMailboxes: () => imapListMailboxes,
-  imapListMessages: () => imapListMessages,
-  imapMailStats: () => imapMailStats,
-  imapMarkRead: () => imapMarkRead,
-  imapMarkUnread: () => imapMarkUnread,
-  imapMoveMessageById: () => imapMoveMessageById,
-  imapRenameMailbox: () => imapRenameMailbox,
-  imapSearchMessages: () => imapSearchMessages,
-  imapThread: () => imapThread,
-  imapUnflagMessage: () => imapUnflagMessage,
-  imapUnreadCount: () => imapUnreadCount,
-  isGmailHost: () => isGmailHost,
-  isImapAccount: () => isImapAccount,
-  listImapAccountLabels: () => listImapAccountLabels,
-  mailFlagBitsFor: () => mailFlagBitsFor,
-  mailFlagColorIndex: () => mailFlagColorIndex,
-  matchMailbox: () => matchMailbox,
-  normalizeMessageId: () => normalizeMessageId,
-  omittedNote: () => omittedNote,
-  quotedPrintableDecodedLength: () => quotedPrintableDecodedLength,
-  resolveDraftImapAccount: () => resolveDraftImapAccount,
-  resolveImapConfig: () => resolveImapConfig,
-  resolveImapConfigs: () => resolveImapConfigs,
-  resolveMailboxPath: () => resolveMailboxPath,
-  shouldUseImap: () => shouldUseImap,
-  stoppedNote: () => stoppedNote,
-  unscopedSearchOffsetError: () => unscopedSearchOffsetError
-});
-import { createHash } from "node:crypto";
-function encodeImapId(account, path3, uid) {
-  const payload = Buffer.from(JSON.stringify({ a: account, p: path3, u: uid }), "utf8").toString(
+function encodeImapId(account, path2, uid) {
+  const payload = Buffer.from(JSON.stringify({ a: account, p: path2, u: uid }), "utf8").toString(
     "base64url"
   );
   return `imap:${payload}`;
@@ -67098,7 +61319,7 @@ function headerDate(m, headerText) {
 function sentDate(m, headerText) {
   return plausibleDateSent(headerDate(m, headerText), validDate(m.internalDate));
 }
-function formatRow(m, account, path3) {
+function formatRow(m, account, path2) {
   const env = m.envelope ?? {};
   const subject = env.subject || "(no subject)";
   const a = env.from?.[0];
@@ -67106,18 +61327,18 @@ function formatRow(m, account, path3) {
   const shown = sentDate(m) ?? validDate(m.internalDate);
   const date5 = shown ? shown.toLocaleDateString() : "";
   const read = m.flags?.has("\\Seen") ? "read" : "unread";
-  return `  - ID: ${encodeImapId(account, path3, m.uid)} | ${date5} | ${subject} (from: ${from}) [${read}]`;
+  return `  - ID: ${encodeImapId(account, path2, m.uid)} | ${date5} | ${subject} (from: ${from}) [${read}]`;
 }
 function isoOrEmpty(d) {
   if (!d) return "";
   const parsed = d instanceof Date ? d : new Date(d);
   return Number.isNaN(parsed.getTime()) ? "" : parsed.toISOString();
 }
-function structuredRow(m, account, path3) {
+function structuredRow(m, account, path2) {
   const env = m.envelope ?? {};
   const flagColorIndex = mailFlagColorIndex(m.flags);
   return {
-    id: encodeImapId(account, path3, m.uid),
+    id: encodeImapId(account, path2, m.uid),
     subject: env.subject || "(no subject)",
     sender: senderName(env.from),
     // ⚠️ `env.date` is the `Date:` HEADER — imapflow builds ENVELOPE from the
@@ -67145,7 +61366,7 @@ function structuredRow(m, account, path3) {
     // own `flag index` is 0 for red, -1 for none).
     flagColorIndex,
     flagColor: flagColorName(flagColorIndex),
-    mailbox: path3,
+    mailbox: path2,
     account,
     // Derived from BODYSTRUCTURE, which the list/search fetch now requests.
     // This was hardcoded `false` from 2.2.0 until 2.11.1 — indistinguishable to
@@ -67179,7 +61400,7 @@ function omittedNote(omitted, merged) {
 Partial result. ${omitted.length} message(s) ${merged ? "that may belong" : "that belong"} on this page could not be read and are not listed: ${list}. Reason: ${[...new Set(omitted.map((o) => o.reason))].join("; ")}. get-message or get-message-headers with those ids may still read them.`;
 }
 function describeMailboxFailure(error63) {
-  const raw = errText2(error63);
+  const raw = errText(error63);
   const oneLine = raw.split("\n")[0].trim();
   const looksSensitive = /pass(word)?\s*[:=]|authorization:\s*\S|bearer\s+\S{10,}/i.test(oneLine);
   const safe = looksSensitive ? "IMAP error (detail redacted \u2014 response text looked like it might contain a credential)" : oneLine || "unknown error";
@@ -67205,22 +61426,22 @@ function isUnfiltered(criteria) {
   const keys = Object.keys(criteria);
   return keys.length === 1 && criteria.deleted === false;
 }
-async function statusMessageCount(client, path3) {
+async function statusMessageCount(client, path2) {
   try {
-    const st = await client.status(path3, { messages: true });
+    const st = await client.status(path2, { messages: true });
     return typeof st.messages === "number" && st.messages >= 0 ? st.messages : void 0;
   } catch {
     return void 0;
   }
 }
-async function searchUids(client, path3, criteria, size) {
+async function searchUids(client, path2, criteria, size) {
   client.takeLastCommandError?.();
   const found = await client.search(criteria, { uid: true });
   if (Array.isArray(found)) return found;
   const cause = client.takeLastCommandError?.();
   const sized = size === void 0 ? "" : ` (${size.toLocaleString("en-US")} messages)`;
   throw new Error(
-    `IMAP SEARCH on "${path3}"${sized} failed: ` + (cause ? errText2(cause) : "the server rejected it or the connection dropped before it answered (on a mailbox this size, usually a server-side timeout)")
+    `IMAP SEARCH on "${path2}"${sized} failed: ` + (cause ? errText(cause) : "the server rejected it or the connection dropped before it answered (on a mailbox this size, usually a server-side timeout)")
   );
 }
 async function filterUidsByColor(client, uids, colorIndex) {
@@ -67391,12 +61612,12 @@ async function listLargeMailbox(client, exists, page) {
     totalExact: true
   };
 }
-async function searchLargeMailbox(client, path3, criteria, exists, page, colorIndex) {
+async function searchLargeMailbox(client, path2, criteria, exists, page, colorIndex) {
   const walk = await walkWindows(exists, page, FIRST_SEARCH_WINDOW, async (lo, hi, width) => {
-    let found = await searchUids(client, path3, { ...criteria, seq: `${lo}:${hi}` }, exists);
+    let found = await searchUids(client, path2, { ...criteria, seq: `${lo}:${hi}` }, exists);
     if (found.length > width) {
       throw new Error(
-        `IMAP SEARCH on "${path3}" reported ${found.length} matches in a ${width}-message window \u2014 discarding as corrupted rather than trusting it (see #246).`
+        `IMAP SEARCH on "${path2}" reported ${found.length} matches in a ${width}-message window \u2014 discarding as corrupted rather than trusting it (see #246).`
       );
     }
     if (colorIndex !== void 0) found = await filterUidsByColor(client, found, colorIndex);
@@ -67408,29 +61629,29 @@ async function searchLargeMailbox(client, path3, criteria, exists, page, colorIn
     totalExact: walk.exhausted
   };
 }
-async function fetchMailboxMatches(client, path3, criteria, page, colorIndex) {
-  const lock = await client.getMailboxLock(path3);
+async function fetchMailboxMatches(client, path2, criteria, page, colorIndex) {
+  const lock = await client.getMailboxLock(path2);
   try {
-    const exists = await statusMessageCount(client, path3);
+    const exists = await statusMessageCount(client, path2);
     if (exists === 0) return { messages: [], omitted: [], total: 0, totalExact: true };
     if (exists !== void 0 && exists > LARGE_MAILBOX_MESSAGES) {
       try {
-        return isUnfiltered(criteria) ? await listLargeMailbox(client, exists, page) : await searchLargeMailbox(client, path3, criteria, exists, page, colorIndex);
+        return isUnfiltered(criteria) ? await listLargeMailbox(client, exists, page) : await searchLargeMailbox(client, path2, criteria, exists, page, colorIndex);
       } catch (error63) {
-        const detail = errText2(error63);
+        const detail = errText(error63);
         throw new Error(
-          detail.includes(`"${path3}" (`) ? detail : `reading the newest messages of "${path3}" (${exists.toLocaleString("en-US")} messages) failed: ${detail}`
+          detail.includes(`"${path2}" (`) ? detail : `reading the newest messages of "${path2}" (${exists.toLocaleString("en-US")} messages) failed: ${detail}`
         );
       }
     }
-    const rawUids = await searchUids(client, path3, criteria, exists);
+    const rawUids = await searchUids(client, path2, criteria, exists);
     if (rawUids.length === 0) {
       return { messages: [], omitted: [], total: 0, totalExact: true };
     }
-    const messages = exists ?? (await client.status(path3, { messages: true })).messages ?? void 0;
+    const messages = exists ?? (await client.status(path2, { messages: true })).messages ?? void 0;
     if (typeof messages === "number" && rawUids.length > messages) {
       throw new Error(
-        `IMAP SEARCH on "${path3}" reported ${rawUids.length} matches, more than the mailbox's own ${messages} messages \u2014 discarding as corrupted rather than trusting it (see #246).`
+        `IMAP SEARCH on "${path2}" reported ${rawUids.length} matches, more than the mailbox's own ${messages} messages \u2014 discarding as corrupted rather than trusting it (see #246).`
       );
     }
     const uids = colorIndex !== void 0 ? await filterUidsByColor(client, rawUids, colorIndex) : rawUids;
@@ -67479,14 +61700,14 @@ async function run(args, listMode, deps) {
       let totalMatched = 0;
       let totalExact = true;
       const timedOutMailboxes = [];
-      for (const [index, path3] of paths.entries()) {
+      for (const [index, path2] of paths.entries()) {
         if (deps.signal?.aborted) {
           timedOutMailboxes.push(...paths.slice(index));
           break;
         }
         try {
           const outcome = await raceStop(
-            fetchMailboxMatches(client, path3, criteria, page, args.flagColorIndex),
+            fetchMailboxMatches(client, path2, criteria, page, args.flagColorIndex),
             deps.signal
           );
           if (outcome === STOPPED) {
@@ -67497,25 +61718,25 @@ async function run(args, listMode, deps) {
           const result = outcome;
           totalMatched += result.total;
           totalExact &&= result.totalExact;
-          fetched.push(...result.messages.map((message) => ({ message, path: path3 })));
+          fetched.push(...result.messages.map((message) => ({ message, path: path2 })));
           for (const uid of result.omitted) {
             omittedMessages.push({
-              id: encodeImapId(cfg.accountLabel, path3, uid),
-              mailbox: path3,
+              id: encodeImapId(cfg.accountLabel, path2, uid),
+              mailbox: path2,
               uid,
               reason: result.omittedReason ?? "the server's FETCH response could not be read"
             });
           }
         } catch (error63) {
-          failedMailboxes.push(path3);
-          failedMailboxReasons[path3] = describeMailboxFailure(error63);
+          failedMailboxes.push(path2);
+          failedMailboxReasons[path2] = describeMailboxFailure(error63);
           console.error(
-            `IMAP ${listMode ? "list" : "search"} failed for account "${cfg.accountLabel}", mailbox "${path3}": ${String(error63)}`
+            `IMAP ${listMode ? "list" : "search"} failed for account "${cfg.accountLabel}", mailbox "${path2}": ${String(error63)}`
           );
         }
       }
       if (failedMailboxes.length === paths.length) {
-        const detail = failedMailboxes.map((path3) => `${path3} (${failedMailboxReasons[path3]})`).join(", ");
+        const detail = failedMailboxes.map((path2) => `${path2} (${failedMailboxReasons[path2]})`).join(", ");
         throw new Error(
           `IMAP ${listMode ? "list" : "search"} failed in every requested mailbox for account ${cfg.accountLabel}: ${detail}.`
         );
@@ -67530,9 +61751,9 @@ async function run(args, listMode, deps) {
         }
         ordered = [...unique.values()].slice(offset, offset + limit);
       }
-      const rows = ordered.map(({ message, path: path3 }) => formatRow(message, cfg.accountLabel, path3));
+      const rows = ordered.map(({ message, path: path2 }) => formatRow(message, cfg.accountLabel, path2));
       const messages = ordered.map(
-        ({ message, path: path3 }) => structuredRow(message, cfg.accountLabel, path3)
+        ({ message, path: path2 }) => structuredRow(message, cfg.accountLabel, path2)
       );
       const partial2 = failedMailboxes.length > 0 || omittedMessages.length > 0 || timedOutMailboxes.length > 0;
       const stopped = timedOutMailboxes.length > 0 ? {
@@ -67541,7 +61762,7 @@ async function run(args, listMode, deps) {
       } : {};
       const failureNote = (failedMailboxes.length > 0 ? `
 
-Partial result. Could not search mailbox(es): ${failedMailboxes.map((path3) => `"${path3}" (${failedMailboxReasons[path3]})`).join(", ")}.` : "") + omittedNote(omittedMessages, unscopedSearch) + stoppedNote(timedOutMailboxes, deps.signal);
+Partial result. Could not search mailbox(es): ${failedMailboxes.map((path2) => `"${path2}" (${failedMailboxReasons[path2]})`).join(", ")}.` : "") + omittedNote(omittedMessages, unscopedSearch) + stoppedNote(timedOutMailboxes, deps.signal);
       const verb = listMode ? "listed" : "matched";
       const totalText = totalExact ? `${totalMatched} total` : `at least ${totalMatched} total`;
       const scope = unscopedSearch ? allMailboxCount === 1 ? `mailbox "${paths[0]}"` : `${allMailboxCount} selectable mailboxes` : `mailbox "${paths[0]}"`;
@@ -67659,7 +61880,7 @@ function imapMailStats(deps = {}) {
     true
   );
 }
-function errText2(e) {
+function errText(e) {
   if (!(e instanceof Error)) return String(e);
   const x = e;
   if (typeof x.responseStatus !== "string" || !x.responseStatus) return e.message;
@@ -67667,31 +61888,6 @@ function errText2(e) {
   const text = typeof x.responseText === "string" ? x.responseText.trim() : "";
   const server2 = [x.responseStatus, code ? `[${code}]` : "", text].filter(Boolean).join(" ");
   return e.message && e.message !== "Command failed" ? `${e.message}: ${server2}` : server2;
-}
-function assertMutated(result, what) {
-  if (!result) throw new Error(`${what}: server rejected the command (IMAP NO/BAD)`);
-  return result;
-}
-async function verifyMoved(client, moved, uid, srcPath, destPath) {
-  const newUid = moved.uidMap?.get(uid);
-  if (newUid !== void 0) {
-    return {
-      verdict: "verified",
-      how: `COPYUID: UID ${uid} arrived in "${destPath}" as UID ${newUid}`
-    };
-  }
-  try {
-    const stillThere = await client.fetchOne(String(uid), { uid: true }, { uid: true });
-    if (!stillThere) {
-      return { verdict: "verified", how: `UID ${uid} is no longer present in "${srcPath}"` };
-    }
-    return {
-      verdict: "unverified",
-      why: `the server accepted the MOVE, but UID ${uid} is still present in "${srcPath}" and this server does not advertise UIDPLUS, so arrival in "${destPath}" could not be confirmed. A Gmail label store can legitimately keep a message in an all-mail view after a move, so this is not reported as a failure`
-    };
-  } catch (e) {
-    return { verdict: "unverified", why: `the post-move check could not run: ${errText2(e)}` };
-  }
 }
 function poolKey(cfg) {
   return imapIdentityKey(cfg);
@@ -67772,7 +61968,7 @@ async function imapHealthCheck(deps = {}) {
   try {
     cfg = deps.config ?? resolveImapConfig(process.env, deps.account);
   } catch (e) {
-    return { configured: true, ok: false, error: errText2(e) };
+    return { configured: true, ok: false, error: errText(e) };
   }
   try {
     await useClient(deps, async (client) => {
@@ -67785,15 +61981,9 @@ async function imapHealthCheck(deps = {}) {
       ok: false,
       account: cfg.accountLabel,
       host: cfg.host,
-      error: errText2(e)
+      error: errText(e)
     };
   }
-}
-function __setPoolConnect(fn) {
-  poolConnect = fn ?? defaultConnect;
-}
-async function __resetPool() {
-  await dropAllPools();
 }
 async function useClient(deps, fn, retryOnDrop = false) {
   const cfg = deps.config ?? resolveImapConfig(process.env, deps.account);
@@ -67831,10 +62021,6 @@ async function useClient(deps, fn, retryOnDrop = false) {
 function withClient(deps, fn) {
   return useClient(deps, fn);
 }
-async function resolveMailbox(client, name2) {
-  const boxes = await client.list();
-  return matchMailbox(boxes, name2);
-}
 function matchMailbox(boxes, name2) {
   const exact = boxes.find((b) => b.path === name2 || b.path === name2.trim());
   if (exact) return { kind: "found", path: exact.path };
@@ -67856,148 +62042,6 @@ function ambiguousMailboxError(name2, candidates, accountLabel) {
   const indistinguishable = new Set(candidates.map(mailboxNameKey)).size === 1;
   const hint = indistinguishable ? " They differ only in letter case or Unicode normalization (precomposed vs decomposed accents), so no typed name can tell them apart. Rename one of them." : " Pass the full path.";
   return `Mailbox "${name2}" is ambiguous${where} \u2014 it matches ${listed}.${hint}`;
-}
-async function findMailboxPathOrThrow(client, name2) {
-  const res = await resolveMailbox(client, name2);
-  if (res.kind === "ambiguous") throw new Error(ambiguousMailboxError(name2, res.candidates));
-  return res.kind === "found" ? res.path : null;
-}
-function imapCreateMailbox(name2, deps = {}) {
-  return withClient(deps, async (client) => {
-    let twin;
-    try {
-      const wanted = nfc(name2);
-      twin = (await client.list()).find((b) => nfc(b.path) === wanted)?.path;
-    } catch {
-    }
-    if (twin !== void 0) {
-      return { success: true, info: `Mailbox "${twin}" already existed.` };
-    }
-    try {
-      const res = await client.mailboxCreate(name2);
-      return res.created ? { success: true, info: `Created mailbox "${res.path}".` } : { success: true, info: `Mailbox "${res.path}" already existed.` };
-    } catch (e) {
-      return { success: false, error: `IMAP create failed for "${name2}": ${errText2(e)}` };
-    }
-  });
-}
-function imapDeleteMailbox(name2, deps = {}) {
-  return withClient(deps, async (client, cfg) => {
-    const res = await resolveMailbox(client, name2);
-    if (res.kind === "ambiguous") {
-      return {
-        success: false,
-        error: ambiguousMailboxError(name2, res.candidates, cfg.accountLabel)
-      };
-    }
-    if (res.kind === "none") {
-      return {
-        success: false,
-        error: `Mailbox "${name2}" not found on IMAP account ${cfg.accountLabel}.`
-      };
-    }
-    const path3 = res.path;
-    try {
-      await client.mailboxDelete(path3);
-      return {
-        success: true,
-        info: `Deleted mailbox "${path3}" via IMAP (account ${cfg.accountLabel}).`
-      };
-    } catch (e) {
-      return { success: false, error: `IMAP delete failed for "${path3}": ${errText2(e)}` };
-    }
-  });
-}
-function imapRenameMailbox(oldName, newName, deps = {}) {
-  return withClient(deps, async (client, cfg) => {
-    const found = await resolveMailbox(client, oldName);
-    if (found.kind === "ambiguous") {
-      return {
-        success: false,
-        error: ambiguousMailboxError(oldName, found.candidates, cfg.accountLabel)
-      };
-    }
-    if (found.kind === "none") {
-      return {
-        success: false,
-        error: `Mailbox "${oldName}" not found on IMAP account ${cfg.accountLabel}.`
-      };
-    }
-    const path3 = found.path;
-    const wantedNew = nfc(newName);
-    const clash = (await client.list()).find((b) => b.path !== path3 && nfc(b.path) === wantedNew);
-    if (clash) {
-      return {
-        success: false,
-        error: `Cannot rename "${path3}" to "${newName}": mailbox "${clash.path}" already exists on IMAP account ${cfg.accountLabel} (the same name, differing only in how its accents are encoded).`
-      };
-    }
-    try {
-      const res = await client.mailboxRename(path3, newName);
-      return { success: true, info: `Renamed "${res.path}" to "${res.newPath}" via IMAP.` };
-    } catch (e) {
-      return {
-        success: false,
-        error: `IMAP rename failed for "${path3}" -> "${newName}": ${errText2(e)}`
-      };
-    }
-  });
-}
-function isGmailHost(host) {
-  return Boolean(host && GMAIL_HOST.test(host.trim()));
-}
-function extractRawMessageId(raw) {
-  const text = typeof raw === "string" ? raw : raw.toString("latin1");
-  const end = text.search(/\r?\n\r?\n/);
-  const header = (end === -1 ? text : text.slice(0, end)).replace(/\r?\n[ \t]+/g, " ");
-  const m = /^message-id:[ \t]*(<[^<>\s]+>)/im.exec(header);
-  return m ? m[1] : null;
-}
-async function imapAppendSentCopy(smtpUser, raw, deps = {}, opts = {}) {
-  if (!deps.config && !isImapAccount(smtpUser)) return { attempted: false };
-  const messageId = extractRawMessageId(raw);
-  const sleep2 = opts.sleep ?? ((ms) => new Promise((r) => setTimeout(r, ms)));
-  const now = opts.now ?? Date.now;
-  try {
-    return await withClient({ ...deps, account: deps.account ?? smtpUser }, async (client, cfg) => {
-      const path3 = await resolveMailboxPath(client, "sent", "list");
-      if (messageId) {
-        const gmail = isGmailHost(cfg.host) || isGmailHost(opts.smtpHost);
-        const budget = gmail ? opts.gmailPollMs ?? SENT_COPY_GMAIL_POLL_MS : 0;
-        const interval = Math.max(1, opts.gmailPollIntervalMs ?? SENT_COPY_GMAIL_POLL_INTERVAL_MS);
-        if (await sentCopyPresent(client, path3, messageId, budget, interval, sleep2, now)) {
-          return { attempted: true, success: true, mailbox: path3, alreadyFiled: true };
-        }
-      }
-      const res = await client.append(path3, raw, ["\\Seen"]);
-      if (!res) throw new Error("server rejected the APPEND (IMAP NO/BAD)");
-      return { attempted: true, success: true, mailbox: path3 };
-    });
-  } catch (e) {
-    return { attempted: true, success: false, error: errText2(e) };
-  }
-}
-async function sentCopyPresent(client, path3, messageId, budget, interval, sleep2, now) {
-  const deadline = now() + budget;
-  for (; ; ) {
-    try {
-      const lock = await client.getMailboxLock(path3, { readOnly: true });
-      try {
-        const found = await client.search(
-          { header: { "message-id": messageId }, ...NOT_DELETED },
-          { uid: true }
-        );
-        if (Array.isArray(found) && found.length > 0) return true;
-      } finally {
-        lock.release();
-      }
-    } catch {
-      return false;
-    }
-    const left = deadline - now();
-    if (left <= 0) return false;
-    await sleep2(Math.min(interval, left));
-  }
 }
 function resolveDraftImapAccount(account, smtpUser, env = process.env) {
   const specs = listImapAccountSpecs(env);
@@ -68027,113 +62071,17 @@ function resolveDraftImapAccount(account, smtpUser, env = process.env) {
 }
 async function imapAppendDraft(account, raw, deps = {}) {
   return withClient({ ...deps, account: deps.account ?? account }, async (client, cfg) => {
-    const path3 = await resolveMailboxPath(client, "drafts", "list");
-    const res = await client.append(path3, raw, ["\\Draft", "\\Seen"]);
-    if (!res) throw new Error(`server rejected the APPEND to "${path3}" (IMAP NO/BAD)`);
-    return { mailbox: path3, account: cfg.accountLabel };
+    const path2 = await resolveMailboxPath(client, "drafts", "list");
+    const res = await client.append(path2, raw, ["\\Draft", "\\Seen"]);
+    if (!res) throw new Error(`server rejected the APPEND to "${path2}" (IMAP NO/BAD)`);
+    return { mailbox: path2, account: cfg.accountLabel };
   });
 }
-async function withMailbox(path3, deps, fn) {
+async function withMailbox(path2, deps, fn) {
   return withClient(deps, async (client) => {
-    const lock = await client.getMailboxLock(path3);
+    const lock = await client.getMailboxLock(path2);
     try {
       return await fn(client);
-    } finally {
-      lock.release();
-    }
-  });
-}
-async function imapGetMessageSource(id, deps = {}) {
-  const ref = decodeImapId(id);
-  if (!ref) throw new Error(`Not an IMAP message id: "${id}".`);
-  return withClient(depsForMessageRef(ref, deps), async (client, cfg) => {
-    const lock = await client.getMailboxLock(ref.path);
-    try {
-      const msg = await client.fetchOne(
-        String(ref.uid),
-        {
-          envelope: true,
-          // One extra byte distinguishes an exact-limit source from truncation.
-          source: { start: 0, maxLength: MAX_COMPOSE_SOURCE_BYTES + 1 }
-        },
-        { uid: true }
-      );
-      if (!msg) throw new Error(`IMAP message UID ${ref.uid} not found in "${ref.path}".`);
-      if (!msg.source || !msg.source.length)
-        throw new Error("IMAP returned no original message source.");
-      if (Buffer.byteLength(msg.source) > MAX_COMPOSE_SOURCE_BYTES) {
-        throw new Error("Original message source exceeds the 25 MiB reply/forward limit.");
-      }
-      return { raw: msg.source.toString(), subject: msg.envelope?.subject, accountUser: cfg.user };
-    } finally {
-      lock.release();
-    }
-  });
-}
-async function imapGetMessageRfc822(id, opts = {}, deps = {}) {
-  const ref = decodeImapId(id);
-  if (!ref) return { success: false, error: `Not an IMAP message id: "${id}".` };
-  const requested = Math.floor(opts.maxBytes ?? MAX_RFC822_INLINE_BYTES);
-  const limit = Math.min(Math.max(1, requested), MAX_RFC822_FILE_BYTES);
-  return withClient(depsForMessageRef(ref, deps), async (client) => {
-    const lock = await client.getMailboxLock(ref.path, { readOnly: true });
-    try {
-      const mb = client.mailbox;
-      const uidValidity = mb && mb.uidValidity !== void 0 && mb.uidValidity !== null ? String(mb.uidValidity) : void 0;
-      const msg = await client.fetchOne(
-        String(ref.uid),
-        {
-          uid: true,
-          flags: true,
-          internalDate: true,
-          size: true,
-          envelope: true,
-          source: { start: 0, maxLength: limit + 1 }
-        },
-        { uid: true }
-      );
-      if (!msg) {
-        return { success: false, error: `IMAP message UID ${ref.uid} not found in "${ref.path}".` };
-      }
-      if (!msg.source || !msg.source.length) {
-        return { success: false, error: "IMAP returned no message source." };
-      }
-      const bytes = asBuffer(msg.source);
-      const size = typeof msg.size === "number" ? msg.size : void 0;
-      if (bytes.length > limit) {
-        return {
-          success: false,
-          error: `Message UID ${ref.uid} in "${ref.path}" is larger than ${limit} bytes` + (size !== void 0 ? ` (RFC822.SIZE ${size})` : "") + `; nothing was acquired (the ceiling refuses, it never truncates). Raise maxBytes \u2014 inline ceiling ${MAX_RFC822_INLINE_BYTES} \u2014 or pass savePath to write up to ${MAX_RFC822_FILE_BYTES} bytes to disk.`
-        };
-      }
-      const warnings = [];
-      if (size !== void 0 && size !== bytes.length) {
-        warnings.push(
-          `RFC822.SIZE is ${size} but ${bytes.length} bytes were acquired: the server's size accounting and its stored bytes disagree. sha256 covers what was received.`
-        );
-      }
-      if (uidValidity === void 0) {
-        warnings.push(
-          "The server did not report UIDVALIDITY for this mailbox; uid alone is not a durable identity."
-        );
-      }
-      return {
-        success: true,
-        acquisition: {
-          account: ref.account,
-          mailbox: ref.path,
-          uid: ref.uid,
-          uidValidity,
-          internalDate: isoOrUndefined(msg.internalDate),
-          flags: msg.flags ? Array.from(msg.flags) : [],
-          size,
-          bytes,
-          sha256: createHash("sha256").update(bytes).digest("hex"),
-          messageId: msg.envelope?.messageId ? normalizeMessageId(msg.envelope.messageId) : void 0,
-          readMethod: `EXAMINE "${ref.path}"; UID FETCH ${ref.uid} (UID FLAGS INTERNALDATE RFC822.SIZE ENVELOPE BODY.PEEK[]<0.${limit + 1}>)`,
-          warnings
-        }
-      };
     } finally {
       lock.release();
     }
@@ -68216,27 +62164,6 @@ async function imapGetMessageHeaders(id, deps = {}) {
 function normalizeMessageId(mid) {
   return mid.trim().replace(/^<+/, "").replace(/>+$/, "").trim();
 }
-async function imapFetchMessageId(id, deps = {}) {
-  const ref = decodeImapId(id);
-  if (!ref) return null;
-  try {
-    return await withMailbox(ref.path, depsForMessageRef(ref, deps), async (client) => {
-      const msg = await client.fetchOne(String(ref.uid), { envelope: true }, { uid: true });
-      const mid = msg && msg.envelope?.messageId;
-      return mid ? normalizeMessageId(mid) : null;
-    });
-  } catch {
-    return null;
-  }
-}
-function mailFlagBitsFor(colorIndex) {
-  const set2 = [];
-  const clear = [];
-  for (let b = 0; b < MAIL_FLAG_BITS.length; b++) {
-    (colorIndex >> b & 1 ? set2 : clear).push(MAIL_FLAG_BITS[b]);
-  }
-  return { set: set2, clear };
-}
 function mailFlagColorIndex(flags) {
   if (!flags) return void 0;
   const have = new Set(flags);
@@ -68252,157 +62179,6 @@ function mailFlagColorIndex(flags) {
 }
 function flagColorName(index) {
   return index === void 0 ? void 0 : FLAG_COLOR_NAMES[index];
-}
-function flagOp(id, flag, add, deps) {
-  const ref = decodeImapId(id);
-  if (!ref) return Promise.resolve({ success: false, error: `Not an IMAP message id: "${id}".` });
-  return withMailbox(ref.path, depsForMessageRef(ref, deps), async (client) => {
-    try {
-      const ok = add ? await client.messageFlagsAdd([ref.uid], [flag], { uid: true }) : await client.messageFlagsRemove([ref.uid], [flag], { uid: true });
-      if (!ok)
-        return { success: false, error: `IMAP flag update returned false for UID ${ref.uid}.` };
-      return { success: true };
-    } catch (e) {
-      return {
-        success: false,
-        error: `IMAP flag update failed for UID ${ref.uid}: ${errText2(e)}`
-      };
-    }
-  });
-}
-function imapFlagMessage(id, colorIndex, deps = {}) {
-  if (colorIndex === void 0) return flagOp(id, "\\Flagged", true, deps);
-  const ref = decodeImapId(id);
-  if (!ref) return Promise.resolve({ success: false, error: `Not an IMAP message id: "${id}".` });
-  const { set: set2, clear } = mailFlagBitsFor(colorIndex);
-  return withMailbox(ref.path, depsForMessageRef(ref, deps), async (client) => {
-    try {
-      const ok = await client.messageFlagsAdd([ref.uid], ["\\Flagged", ...set2], { uid: true });
-      if (!ok)
-        return { success: false, error: `IMAP flag update returned false for UID ${ref.uid}.` };
-      if (clear.length) await client.messageFlagsRemove([ref.uid], clear, { uid: true });
-      return { success: true };
-    } catch (e) {
-      return { success: false, error: `IMAP flag update failed for UID ${ref.uid}: ${errText2(e)}` };
-    }
-  });
-}
-function imapUnflagMessage(id, deps = {}) {
-  const ref = decodeImapId(id);
-  if (!ref) return Promise.resolve({ success: false, error: `Not an IMAP message id: "${id}".` });
-  return withMailbox(ref.path, depsForMessageRef(ref, deps), async (client) => {
-    try {
-      const ok = await client.messageFlagsRemove([ref.uid], ["\\Flagged", ...MAIL_FLAG_BITS], {
-        uid: true
-      });
-      if (!ok) return { success: false, error: `IMAP unflag returned false for UID ${ref.uid}.` };
-      return { success: true };
-    } catch (e) {
-      return { success: false, error: `IMAP unflag failed for UID ${ref.uid}: ${errText2(e)}` };
-    }
-  });
-}
-async function imapMoveMessageById(id, destMailbox, deps = {}) {
-  const ref = decodeImapId(id);
-  if (!ref) return { success: false, error: `Not an IMAP message id: "${id}".` };
-  return withClient(depsForMessageRef(ref, deps), async (client, cfg) => {
-    const dest = await resolveMailbox(client, destMailbox);
-    if (dest.kind === "ambiguous") {
-      return {
-        success: false,
-        error: ambiguousMailboxError(destMailbox, dest.candidates, cfg.accountLabel)
-      };
-    }
-    const destPath = dest.kind === "found" ? dest.path : await resolveMailboxPath(client, destMailbox, "list");
-    const lock = await client.getMailboxLock(ref.path);
-    try {
-      const moved = assertMutated(
-        await client.messageMove([ref.uid], destPath, { uid: true }),
-        `IMAP move of UID ${ref.uid} to "${destPath}"`
-      );
-      const verification = await verifyMoved(client, moved, ref.uid, ref.path, destPath);
-      return {
-        success: true,
-        info: verification.verdict === "verified" ? `Moved UID ${ref.uid} to "${destPath}" via IMAP (verified: ${verification.how}).` : `Moved UID ${ref.uid} to "${destPath}" via IMAP \u2014 UNVERIFIED: ${verification.why}.`,
-        verification
-      };
-    } catch (e) {
-      return {
-        success: false,
-        error: `IMAP move failed for UID ${ref.uid} -> "${destPath}": ${errText2(e)}`
-      };
-    } finally {
-      lock.release();
-    }
-  });
-}
-async function resolveTrashPath(client) {
-  let listed = false;
-  try {
-    const boxes = await client.list();
-    listed = true;
-    const special = boxes.find((b) => b.specialUse === "\\Trash");
-    if (special) return special.path;
-    const named = boxes.find(
-      (b) => /^(trash|deleted messages|deleted items|bin)$/i.test(b.name) || /(^|\/)trash$/i.test(b.path)
-    );
-    if (named) return named.path;
-  } catch {
-  }
-  if (!listed) return staticMailboxAlias("trash");
-  try {
-    const created = await client.mailboxCreate(FALLBACK_TRASH_PATH);
-    return created?.path || FALLBACK_TRASH_PATH;
-  } catch {
-    return FALLBACK_TRASH_PATH;
-  }
-}
-async function trashUids(client, uids, srcPath) {
-  const dest = await resolveTrashPath(client);
-  if (srcPath.trim().toLowerCase() === dest.trim().toLowerCase()) {
-    assertMutated(
-      await client.messageDelete(uids, { uid: true }),
-      `IMAP expunge of ${uids.length} message(s) from "${srcPath}"`
-    );
-    return { dest, expunged: true };
-  }
-  const moved = assertMutated(
-    await client.messageMove(uids, dest, { uid: true }),
-    `IMAP move of ${uids.length} message(s) from "${srcPath}" to "${dest}"`
-  );
-  return { dest, expunged: false, moved };
-}
-async function verifyExpunged(client, uid, path3) {
-  try {
-    const stillThere = await client.fetchOne(String(uid), { uid: true }, { uid: true });
-    if (!stillThere) {
-      return { verdict: "verified", how: `UID ${uid} is no longer present in "${path3}"` };
-    }
-    return {
-      verdict: "unverified",
-      why: `the server accepted the EXPUNGE but UID ${uid} is still present in "${path3}"`
-    };
-  } catch (e) {
-    return { verdict: "unverified", why: `the post-delete check could not run: ${errText2(e)}` };
-  }
-}
-async function imapDeleteMessageById(id, deps = {}) {
-  const ref = decodeImapId(id);
-  if (!ref) return { success: false, error: `Not an IMAP message id: "${id}".` };
-  return withMailbox(ref.path, depsForMessageRef(ref, deps), async (client) => {
-    try {
-      const { dest, expunged, moved } = await trashUids(client, [ref.uid], ref.path);
-      const verification = expunged || !moved ? await verifyExpunged(client, ref.uid, ref.path) : await verifyMoved(client, moved, ref.uid, ref.path, dest);
-      const what = expunged ? `Permanently deleted UID ${ref.uid} from Trash ("${ref.path}") via IMAP` : `Moved UID ${ref.uid} to Trash ("${dest}") via IMAP`;
-      return {
-        success: true,
-        info: verification.verdict === "verified" ? `${what} (verified: ${verification.how}).` : `${what} \u2014 UNVERIFIED: ${verification.why}.`,
-        verification
-      };
-    } catch (e) {
-      return { success: false, error: `IMAP delete failed for UID ${ref.uid}: ${errText2(e)}` };
-    }
-  });
 }
 function dispositionSize(params) {
   const raw = params?.size?.trim();
@@ -68591,90 +62367,9 @@ async function imapFetchAttachment(id, attachmentName, deps = {}) {
         mimeType: match.mimeType
       };
     } catch (e) {
-      return { success: false, error: `IMAP attachment fetch failed: ${errText2(e)}` };
+      return { success: false, error: `IMAP attachment fetch failed: ${errText(e)}` };
     }
   });
-}
-async function mailboxCount(client, path3) {
-  try {
-    const st = await client.status(path3, { messages: true });
-    return typeof st.messages === "number" ? st.messages : null;
-  } catch {
-    return null;
-  }
-}
-async function imapBatch(ids, deps, op, opts = {}) {
-  const groups = /* @__PURE__ */ new Map();
-  const errors2 = [];
-  let failed = 0;
-  for (const id of ids) {
-    const ref = decodeImapId(id);
-    if (!ref) {
-      failed++;
-      errors2.push(`Not an IMAP id: "${id}"`);
-      continue;
-    }
-    const key = `${ref.account}\0${ref.path}`;
-    const g = groups.get(key) ?? { account: ref.account, path: ref.path, uids: [] };
-    g.uids.push(ref.uid);
-    groups.set(key, g);
-  }
-  let success2 = 0;
-  const countDelta = [];
-  for (const g of groups.values()) {
-    try {
-      await useClient(depsForAccount(g.account, deps), async (client) => {
-        const before = opts.reconcile ? await mailboxCount(client, g.path) : null;
-        const lock = await client.getMailboxLock(g.path);
-        try {
-          await op(client, g.uids, g.path);
-        } finally {
-          lock.release();
-        }
-        if (!opts.reconcile) return;
-        const after = await mailboxCount(client, g.path);
-        const readable = before !== null && after !== null;
-        const observed = readable ? before - after : null;
-        const { status, unknownReason } = classifyCountStatus(readable, g.uids.length, observed);
-        countDelta.push({
-          account: g.account,
-          mailbox: g.path,
-          before,
-          after,
-          expected: g.uids.length,
-          observed,
-          status,
-          ...unknownReason ? { unknownReason } : {},
-          ...unknownReason === "count-unreadable" ? { note: "The server did not answer STATUS for this mailbox" } : {},
-          ...unknownReason === "count-did-not-move" ? {
-            note: `The mailbox count did not move. On a label store (Gmail) a message can stay visible in an all-mail view after being moved out of a label, so this is not by itself evidence the operation failed \u2014 check the destination.`
-          } : {},
-          ...unknownReason === "count-partial" ? {
-            note: `Fewer messages left than were operated on. \`observed\` is a LOWER BOUND on what left, not a count of what left \u2014 a concurrent delivery to this mailbox masks departures one-for-one.`
-          } : {}
-        });
-      });
-      success2 += g.uids.length;
-    } catch (e) {
-      failed += g.uids.length;
-      errors2.push(`${g.path}: ${errText2(e)}`);
-    }
-  }
-  return { success: success2, failed, errors: errors2, ...countDelta.length ? { countDelta } : {} };
-}
-function imapBatchMove(ids, destMailbox, deps = {}) {
-  return imapBatch(
-    ids,
-    deps,
-    async (c, uids) => {
-      const dest = await findMailboxPathOrThrow(c, destMailbox) ?? await resolveMailboxPath(c, destMailbox, "list");
-      assertMutated(
-        await c.messageMove(uids, dest, { uid: true }),
-        `IMAP move of ${uids.length} message(s) to "${dest}"`
-      );
-    },
-    { reconcile: true }
-  );
 }
 function senderName(from) {
   const a = from?.[0];
@@ -68766,7 +62461,7 @@ async function imapThread(id, deps = {}, limit = 50) {
     true
   );
 }
-var import_imapflow, IMAP_ENV, defaultConnect, SPECIAL_USE_ALIASES, NOT_DELETED, LARGE_MAILBOX_MESSAGES, FIRST_SEARCH_WINDOW, MAX_WINDOW, MAX_UNSCOPED_SEARCH_DEPTH, COLOR_FETCH_CHUNK, ROW_QUERY, ROW_QUERY_NO_STRUCTURE, ROW_QUERY_HEADERS_ONLY, DELETED_MARGIN, poolConnect, pools, connecting, SENT_COPY_GMAIL_POLL_MS, SENT_COPY_GMAIL_POLL_INTERVAL_MS, GMAIL_HOST, MAX_COMPOSE_SOURCE_BYTES, MAX_RFC822_INLINE_BYTES, MAX_RFC822_FILE_BYTES, HEADER_WINDOW_BYTES, MAIL_FLAG_BITS, FLAG_COLOR_NAMES, imapMarkRead, imapMarkUnread, FALLBACK_TRASH_PATH, BASE64_TAIL_WINDOW, QP_EXACT_MAX_BYTES, imapBatchMarkRead, imapBatchMarkUnread, imapBatchFlag, imapBatchUnflag, imapBatchDelete;
+var import_imapflow, IMAP_ENV, defaultConnect, SPECIAL_USE_ALIASES, NOT_DELETED, LARGE_MAILBOX_MESSAGES, FIRST_SEARCH_WINDOW, MAX_WINDOW, MAX_UNSCOPED_SEARCH_DEPTH, COLOR_FETCH_CHUNK, ROW_QUERY, ROW_QUERY_NO_STRUCTURE, ROW_QUERY_HEADERS_ONLY, DELETED_MARGIN, poolConnect, pools, connecting, MAX_COMPOSE_SOURCE_BYTES, MAX_RFC822_INLINE_BYTES, HEADER_WINDOW_BYTES, MAIL_FLAG_BITS, FLAG_COLOR_NAMES, BASE64_TAIL_WINDOW, QP_EXACT_MAX_BYTES;
 var init_imapClient = __esm({
   "src/services/imapClient.ts"() {
     "use strict";
@@ -68865,12 +62560,8 @@ var init_imapClient = __esm({
     poolConnect = defaultConnect;
     pools = /* @__PURE__ */ new Map();
     connecting = /* @__PURE__ */ new Map();
-    SENT_COPY_GMAIL_POLL_MS = 3e3;
-    SENT_COPY_GMAIL_POLL_INTERVAL_MS = 500;
-    GMAIL_HOST = /(^|\.)(gmail|googlemail)\.com$/i;
     MAX_COMPOSE_SOURCE_BYTES = 25 * 1024 * 1024;
     MAX_RFC822_INLINE_BYTES = 6 * 1024 * 1024;
-    MAX_RFC822_FILE_BYTES = MAX_COMPOSE_SOURCE_BYTES;
     HEADER_WINDOW_BYTES = 64 * 1024;
     MAIL_FLAG_BITS = ["$MailFlagBit0", "$MailFlagBit1", "$MailFlagBit2"];
     FLAG_COLOR_NAMES = [
@@ -68882,52 +62573,8 @@ var init_imapClient = __esm({
       "purple",
       "gray"
     ];
-    imapMarkRead = (id, deps = {}) => flagOp(id, "\\Seen", true, deps);
-    imapMarkUnread = (id, deps = {}) => flagOp(id, "\\Seen", false, deps);
-    FALLBACK_TRASH_PATH = "Trash";
     BASE64_TAIL_WINDOW = 1024;
     QP_EXACT_MAX_BYTES = 64 * 1024;
-    imapBatchMarkRead = (ids, deps = {}) => imapBatch(ids, deps, async (c, uids) => {
-      assertMutated(
-        await c.messageFlagsAdd(uids, ["\\Seen"], { uid: true }),
-        `IMAP mark-read of ${uids.length} message(s)`
-      );
-    });
-    imapBatchMarkUnread = (ids, deps = {}) => imapBatch(ids, deps, async (c, uids) => {
-      assertMutated(
-        await c.messageFlagsRemove(uids, ["\\Seen"], { uid: true }),
-        `IMAP mark-unread of ${uids.length} message(s)`
-      );
-    });
-    imapBatchFlag = (ids, colorIndex, deps = {}) => imapBatch(ids, deps, async (c, uids) => {
-      if (colorIndex === void 0) {
-        assertMutated(
-          await c.messageFlagsAdd(uids, ["\\Flagged"], { uid: true }),
-          `IMAP flag of ${uids.length} message(s)`
-        );
-        return;
-      }
-      const { set: set2, clear } = mailFlagBitsFor(colorIndex);
-      assertMutated(
-        await c.messageFlagsAdd(uids, ["\\Flagged", ...set2], { uid: true }),
-        `IMAP flag of ${uids.length} message(s)`
-      );
-      if (clear.length) await c.messageFlagsRemove(uids, clear, { uid: true });
-    });
-    imapBatchUnflag = (ids, deps = {}) => imapBatch(ids, deps, async (c, uids) => {
-      assertMutated(
-        await c.messageFlagsRemove(uids, ["\\Flagged", ...MAIL_FLAG_BITS], { uid: true }),
-        `IMAP unflag of ${uids.length} message(s)`
-      );
-    });
-    imapBatchDelete = (ids, deps = {}) => imapBatch(
-      ids,
-      deps,
-      async (c, uids, path3) => {
-        await trashUids(c, uids, path3);
-      },
-      { reconcile: true }
-    );
   }
 });
 
@@ -68936,37 +62583,37 @@ import { createRequire } from "module";
 
 // node_modules/.pnpm/zod@4.6.7/node_modules/zod/v3/helpers/util.js
 var util;
-(function(util4) {
-  util4.assertEqual = (_) => {
+(function(util2) {
+  util2.assertEqual = (_) => {
   };
   function assertIs2(_arg) {
   }
-  util4.assertIs = assertIs2;
+  util2.assertIs = assertIs2;
   function assertNever2(_x) {
     throw new Error();
   }
-  util4.assertNever = assertNever2;
-  util4.arrayToEnum = (items) => {
+  util2.assertNever = assertNever2;
+  util2.arrayToEnum = (items) => {
     const obj = {};
     for (const item of items) {
       obj[item] = item;
     }
     return obj;
   };
-  util4.getValidEnumValues = (obj) => {
-    const validKeys = util4.objectKeys(obj).filter((k) => typeof obj[obj[k]] !== "number");
+  util2.getValidEnumValues = (obj) => {
+    const validKeys = util2.objectKeys(obj).filter((k) => typeof obj[obj[k]] !== "number");
     const filtered = {};
     for (const k of validKeys) {
       filtered[k] = obj[k];
     }
-    return util4.objectValues(filtered);
+    return util2.objectValues(filtered);
   };
-  util4.objectValues = (obj) => {
-    return util4.objectKeys(obj).map(function(e) {
+  util2.objectValues = (obj) => {
+    return util2.objectKeys(obj).map(function(e) {
       return obj[e];
     });
   };
-  util4.objectKeys = typeof Object.keys === "function" ? (obj) => Object.keys(obj) : (object3) => {
+  util2.objectKeys = typeof Object.keys === "function" ? (obj) => Object.keys(obj) : (object3) => {
     const keys = [];
     for (const key in object3) {
       if (Object.prototype.hasOwnProperty.call(object3, key)) {
@@ -68975,19 +62622,19 @@ var util;
     }
     return keys;
   };
-  util4.find = (arr, checker) => {
+  util2.find = (arr, checker) => {
     for (const item of arr) {
       if (checker(item))
         return item;
     }
     return void 0;
   };
-  util4.isInteger = typeof Number.isInteger === "function" ? (val) => Number.isInteger(val) : (val) => typeof val === "number" && Number.isFinite(val) && Math.floor(val) === val;
+  util2.isInteger = typeof Number.isInteger === "function" ? (val) => Number.isInteger(val) : (val) => typeof val === "number" && Number.isFinite(val) && Math.floor(val) === val;
   function joinValues2(array2, separator = " | ") {
     return array2.map((val) => typeof val === "string" ? `'${val}'` : val).join(separator);
   }
-  util4.joinValues = joinValues2;
-  util4.jsonStringifyReplacer = (_, value) => {
+  util2.joinValues = joinValues2;
+  util2.jsonStringifyReplacer = (_, value) => {
     if (typeof value === "bigint") {
       return value.toString();
     }
@@ -69308,8 +62955,8 @@ function getErrorMap() {
 
 // node_modules/.pnpm/zod@4.6.7/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path3, errorMaps, issueData } = params;
-  const fullPath = [...path3, ...issueData.path || []];
+  const { data, path: path2, errorMaps, issueData } = params;
+  const fullPath = [...path2, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -69424,11 +63071,11 @@ var errorUtil;
 
 // node_modules/.pnpm/zod@4.6.7/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path3, key) {
+  constructor(parent, value, path2, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path3;
+    this._path = path2;
     this._key = key;
   }
   get path() {
@@ -73383,10 +67030,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path3) {
-  if (!path3)
+function getElementAtPath(obj, path2) {
+  if (!path2)
     return obj;
-  return path3.reduce((acc, key) => acc?.[key], obj);
+  return path2.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -73726,11 +67373,11 @@ function explicitlyAborted(x, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path3, issues) {
+function prefixIssues(path2, issues) {
   return issues.map((iss) => {
     var _a3;
     (_a3 = iss).path ?? (_a3.path = []);
-    iss.path.unshift(path3);
+    iss.path.unshift(path2);
     return iss;
   });
 }
@@ -74192,16 +67839,16 @@ function flattenError(error63, mapper = (issue2) => issue2.message) {
 }
 function formatError(error63, mapper = (issue2) => issue2.message) {
   const fieldErrors = { _errors: [] };
-  const processError = (error64, path3 = []) => {
+  const processError = (error64, path2 = []) => {
     for (const issue2 of error64.issues) {
       if (issue2.code === "invalid_union" && issue2.errors.length) {
-        issue2.errors.map((issues) => processError({ issues }, [...path3, ...issue2.path]));
+        issue2.errors.map((issues) => processError({ issues }, [...path2, ...issue2.path]));
       } else if (issue2.code === "invalid_key") {
-        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path2, ...issue2.path]);
       } else if (issue2.code === "invalid_element") {
-        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path2, ...issue2.path]);
       } else {
-        const fullpath = [...path3, ...issue2.path];
+        const fullpath = [...path2, ...issue2.path];
         if (fullpath.length === 0) {
           fieldErrors._errors.push(mapper(issue2));
         } else {
@@ -74240,17 +67887,17 @@ function formatError(error63, mapper = (issue2) => issue2.message) {
 }
 function treeifyError(error63, mapper = (issue2) => issue2.message) {
   const result = { errors: [] };
-  const processError = (error64, path3 = []) => {
+  const processError = (error64, path2 = []) => {
     var _a3;
     for (const issue2 of error64.issues) {
       if (issue2.code === "invalid_union" && issue2.errors.length) {
-        issue2.errors.map((issues) => processError({ issues }, [...path3, ...issue2.path]));
+        issue2.errors.map((issues) => processError({ issues }, [...path2, ...issue2.path]));
       } else if (issue2.code === "invalid_key") {
-        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path2, ...issue2.path]);
       } else if (issue2.code === "invalid_element") {
-        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path2, ...issue2.path]);
       } else {
-        const fullpath = [...path3, ...issue2.path];
+        const fullpath = [...path2, ...issue2.path];
         if (fullpath.length === 0) {
           result.errors.push(mapper(issue2));
           continue;
@@ -74289,8 +67936,8 @@ function treeifyError(error63, mapper = (issue2) => issue2.message) {
 }
 function toDotPath(_path) {
   const segs = [];
-  const path3 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
-  for (const seg of path3) {
+  const path2 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
+  for (const seg of path2) {
     if (typeof seg === "number")
       segs.push(`[${seg}]`);
     else if (typeof seg === "symbol")
@@ -77633,7 +71280,7 @@ var recursive = /* @__PURE__ */ new WeakMap();
 var NONE = 0;
 var ASSUMED = 1;
 var PROVEN = 2;
-function isRecursive(inst, stack, resolve5) {
+function isRecursive(inst, stack, resolve4) {
   const cached2 = recursive.get(inst);
   if (cached2 !== void 0)
     return cached2 ? PROVEN : NONE;
@@ -77643,7 +71290,7 @@ function isRecursive(inst, stack, resolve5) {
   let result = NONE;
   const check2 = (child) => {
     if (result !== PROVEN && child?._zod) {
-      const answer = isRecursive(child, stack, resolve5);
+      const answer = isRecursive(child, stack, resolve4);
       if (answer > result)
         result = answer;
     }
@@ -77654,7 +71301,7 @@ function isRecursive(inst, stack, resolve5) {
       const desc = Object.getOwnPropertyDescriptor(sh, key);
       if (spread && !desc.enumerable)
         continue;
-      const child = desc.get ? ASSUMED : desc.value?._zod ? isRecursive(desc.value, stack, resolve5) : NONE;
+      const child = desc.get ? ASSUMED : desc.value?._zod ? isRecursive(desc.value, stack, resolve4) : NONE;
       if (child > answer)
         answer = child;
     }
@@ -77718,7 +71365,7 @@ function isRecursive(inst, stack, resolve5) {
       break;
     // `$ZodLazy` caches its inner on the def, so a resolved edge is followed exactly
     case "lazy": {
-      const inner = def._cachedInner ?? (resolve5 ? inst._zod.innerType : void 0);
+      const inner = def._cachedInner ?? (resolve4 ? inst._zod.innerType : void 0);
       merge2(inner ? isRecursive(inner, stack, false) : ASSUMED);
       break;
     }
@@ -89841,11 +83488,11 @@ function normalizeObjectSchema(schema) {
   }
   return void 0;
 }
-function getDotPath(path3) {
-  if (path3.length === 0) {
+function getDotPath(path2) {
+  if (path2.length === 0) {
     return "object root";
   }
-  return path3.reduce((acc, seg, index) => {
+  return path2.reduce((acc, seg, index) => {
     if (index === 0) {
       return String(seg);
     }
@@ -92072,13 +85719,13 @@ function resolveRef(ref, ctx) {
   if (!ref.startsWith("#")) {
     throw new Error("External $ref is not supported, only local refs (#/...) are allowed");
   }
-  const path3 = ref.slice(1).split("/").filter(Boolean);
-  if (path3.length === 0) {
+  const path2 = ref.slice(1).split("/").filter(Boolean);
+  if (path2.length === 0) {
     return ctx.rootSchema;
   }
   const defsKey = ctx.version === "draft-2020-12" ? "$defs" : "definitions";
-  if (path3[0] === defsKey) {
-    const key = path3[1] === void 0 ? void 0 : decodeJSONPointerSegment(path3[1]);
+  if (path2[0] === defsKey) {
+    const key = path2[1] === void 0 ? void 0 : decodeJSONPointerSegment(path2[1]);
     if (!key || !ctx.defs[key]) {
       throw new Error(`Reference not found: ${ref}`);
     }
@@ -96156,7 +89803,7 @@ var Protocol = class {
           return;
         }
         const pollInterval = task2.pollInterval ?? this._options?.defaultTaskPollInterval ?? 1e3;
-        await new Promise((resolve5) => setTimeout(resolve5, pollInterval));
+        await new Promise((resolve4) => setTimeout(resolve4, pollInterval));
         options?.signal?.throwIfAborted();
       }
     } catch (error63) {
@@ -96173,7 +89820,7 @@ var Protocol = class {
    */
   request(request, resultSchema, options) {
     const { relatedRequestId, resumptionToken, onresumptiontoken, task, relatedTask } = options ?? {};
-    return new Promise((resolve5, reject) => {
+    return new Promise((resolve4, reject) => {
       const earlyReject = (error63) => {
         reject(error63);
       };
@@ -96251,7 +89898,7 @@ var Protocol = class {
           if (!parseResult.success) {
             reject(parseResult.error);
           } else {
-            resolve5(parseResult.data);
+            resolve4(parseResult.data);
           }
         } catch (error63) {
           reject(error63);
@@ -96513,12 +90160,12 @@ var Protocol = class {
       }
     } catch {
     }
-    return new Promise((resolve5, reject) => {
+    return new Promise((resolve4, reject) => {
       if (signal.aborted) {
         reject(new McpError(ErrorCode.InvalidRequest, "Request cancelled"));
         return;
       }
-      const timeoutId = setTimeout(resolve5, interval);
+      const timeoutId = setTimeout(resolve4, interval);
       signal.addEventListener("abort", () => {
         clearTimeout(timeoutId);
         reject(new McpError(ErrorCode.InvalidRequest, "Request cancelled"));
@@ -97871,7 +91518,7 @@ var McpServer = class {
     let task = createTaskResult.task;
     const pollInterval = task.pollInterval ?? 5e3;
     while (task.status !== "completed" && task.status !== "failed" && task.status !== "cancelled") {
-      await new Promise((resolve5) => setTimeout(resolve5, pollInterval));
+      await new Promise((resolve4) => setTimeout(resolve4, pollInterval));
       const updatedTask = await extra.taskStore.getTask(taskId);
       if (!updatedTask) {
         throw new McpError(ErrorCode.InternalError, `Task ${taskId} not found during polling`);
@@ -98559,12 +92206,12 @@ var StdioServerTransport = class {
     this.onclose?.();
   }
   send(message) {
-    return new Promise((resolve5) => {
+    return new Promise((resolve4) => {
       const json2 = serializeMessage(message);
       if (this._stdout.write(json2)) {
-        resolve5();
+        resolve4();
       } else {
-        this._stdout.once("drain", resolve5);
+        this._stdout.once("drain", resolve4);
       }
     });
   }
@@ -98627,7 +92274,7 @@ import {
   realpathSync as realpathSync2,
   lstatSync
 } from "fs";
-import { resolve as resolve4, sep as sep2, join as join6 } from "path";
+import { resolve as resolve3, sep as sep2, join as join6 } from "path";
 import { homedir as homedir5 } from "os";
 import { randomUUID as randomUUID2 } from "crypto";
 
@@ -99796,8 +93443,8 @@ function extractFreshlyStalledMailboxes(raw) {
     const sepIdx = withoutSuffix.indexOf(" / ");
     if (sepIdx === -1) continue;
     const account = withoutSuffix.slice(0, sepIdx);
-    const path3 = withoutSuffix.slice(sepIdx + 3);
-    const leaf = path3.split("/").pop();
+    const path2 = withoutSuffix.slice(sepIdx + 3);
+    const leaf = path2.split("/").pop();
     if (account && leaf) out.push(`${account}${STALLED_KEY_SEP}${leaf}`);
   }
   return out;
@@ -99975,14 +93622,14 @@ function isPathWithinAllowedRoots(resolvedPath) {
 function resolveAttachmentSaveTarget(savePath, attachmentName) {
   let saveDirectory;
   try {
-    saveDirectory = realpathSync2(resolve4(savePath));
+    saveDirectory = realpathSync2(resolve3(savePath));
   } catch {
     throw new Error(`Save directory "${savePath}" does not exist`);
   }
   if (!isPathWithinAllowedRoots(saveDirectory)) {
     throw new Error(`Save path "${savePath}" is outside allowed directories`);
   }
-  const savedPath = resolve4(saveDirectory, attachmentName);
+  const savedPath = resolve3(saveDirectory, attachmentName);
   if (!isPathWithinAllowedRoots(savedPath)) {
     throw new Error(`Output path "${savedPath}" is outside allowed directories`);
   }
@@ -100356,8 +94003,8 @@ function mailboxPathFragment(mailboxVar, outputVar) {
           set _pathParent to _pathNext
         end repeat`;
 }
-function mailboxLookupFragment(collExpr, path3, outputVar, hintIndex) {
-  const safePath = escapeForAppleScript(path3);
+function mailboxLookupFragment(collExpr, path2, outputVar, hintIndex) {
+  const safePath = escapeForAppleScript(path2);
   const hint = hintIndex === void 0 ? "" : `
         try
           set _mbc to item ${hintIndex} of (${collExpr})
@@ -100391,31 +94038,31 @@ var MAILBOX_ALIASES = {
   junk: ["Junk", "Junk Email", "Spam", "JUNK", "junk"],
   archive: ["Archive", "ARCHIVE", "archive", "All Mail"]
 };
-function mailboxLeaf(path3) {
-  return path3.split("/").at(-1) ?? path3;
+function mailboxLeaf(path2) {
+  return path2.split("/").at(-1) ?? path2;
 }
 function resolveAppleMailboxPath(mailbox, actualPaths) {
   if (actualPaths.length === 0) return mailbox;
   const candidates = [mailbox, ...MAILBOX_ALIASES[mailbox.toLowerCase()] ?? []];
   const ambiguous = (matches) => {
     const sorted = [...new Set(matches)].sort();
-    const paths = sorted.map((path3) => `"${path3}"`).join(" and ");
+    const paths = sorted.map((path2) => `"${path2}"`).join(" and ");
     const twins = new Set(sorted.map(mailboxNameKey)).size === 1;
     const hint = twins ? " They differ only in letter case or Unicode normalization (precomposed vs decomposed accents), so no typed name can tell them apart. Rename one of them." : " Pass the full path.";
     return new Error(`Mailbox "${mailbox}" is ambiguous \u2014 it matches ${paths}.${hint}`);
   };
   for (const candidate of candidates) {
-    const exact = actualPaths.find((path3) => path3 === candidate);
+    const exact = actualPaths.find((path2) => path2 === candidate);
     if (exact) return exact;
     const key = mailboxNameKey(candidate);
-    const folded = [...new Set(actualPaths.filter((path3) => mailboxNameKey(path3) === key))];
+    const folded = [...new Set(actualPaths.filter((path2) => mailboxNameKey(path2) === key))];
     if (folded.length === 1) return folded[0];
     if (folded.length > 1) throw ambiguous(folded);
   }
   for (const candidate of candidates) {
     const key = mailboxNameKey(candidate);
     const leafMatches = [
-      ...new Set(actualPaths.filter((path3) => mailboxNameKey(mailboxLeaf(path3)) === key))
+      ...new Set(actualPaths.filter((path2) => mailboxNameKey(mailboxLeaf(path2)) === key))
     ];
     if (leafMatches.length === 1) return leafMatches[0];
     if (leafMatches.length > 1) throw ambiguous(leafMatches);
@@ -101384,8 +95031,8 @@ ${indent}end try${this.sanitizeFragment("_uacct", indent)}${this.sanitizeFragmen
    * Undefined when the path is not in the list; a stale position is harmless, the
    * fragment verifies the path and falls back to the full walk.
    */
-  mailboxIndexHint(account, path3) {
-    const index = this.getCachedMailboxNames(account).indexOf(path3);
+  mailboxIndexHint(account, path2) {
+    const index = this.getCachedMailboxNames(account).indexOf(path2);
     return index >= 0 ? index + 1 : void 0;
   }
   /**
@@ -105097,137 +98744,6 @@ ${actionStmts.join("\n")}
 
 // src/index.ts
 init_smtpMailer();
-import { writeFileSync as writeFileSync5 } from "fs";
-import { join as joinPath } from "path";
-
-// src/tools/compose.ts
-init_imapClient();
-
-// src/services/replyForward.ts
-function extractAddresses(headerValue) {
-  if (!headerValue.trim()) return [];
-  return headerValue.split(",").map((part) => {
-    const angle = part.match(/<([^>]+)>/);
-    return (angle ? angle[1] : part).trim();
-  }).filter((addr) => addr.includes("@"));
-}
-function parseOriginalHeaders(raw) {
-  const headerBlock = raw.split(/\r?\n\r?\n/)[0] ?? "";
-  const lines = [];
-  for (const line of headerBlock.split(/\r?\n/)) {
-    if (/^[ \t]/.test(line) && lines.length > 0) {
-      lines[lines.length - 1] += " " + line.trim();
-    } else {
-      lines.push(line);
-    }
-  }
-  const get = (name2) => {
-    const prefix = `${name2.toLowerCase()}:`;
-    const found = lines.find((l) => l.toLowerCase().startsWith(prefix));
-    return found ? found.slice(found.indexOf(":") + 1).trim() : void 0;
-  };
-  const rawMessageId = get("Message-ID");
-  const messageId = rawMessageId?.match(/<[^>]+>/)?.[0] ?? rawMessageId ?? void 0;
-  const references = `${get("References") ?? ""} ${get("In-Reply-To") ?? ""}`.match(/<[^>]+>/g) ?? [];
-  return {
-    messageId,
-    references,
-    from: extractAddresses(get("From") ?? ""),
-    replyTo: extractAddresses(get("Reply-To") ?? ""),
-    to: extractAddresses(get("To") ?? ""),
-    cc: extractAddresses(get("Cc") ?? ""),
-    subject: get("Subject") ?? "",
-    date: get("Date")
-  };
-}
-function dedupe(addrs) {
-  const seen = /* @__PURE__ */ new Set();
-  const out = [];
-  for (const a of addrs) {
-    const k = a.toLowerCase();
-    if (!seen.has(k)) {
-      seen.add(k);
-      out.push(a);
-    }
-  }
-  return out;
-}
-function withSubjectPrefix(subject, prefix) {
-  const s = subject.trim();
-  const present = prefix === "Re:" ? /^re:/i : /^(fwd?|fw):/i;
-  return present.test(s) ? s : `${prefix} ${s}`;
-}
-function quoteBody(plainText) {
-  return plainText.replace(/\s+$/, "").split(/\r?\n/).map((l) => l ? `> ${l}` : ">").join("\n");
-}
-function buildReplyOptions(args) {
-  const { original, originalPlainText, body, replyAll, self, from } = args;
-  const selfSet = new Set(self.filter(Boolean).map((s) => s.toLowerCase()));
-  const to = dedupe((original.replyTo.length ? original.replyTo : original.from).filter(Boolean));
-  const toSet = new Set(to.map((t) => t.toLowerCase()));
-  let cc;
-  if (replyAll) {
-    const extra = dedupe(
-      [...original.to, ...original.cc].filter(
-        (a) => !selfSet.has(a.toLowerCase()) && !toSet.has(a.toLowerCase())
-      )
-    );
-    cc = extra.length ? extra : void 0;
-  }
-  const references = dedupe(
-    original.messageId ? [...original.references, original.messageId] : original.references
-  );
-  return {
-    to,
-    cc,
-    subject: withSubjectPrefix(original.subject, "Re:"),
-    body: buildReplyBody(body, original, originalPlainText),
-    inReplyTo: original.messageId,
-    references: references.length ? references : void 0,
-    from
-  };
-}
-function buildReplyBody(body, original, originalPlainText) {
-  const attribution = buildAttribution(original);
-  const quoted = originalPlainText.trim() ? `
-
-${attribution}${quoteBody(originalPlainText)}` : "";
-  return `${body}${quoted}`;
-}
-function buildAttribution(original) {
-  const who = original.from[0] ?? original.replyTo[0] ?? "the sender";
-  return original.date ? `On ${original.date}, ${who} wrote:
-` : `${who} wrote:
-`;
-}
-function buildForwardOptions(args) {
-  const { original, originalPlainText, to, body, from } = args;
-  return {
-    to: dedupe(to),
-    subject: withSubjectPrefix(original.subject, "Fwd:"),
-    body: buildForwardBody(original, originalPlainText, body),
-    from
-  };
-}
-function buildForwardBody(original, originalPlainText, body) {
-  const headerBlock = [
-    "---------- Forwarded message ----------",
-    original.from.length ? `From: ${original.from.join(", ")}` : "",
-    original.date ? `Date: ${original.date}` : "",
-    `Subject: ${original.subject}`,
-    original.to.length ? `To: ${original.to.join(", ")}` : "",
-    original.cc.length ? `Cc: ${original.cc.join(", ")}` : ""
-  ].filter(Boolean).join("\n");
-  const prefix = body?.trim() ? `${body}
-
-` : "";
-  return `${prefix}${headerBlock}
-
-${originalPlainText}`;
-}
-
-// src/tools/compose.ts
-init_mimeParse();
 
 // src/tools/respond.ts
 import { AsyncLocalStorage } from "node:async_hooks";
@@ -105246,7 +98762,7 @@ function createSerialGate(settleMs = 50) {
 }
 function settle2(ms) {
   if (ms <= 0) return Promise.resolve();
-  return new Promise((resolve5) => setTimeout(resolve5, ms));
+  return new Promise((resolve4) => setTimeout(resolve4, ms));
 }
 
 // src/tools/respond.ts
@@ -105345,267 +98861,12 @@ function withErrorHandling(handler, errorPrefix) {
   };
 }
 
-// src/tools/compose.ts
-async function readOriginal(deps, id, cfg, recoverReplyText = false) {
-  if (decodeImapId(id)) {
-    const source = await deps.imapSource(id);
-    const identities = cfg && [cfg.user, cfg.from, ...cfg.allowedFrom ?? []].map((s) => s.trim().toLowerCase());
-    if (identities && !identities.includes(source.accountUser.trim().toLowerCase())) {
-      throw new Error(
-        "The source IMAP account does not match the configured SMTP identity. Configure SMTP for that account or explicitly select transport=applescript."
-      );
-    }
-    const original = parseOriginalHeaders(source.raw);
-    if (source.subject !== void 0) original.subject = source.subject;
-    return { original, plainText: extractTextBody(source.raw) };
-  }
-  const raw = deps.mail.getRawSource(id);
-  if (!raw) {
-    const why = deps.mail.consumeLastMessageLookupError?.();
-    throw new Error(
-      `Cannot read the original message source${why ? ` (${why})` : ""}. Re-list the intended mailbox and retry with its message id.`
-    );
-  }
-  const content = deps.mail.getMessageContent(id);
-  return {
-    original: parseOriginalHeaders(raw),
-    plainText: content?.plainText ?? (recoverReplyText ? extractTextBody(raw) : null)
-  };
-}
-function requireReplyText(plainText) {
-  if (plainText === null)
-    throw new Error(
-      "The original message has no readable plain-text body. Reply composition was stopped to avoid omitting its quoted content. Open the original in Mail.app and reply there."
-    );
-  return plainText;
-}
-async function readOriginalForForward(deps, id) {
-  if (decodeImapId(id)) {
-    try {
-      const source = await deps.imapSource(id);
-      const original = parseOriginalHeaders(source.raw);
-      if (source.subject !== void 0) original.subject = source.subject;
-      return { original, plainText: extractTextBody(source.raw) ?? "" };
-    } catch {
-      return null;
-    }
-  }
-  const raw = deps.mail.getRawSource(id);
-  if (!raw) return null;
-  const content = deps.mail.getMessageContent(id);
-  return { original: parseOriginalHeaders(raw), plainText: content?.plainText ?? "" };
-}
-async function replyComposeBody(deps, id, body) {
-  const source = await readOriginal(deps, id, void 0, true);
-  return buildReplyBody(body, source.original, requireReplyText(source.plainText));
-}
-async function forwardComposeBody(deps, id, body, hasAttachments = false) {
-  if (!body && !hasAttachments) return body;
-  const source = await readOriginalForForward(deps, id);
-  return source ? buildForwardBody(source.original, source.plainText, body) : body;
-}
-async function runCompose(deps, args) {
-  const { id, send, transport: transport2, attachments } = args;
-  const verb = args.kind === "reply" ? "reply to" : "forward";
-  const nativeEditor = args.composition === "native-editor";
-  if (nativeEditor && transport2 === "smtp") {
-    return errorResponse(
-      "Native-editor composition uses Mail.app and cannot be combined with SMTP."
-    );
-  }
-  if (!send && transport2 === "smtp") {
-    return errorResponse(
-      "SMTP cannot save a Mail.app draft. Omit transport or use transport=applescript with send=false."
-    );
-  }
-  try {
-    preflightAttachments(attachments);
-  } catch (error63) {
-    return errorResponse(
-      `Failed to ${verb} message "${id}": ${error63 instanceof Error ? error63.message : String(error63)}`
-    );
-  }
-  const attachmentCount = attachments?.length ?? 0;
-  const withFiles = attachmentCount ? ` with ${attachmentCount} attachment(s)` : "";
-  const smtp = !nativeEditor && send && transport2 !== "applescript" && (transport2 === "smtp" || deps.smtpConfigured());
-  if (smtp) {
-    try {
-      const cfg = deps.smtpConfig();
-      const { original, plainText } = await readOriginal(deps, id, cfg, args.kind === "reply");
-      if (args.kind === "forward" && plainText === null)
-        throw new Error(
-          "The original message has no readable plain-text body. SMTP forwarding would omit its content; explicitly select transport=applescript to forward it with Mail.app."
-        );
-      if (args.kind === "reply") {
-        requireReplyText(plainText);
-        if (!original.messageId)
-          throw new Error(
-            "The original message has no Message-ID; a threaded SMTP reply cannot be constructed."
-          );
-        if (!original.replyTo.length && !original.from.length)
-          throw new Error("The original message has no reply address.");
-      }
-      const opts = args.kind === "reply" ? buildReplyOptions({
-        original,
-        originalPlainText: plainText ?? "",
-        body: args.body,
-        replyAll: args.replyAll,
-        self: [cfg.from, cfg.user, ...cfg.allowedFrom ?? []],
-        from: cfg.from
-      }) : buildForwardOptions({
-        original,
-        originalPlainText: plainText ?? "",
-        to: args.to,
-        body: args.body,
-        from: cfg.from
-      });
-      if (attachmentCount) opts.attachments = attachments;
-      const result = await deps.smtpSend(opts, cfg);
-      if (!result.success)
-        return errorResponse(
-          `Failed to ${verb} message "${id}" via SMTP: ${result.error ?? "unknown SMTP error"}`
-        );
-      return successResponse(
-        args.kind === "reply" ? `Reply sent via SMTP${withFiles}` : `Message forwarded via SMTP to ${args.to.join(", ")}${withFiles}`,
-        {
-          ok: true,
-          sent: true,
-          id,
-          transport: "smtp",
-          messageId: result.messageId,
-          attachmentCount,
-          ...args.kind === "forward" ? { recipients: args.to } : {},
-          // Best-effort Sent-folder copy (issue #220) — same field shape as
-          // send-email, since it's the same sendViaSmtp underneath.
-          ...result.sentCopy !== void 0 ? { sentCopy: result.sentCopy } : {},
-          ...result.sentCopyError !== void 0 ? { sentCopyError: result.sentCopyError } : {},
-          ...result.sentCopyAlreadyFiled ? { sentCopyAlreadyFiled: true } : {}
-        }
-      );
-    } catch (error63) {
-      return errorResponse(
-        `Failed to ${verb} message "${id}" via SMTP: ${error63 instanceof Error ? error63.message : String(error63)} No AppleScript fallback was attempted.`
-      );
-    }
-  }
-  try {
-    const resolved = await deps.numericId(id);
-    if (!resolved.numericId)
-      return errorResponse(
-        `Failed to ${verb} message "${id}": ${resolved.error ?? "message not found"}`
-      );
-    if (nativeEditor) await readOriginal(deps, id, void 0, true);
-    const outcome = nativeEditor ? args.kind === "reply" ? deps.mail.replyToMessage(
-      resolved.numericId,
-      args.body,
-      args.replyAll,
-      send,
-      attachments,
-      true
-    ) : deps.mail.forwardMessage(resolved.numericId, args.to, args.body, send, attachments, true) : args.kind === "reply" ? deps.mail.replyToMessage(
-      resolved.numericId,
-      await replyComposeBody(deps, id, args.body),
-      args.replyAll,
-      send,
-      attachmentCount ? attachments : void 0
-    ) : deps.mail.forwardMessage(
-      resolved.numericId,
-      args.to,
-      await forwardComposeBody(deps, id, args.body, attachmentCount > 0),
-      send,
-      attachmentCount ? attachments : void 0
-    );
-    if (!outcome.success)
-      return errorResponse(
-        `Failed to ${verb} message "${id}": ${outcome.error ?? "Mail.app compose failed"}`
-      );
-    const text = (args.kind === "reply" ? send ? "Reply sent via AppleScript" : "Reply saved as draft" : send ? `Message forwarded to ${args.to.join(", ")}` : "Forward saved as draft") + withFiles;
-    return successResponse(text, {
-      ok: true,
-      sent: send,
-      id,
-      transport: "applescript",
-      attachmentCount,
-      ...args.kind === "forward" ? { recipients: args.to } : {}
-    });
-  } catch (error63) {
-    return errorResponse(
-      `Failed to ${verb} message "${id}": ${error63 instanceof Error ? error63.message : String(error63)}`
-    );
-  }
-}
-function runReply(deps, args) {
-  return runCompose(deps, { ...args, kind: "reply" });
-}
-function runForward(deps, args) {
-  return runCompose(deps, { ...args, kind: "forward" });
-}
-
-// src/tools/serialEmail.ts
-init_smtpMailer();
-function createSerialEmailHandler(deps) {
-  return withErrorHandling(
-    async ({ recipients, subject, body, account, transport: transport2, delayMs }) => {
-      const useSmtp = shouldUseSmtp(transport2, account, deps.smtpConfigured());
-      let results;
-      if (useSmtp) {
-        if (account && !account.includes("@")) {
-          throw new Error(
-            "A Mail.app account label cannot select an SMTP identity. Use a configured sender email address, omit account to use the configured SMTP sender, or explicitly select transport=applescript."
-          );
-        }
-        const config2 = deps.smtpConfig();
-        const from = account ? resolveSmtpFrom(account, config2) : void 0;
-        results = await deps.smtpSend(recipients, subject, body, config2, {
-          delayMs,
-          ...from ? { from } : {}
-        });
-      } else {
-        results = deps.appleScriptSend(recipients, subject, body, account, delayMs);
-      }
-      const successCount = results.filter((r) => r.success).length;
-      const failCount = results.length - successCount;
-      const details = results.map((r) => `  - ${r.email}: ${r.success ? "sent" : `FAILED (${r.error})`}`).join("\n");
-      const structured = {
-        ok: failCount === 0,
-        sent: successCount,
-        failed: failCount,
-        transport: useSmtp ? "smtp" : "applescript",
-        results: results.map((r) => ({ email: r.email, success: r.success, error: r.error }))
-      };
-      if (failCount === 0) {
-        return successResponse(
-          `Successfully sent ${successCount} email(s):
-${details}`,
-          structured
-        );
-      } else if (successCount === 0) {
-        return errorResponse(`Failed to send all ${failCount} email(s):
-${details}`, structured);
-      } else {
-        return successResponse(
-          `Sent ${successCount} of ${results.length} email(s), ${failCount} failed:
-${details}`,
-          structured
-        );
-      }
-    },
-    "Error sending serial emails"
-  );
-}
-
 // src/tools/threading.ts
 function threadingHeaders(args) {
   const inReplyTo = args.inReplyTo?.trim() || void 0;
   const references = args.references?.length ? args.references : void 0;
   if (!inReplyTo && !references) return void 0;
   return { inReplyTo, references: references ?? (inReplyTo ? [inReplyTo] : void 0) };
-}
-var SEND_THREADING_NEEDS_SMTP = "inReplyTo/references require the SMTP transport: Mail.app's AppleScript cannot set In-Reply-To or References, so the message would go out unthreaded. Configure SMTP (and do not pass transport=applescript or a Mail.app account label), or use reply-to-message, which threads on both transports.";
-function sendEmailThreading(args, useSmtp) {
-  const headers = threadingHeaders(args);
-  if (headers && !useSmtp) return { ok: false, error: SEND_THREADING_NEEDS_SMTP };
-  return { ok: true, headers };
 }
 function messageIdOf(raw) {
   const head = raw.toString("utf8").split(/\r?\n\r?\n/)[0] ?? "";
@@ -105678,140 +98939,6 @@ function unlistableStoreError(account, error63, knownAccounts) {
 
 // src/index.ts
 init_callStop();
-
-// src/tools/batchResults.ts
-async function hybridBatchCounts(ids, appleFn, imapFn) {
-  const distinctIds = [...new Set(ids)];
-  const imapIds = distinctIds.filter((i) => i.startsWith("imap:"));
-  const numericIds = distinctIds.filter((i) => !i.startsWith("imap:"));
-  let success2 = 0;
-  let fail = 0;
-  const errors2 = [];
-  if (numericIds.length > 0) {
-    const res = appleFn(numericIds);
-    const s = res.filter((r) => r.success).length;
-    success2 += s;
-    fail += res.length - s;
-    errors2.push(...res.filter((r) => !r.success && r.error).map((r) => r.error));
-  }
-  let countDelta;
-  if (imapIds.length > 0) {
-    const r = await imapFn(imapIds);
-    success2 += r.success;
-    fail += r.failed;
-    errors2.push(...r.errors);
-    if (r.countDelta?.length) countDelta = r.countDelta;
-  }
-  return { success: success2, fail, errors: errors2, ...countDelta ? { countDelta } : {} };
-}
-function distinctErrors(errors2) {
-  return [...new Set(errors2.filter(Boolean))];
-}
-function formatBatchErrors(errors2, max = 5) {
-  const distinct = distinctErrors(errors2);
-  if (distinct.length === 0) return "";
-  const shown = distinct.slice(0, max);
-  const more = distinct.length - shown.length;
-  return `: ${shown.join("; ")}${more > 0 ? ` (+${more} more)` : ""}`;
-}
-var MAX_STRUCTURED_BATCH_ERRORS = 20;
-function batchResponse(counts, messages, extra = {}, warnings = []) {
-  const { success: success2, fail, errors: errors2 } = counts;
-  const distinct = distinctErrors(errors2);
-  const reported = distinct.slice(0, MAX_STRUCTURED_BATCH_ERRORS);
-  const structured = {
-    ok: fail === 0,
-    success: success2,
-    failed: fail,
-    ...extra,
-    ...reported.length > 0 ? { errors: reported } : {},
-    ...distinct.length > reported.length ? { errorsTruncated: true } : {}
-  };
-  const suffix = formatBatchErrors(distinct);
-  const warn = warnings.length > 0 ? `
-
-${warnings.join("\n")}` : "";
-  if (fail === 0) return successResponse(`${messages.allSucceeded(success2)}${warn}`, structured);
-  if (success2 === 0)
-    return errorResponse(`${messages.allFailed(fail)}${suffix}${warn}`, structured);
-  return successResponse(`${messages.partial(success2, fail)}${suffix}${warn}`, structured);
-}
-
-// src/tools/batchMutations.ts
-function toManagerScope(args) {
-  return { account: args.sourceAccount, mailbox: args.sourceMailbox };
-}
-function mergeCountDeltas(apple, imap) {
-  const all = [...apple ?? [], ...imap ?? []];
-  return all.length ? { countDelta: all } : {};
-}
-async function runBatchDelete(deps, args) {
-  const { ids, sourceMailbox, sourceAccount } = args;
-  let forensics = { warnings: [] };
-  const counts = await hybridBatchCounts(
-    ids,
-    (n) => {
-      const res = deps.batchDeleteMessages(n, toManagerScope({ sourceAccount, sourceMailbox }));
-      forensics = deps.collectForensics("batch-delete-messages", {
-        ids,
-        sourceMailbox,
-        sourceAccount
-      });
-      return res;
-    },
-    (im) => deps.imapBatchDelete(im)
-  );
-  return batchResponse(
-    counts,
-    {
-      allSucceeded: (n) => `Successfully deleted ${n} message(s)`,
-      allFailed: (n) => `Failed to delete all ${n} message(s)`,
-      partial: (ok, failed) => `Deleted ${ok} message(s), ${failed} failed`
-    },
-    // #181: merge both backends' reconciliation. An AppleScript-only batch is
-    // unchanged; an IMAP-only one now reports a delta where it previously
-    // reported nothing; a mixed batch reports both, per source mailbox.
-    mergeCountDeltas(forensics.countDelta, counts.countDelta),
-    forensics.warnings
-  );
-}
-async function runBatchMove(deps, args) {
-  const { ids, mailbox, account, sourceMailbox, sourceAccount } = args;
-  let forensics = { warnings: [] };
-  const counts = await hybridBatchCounts(
-    ids,
-    (n) => {
-      const res = deps.batchMoveMessages(
-        n,
-        mailbox,
-        account,
-        toManagerScope({ sourceAccount, sourceMailbox })
-      );
-      forensics = deps.collectForensics("batch-move-messages", {
-        ids,
-        mailbox,
-        account,
-        sourceMailbox,
-        sourceAccount
-      });
-      return res;
-    },
-    (im) => deps.imapBatchMove(im, mailbox, { account })
-  );
-  return batchResponse(
-    counts,
-    {
-      allSucceeded: (n) => `Successfully moved ${n} message(s) to "${mailbox}"`,
-      allFailed: (n) => `Failed to move all ${n} message(s)`,
-      partial: (ok, failed) => `Moved ${ok} message(s) to "${mailbox}", ${failed} failed`
-    },
-    {
-      mailbox,
-      ...mergeCountDeltas(forensics.countDelta, counts.countDelta)
-    },
-    forensics.warnings
-  );
-}
 
 // src/services/imapMultiAccount.ts
 init_imapClient();
@@ -106343,11 +99470,11 @@ function fileConfigPath(env = process.env) {
   if (override && override.trim()) return override.trim();
   return join7(homedir6(), "Library", "Application Support", "apple-mail-mcp", "config.json");
 }
-function loadFileConfig(env = process.env, path3 = fileConfigPath(env)) {
+function loadFileConfig(env = process.env, path2 = fileConfigPath(env)) {
   const applied = [];
   try {
-    if (!existsSync4(path3)) return applied;
-    const parsed = JSON.parse(readFileSync4(path3, "utf8"));
+    if (!existsSync4(path2)) return applied;
+    const parsed = JSON.parse(readFileSync4(path2, "utf8"));
     if (!parsed || typeof parsed !== "object") return applied;
     for (const [k, v] of Object.entries(parsed)) {
       if (typeof v !== "string") continue;
@@ -106357,7 +99484,7 @@ function loadFileConfig(env = process.env, path3 = fileConfigPath(env)) {
       }
     }
   } catch (e) {
-    console.error(`Failed to load apple-mail-mcp config file ${path3}: ${String(e)}`);
+    console.error(`Failed to load apple-mail-mcp config file ${path2}: ${String(e)}`);
   }
   return applied;
 }
@@ -106479,21 +99606,11 @@ function withJsonSchema2020_12(transport2) {
 }
 
 // src/index.ts
-init_auditLog();
 loadFileConfig();
-var BATCH_SOURCE_MAILBOX_SCHEMA = external_exports.string().optional().describe(
-  "Mailbox the numeric ids were listed from (e.g. 'INBOX'). Must be paired with sourceAccount to form an unambiguous scope. Ignored for imap: ids."
-);
-var BATCH_SOURCE_ACCOUNT_SCHEMA = external_exports.string().optional().describe(
-  "Account the numeric ids were listed from. Required when sourceMailbox is supplied; on its own it pins nothing."
-);
 var FLAG_COLOR_INDEX = Object.fromEntries(
   FLAG_COLOR_NAMES.map((name2, index) => [name2, index])
 );
 FLAG_COLOR_INDEX.grey = FLAG_COLOR_INDEX.gray;
-var FLAG_COLOR_SCHEMA = external_exports.enum(["red", "orange", "yellow", "green", "blue", "purple", "gray", "grey"]).optional().describe(
-  "Optional flag color (Apple Mail palette: red, orange, yellow, green, blue, purple, gray \u2014 'grey' accepted). Omit for Mail's default flag. The color is applied on both routes: AppleScript sets the flag index, and IMAP writes the equivalent $MailFlagBit0/1/2 keywords Mail.app reads \u2014 so a smart mailbox keyed on flag color matches either way."
-);
 var FLAG_COLOR_FILTER_SCHEMA = external_exports.enum(["red", "orange", "yellow", "green", "blue", "purple", "gray", "grey"]).optional().describe(
   "Filter to messages flagged with exactly this color (same palette as flag-message: red/orange/yellow/green/blue/purple/gray \u2014 'grey' accepted). A message flagged with Mail's plain default (no explicit color) never matches. Implies isFlagged: true \u2014 pairing this with isFlagged: false is rejected as contradictory. Caveat on IMAP accounts only: 'red' is Mail's all-bits-clear encoding, wire-identical to a plain (colorless) flag, so red: true in results and flagColor: 'red' in this filter both also match a plain flag there \u2014 this is inherent to Apple's $MailFlagBit0/1/2 scheme, not specific to this server. AppleScript-only accounts distinguish red correctly (Mail's own `flag index` 0 vs -1)."
 );
@@ -106517,50 +99634,6 @@ var LIST_OUTPUT_SCHEMA = {
   timedOutMailboxes: external_exports.array(external_exports.string()).optional(),
   stoppedBy: external_exports.enum(["deadline", "cancelled"]).optional()
 };
-var BATCH_COUNT_OUTPUT_SCHEMA = {
-  ok: external_exports.boolean().optional(),
-  success: external_exports.number().optional(),
-  failed: external_exports.number().optional(),
-  mailbox: external_exports.string().optional(),
-  // Declared so the failure channel is part of the tool's advertised CONTRACT:
-  // a client can rely on `errors` being string[] and code against it, and it
-  // shows up in generated types and docs. Declaring is not what makes it
-  // deliverable — registerTool() wraps every outputSchema in
-  // `z.object(shape).passthrough()`, so these tools advertise
-  // `additionalProperties: true` (verified against the built server) and an
-  // undeclared key would be carried through, not rejected. Enumerating it is a
-  // promise to callers, not a workaround for a validator.
-  errors: external_exports.array(external_exports.string()).optional(),
-  // Set when `errors` was capped (MAX_STRUCTURED_BATCH_ERRORS distinct reasons),
-  // so a short list is never mistaken for the complete one.
-  errorsTruncated: external_exports.boolean().optional()
-};
-var COUNT_DELTA_OUTPUT_SCHEMA = external_exports.array(
-  external_exports.object({
-    account: external_exports.string().optional(),
-    mailbox: external_exports.string().optional(),
-    before: external_exports.number().nullable().optional(),
-    after: external_exports.number().nullable().optional(),
-    // Nullable for the same reason before/after/observed are: null means no
-    // comparison was possible. For `expected` that is a move whose
-    // destination IS the source mailbox — it always pairs with
-    // `status: "unknown"`, and never with a warning.
-    expected: external_exports.number().nullable().optional(),
-    observed: external_exports.number().nullable().optional(),
-    status: external_exports.enum(["match", "over", "unknown"]).optional(),
-    // Declared explicitly: the SDK stamps additionalProperties:false on a bare
-    // zod shape, so an undeclared key makes the CLIENT reject the result.
-    unknownReason: external_exports.enum(["count-unreadable", "no-expectation", "count-did-not-move", "count-partial"]).optional(),
-    note: external_exports.string().optional()
-  })
-).optional();
-var VERIFICATION_OUTPUT_SCHEMA = external_exports.object({
-  verdict: external_exports.enum(["verified", "unverified"]),
-  /** Present on `verified`: what was observed. */
-  how: external_exports.string().optional(),
-  /** Present on `unverified`: why no observation was possible. */
-  why: external_exports.string().optional()
-}).optional();
 var CHECK_ITEM_SCHEMA = external_exports.object({}).passthrough();
 var require2 = createRequire(import.meta.url);
 var { version: version3 } = require2("../package.json");
@@ -106648,15 +99721,6 @@ function registerTool(name2, config2, cb) {
 }
 var mailManager = new AppleMailManager();
 registerResourcesAndPrompts(server, mailManager);
-function collectForensics(tool, args) {
-  const report = mailManager.consumeLastForensics();
-  if (!report) return { warnings: [] };
-  writeDestructiveAudit({ tool, args, serverVersion: version3 }, report);
-  return {
-    ...report.countDeltas.length > 0 ? { countDelta: report.countDeltas } : {},
-    warnings: reconciliationWarnings(report)
-  };
-}
 registerTool(
   "search-messages",
   {
@@ -107006,108 +100070,6 @@ registerTool(
   )
 );
 registerTool(
-  "get-message-rfc822",
-  {
-    description: "Use when: you need a message's complete original RFC 822 bytes exactly as the IMAP server stores them \u2014 for archival, forensic review, evidence preservation, or a verifiable .eml \u2014 together with the IMAP identity that links back to the source (uid, uidValidity, internalDate, flags, RFC822.SIZE) and a SHA-256 of the acquired bytes. IMAP-only: needs an imap: id from list-messages/search-messages on an IMAP-configured account.\nReturns: the acquisition record (account, mailbox, uid, uidValidity, internalDate, flags, size, bytes, sha256, messageId, readMethod, backend, warnings) plus either contentBase64 \u2014 the bytes, base64-encoded, carried in structuredContent only \u2014 or savedPath when savePath was given. No decoding, charset conversion, line-ending change or MIME re-serialization is applied.\nDo not use when: you want readable content (use get-message), only the headers (use get-message-headers), or one attachment (use fetch-attachment / save-attachment); or when the id is numeric \u2014 Mail.app's AppleScript bridge exposes its own rendering, not the stored bytes, so there is no AppleScript path.\nSafety: strictly read-only against the mailbox \u2014 EXAMINE + BODY.PEEK[], so \\Seen is not set and no STORE/COPY/MOVE/APPEND/EXPUNGE is issued; no Mail.app, AppleScript or osascript involved. Inline results are capped at 6 MiB of raw bytes (maxBytes) to stay under the MCP stdio 10 MB message limit; larger messages need savePath, which creates exactly one new file (never overwrites, mode 0600) inside the configured allowed roots, up to 25 MiB.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA.describe("An imap: message id (numeric Mail.app ids are refused)"),
-      savePath: external_exports.string().min(1).optional().describe(
-        "Directory inside the allowed roots to write the .eml into instead of returning base64; raises the ceiling to 25 MiB"
-      ),
-      fileName: external_exports.string().min(1).optional().describe(
-        "File name to use with savePath (no path separators or '..'). Default: <account>-<mailbox>-uidv<uidValidity>-uid<uid>.eml"
-      ),
-      maxBytes: integerNumber().min(1).optional().describe(
-        "Refuse (never truncate) a message larger than this many raw bytes. Default and inline maximum 6291456 (6 MiB); with savePath up to 26214400 (25 MiB)"
-      )
-    },
-    outputSchema: {
-      id: external_exports.string().optional(),
-      backend: external_exports.literal("imap").optional(),
-      readMethod: external_exports.string().optional().describe("The IMAP commands used"),
-      account: external_exports.string().optional(),
-      mailbox: external_exports.string().optional(),
-      uid: external_exports.number().optional(),
-      uidValidity: external_exports.string().optional().describe(
-        "Mailbox UIDVALIDITY as a decimal string; with uid, the durable identity of the source message"
-      ),
-      internalDate: external_exports.string().optional().describe("ISO 8601 IMAP INTERNALDATE (arrival), not the Date: header"),
-      flags: external_exports.array(external_exports.string()).optional(),
-      size: external_exports.number().optional().describe("RFC822.SIZE as reported by the server"),
-      bytes: external_exports.number().optional().describe("Number of bytes acquired (and hashed)"),
-      sha256: external_exports.string().optional().describe("Hex SHA-256 over exactly the acquired bytes"),
-      messageId: external_exports.string().optional().describe(
-        "Bare RFC 5322 Message-ID from ENVELOPE, for convenience; the authoritative copy is in the bytes"
-      ),
-      contentBase64: external_exports.string().optional().describe("The acquired bytes, base64-encoded (absent when savePath was used)"),
-      savedPath: external_exports.string().optional(),
-      warnings: external_exports.array(external_exports.string()).optional()
-    }
-  },
-  withErrorHandling(async ({ id, savePath, fileName, maxBytes }) => {
-    if (!id.startsWith("imap:")) {
-      return errorResponse(
-        `get-message-rfc822 needs an imap: id; "${id}" is a numeric Mail.app id. The stored bytes are only reachable over IMAP \u2014 Mail's AppleScript bridge exposes its own rendering, not the original message. Configure the account for IMAP (docs/IMAP-SETUP.md) and re-run list-messages/search-messages to get an imap: id.`
-      );
-    }
-    const ceiling = savePath ? MAX_RFC822_FILE_BYTES : MAX_RFC822_INLINE_BYTES;
-    if (maxBytes !== void 0 && maxBytes > ceiling) {
-      return errorResponse(
-        `maxBytes ${maxBytes} exceeds the ${savePath ? "savePath" : "inline"} ceiling of ${ceiling} bytes` + (savePath ? "." : "; pass savePath to write larger messages to disk.")
-      );
-    }
-    if (savePath) {
-      if (fileName !== void 0 && (/[/\\\0]/.test(fileName) || fileName.includes(".."))) {
-        return errorResponse(`Invalid file name: "${fileName}"`);
-      }
-      try {
-        resolveAttachmentSaveTarget(savePath, fileName ?? "placeholder.eml");
-      } catch (error63) {
-        return errorResponse(error63 instanceof Error ? error63.message : String(error63));
-      }
-    }
-    const r = await imapGetMessageRfc822(id, { maxBytes: maxBytes ?? ceiling });
-    if (!r.success) return errorResponse(r.error);
-    const a = r.acquisition;
-    const record2 = {
-      id,
-      backend: "imap",
-      readMethod: a.readMethod,
-      account: a.account,
-      mailbox: a.mailbox,
-      uid: a.uid,
-      uidValidity: a.uidValidity,
-      internalDate: a.internalDate,
-      flags: a.flags,
-      size: a.size,
-      bytes: a.bytes.length,
-      sha256: a.sha256,
-      messageId: a.messageId,
-      warnings: a.warnings.length ? a.warnings : void 0
-    };
-    const summary = `UID ${a.uid} in "${a.mailbox}" (${a.account}): ${a.bytes.length} bytes, sha256 ${a.sha256}` + (a.uidValidity ? `, UIDVALIDITY ${a.uidValidity}` : "") + (a.internalDate ? `, INTERNALDATE ${a.internalDate}` : "") + `, flags [${a.flags.join(" ")}]` + (a.warnings.length ? `. Warnings: ${a.warnings.join(" ")}` : "");
-    if (!savePath) {
-      return successResponse(`${summary}. Bytes are in structuredContent.contentBase64.`, {
-        ...record2,
-        contentBase64: a.bytes.toString("base64")
-      });
-    }
-    const safe = (s) => s.replace(/[^A-Za-z0-9._@-]+/g, "_");
-    const name2 = fileName ?? `${safe(a.account)}-${safe(a.mailbox)}-uidv${a.uidValidity ?? "unknown"}-uid${a.uid}.eml`;
-    let target;
-    try {
-      target = resolveAttachmentSaveTarget(savePath, name2);
-    } catch (error63) {
-      return errorResponse(error63 instanceof Error ? error63.message : String(error63));
-    }
-    writeFileSync5(target.savedPath, a.bytes, { flag: "wx", mode: 384 });
-    return successResponse(`${summary}. Written to ${target.savedPath}.`, {
-      ...record2,
-      savedPath: target.savedPath
-    });
-  }, "Error acquiring message source")
-);
-registerTool(
   "get-thread",
   {
     description: "Use when: you have one message id and want the whole conversation it belongs to, oldest-first. With an imap: id it threads by References/Message-ID; otherwise it groups by normalized subject.\nReturns: the thread's normalized subject and its messages (id, date, subject, sender, read state).\nDo not use when: you only need the single message (use get-message) or are searching by arbitrary criteria (use search-messages).",
@@ -107307,168 +100269,8 @@ ${messageList}${coverageBlock}`,
     );
   }, "Error listing messages")
 );
-var SENT_COPY_SCHEMA = external_exports.boolean().optional().describe(
-  "SMTP only: whether a best-effort copy was filed to the account's Sent mailbox over IMAP (issue #220). Absent when no configured IMAP account matches the SMTP identity \u2014 not a failure, the feature simply wasn't engaged."
-);
-var SENT_COPY_ERROR_SCHEMA = external_exports.string().optional().describe("Present only when sentCopy is false: why the Sent-folder copy failed.");
-var SENT_COPY_ALREADY_FILED_SCHEMA = external_exports.boolean().optional().describe(
-  "Present (true) only when sentCopy is true because the Sent mailbox already held this Message-ID (e.g. Gmail's SMTP files its own copy), so none was appended."
-);
 var COMPOSITION_SCHEMA = external_exports.literal("native-editor").optional().describe(
   "Opt in to Mail's visible native editor: inserts only new prose, preserving its signature, HTML quotation and reply ancestry without the AppleScript content setter. Requires an unlocked desktop and existing Accessibility and Automation permissions. Uses Mail.app even when SMTP is configured; cannot be combined with transport=smtp or caller-built threading headers. New messages require an explicit account. Do not interact with Mail or the clipboard while it runs. Failure never falls back to another composition method or sends an unverified message."
-);
-var SEND_ACCOUNT_SCHEMA = external_exports.string().optional().describe(
-  "Account to send from. AppleScript transport: a Mail account name or an exact sender address, resolved to one address and verified before sending; if it matches no enabled account, or Mail would use a different sender, nothing is sent and an error is returned. Omitted \u2192 Mail's default sender (reported back in `from`). SMTP transport: an email-form From override (see README)."
-);
-registerTool(
-  "send-email",
-  {
-    description: "Use when: the user has explicitly confirmed they want to send a single email now to the given recipients (to/cc/bcc are arrays), optionally with attachments, a chosen transport, and caller-built threading headers (inReplyTo/references, SMTP only).\nReturns: a confirmation naming the recipients and attachment count; over SMTP, also whether a Sent-folder copy was filed (sentCopy).\nDo not use when: the user wants to review first (use create-draft), is replying to or forwarding an existing message (use reply-to-message / forward-message \u2014 they derive recipients, threading and the quote, and also take attachments), or wants per-recipient personalized copies (use send-serial-email).\nSafety: this SENDS real email immediately and it cannot be unsent \u2014 require explicit user confirmation of the exact recipients, subject, and body before calling. Prefer create-draft when there is any doubt.",
-    inputSchema: {
-      to: external_exports.array(external_exports.string()).min(1, "At least one recipient is required"),
-      subject: external_exports.string().min(1, "Subject is required"),
-      body: external_exports.string().min(1, "Body is required"),
-      cc: external_exports.array(external_exports.string()).optional().describe("CC recipients"),
-      bcc: external_exports.array(external_exports.string()).optional().describe("BCC recipients"),
-      account: SEND_ACCOUNT_SCHEMA,
-      composition: COMPOSITION_SCHEMA,
-      attachments: ATTACHMENTS_SCHEMA,
-      inReplyTo: IN_REPLY_TO_SCHEMA,
-      references: REFERENCES_SCHEMA,
-      replyTo: external_exports.string().optional().describe(
-        "SMTP only (issue #220): sets the Reply-To header when replies should go somewhere other than the From/login address, e.g. a domain-alias setup where APPLE_MAIL_MCP_SMTP_FROM differs from APPLE_MAIL_MCP_SMTP_USER. Ignored on the AppleScript transport."
-      ),
-      transport: external_exports.enum(["applescript", "smtp"]).optional().describe(
-        "Send transport. 'smtp' submits clean MIME directly via SMTP, avoiding the macOS 15+ Mail.app <blockquote> wrapping (issue #12); requires APPLE_MAIL_MCP_SMTP_* env config. 'applescript' sends through Mail.app. If omitted, configured SMTP is used unless account is a Mail.app account label (for example 'Work'), which selects AppleScript. Explicit SMTP uses the configured SMTP identity; it does not resolve Mail.app account labels. Without SMTP configuration, use AppleScript."
-      )
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      recipients: external_exports.array(external_exports.string()).optional(),
-      attachmentCount: external_exports.number().optional(),
-      transport: external_exports.string().optional(),
-      from: external_exports.string().optional().describe("AppleScript transport: the sender Mail.app used"),
-      messageId: external_exports.string().optional(),
-      sentCopy: SENT_COPY_SCHEMA,
-      sentCopyError: SENT_COPY_ERROR_SCHEMA,
-      sentCopyAlreadyFiled: SENT_COPY_ALREADY_FILED_SCHEMA
-    }
-  },
-  withErrorHandling(
-    async ({
-      to,
-      subject,
-      body,
-      cc,
-      bcc,
-      account,
-      attachments,
-      transport: transport2,
-      composition,
-      replyTo,
-      inReplyTo,
-      references
-    }) => {
-      const attachInfo = attachments?.length ? ` with ${attachments.length} attachment(s)` : "";
-      const attachmentCount = attachments?.length ?? 0;
-      if (composition && transport2 === "smtp") {
-        return errorResponse(
-          "Native-editor composition uses Mail.app and cannot be combined with SMTP."
-        );
-      }
-      const useSmtp = !composition && shouldUseSmtp(transport2, account);
-      const threading = sendEmailThreading({ inReplyTo, references }, useSmtp);
-      if (!threading.ok) return errorResponse(threading.error);
-      if (useSmtp) {
-        if (account && !account.includes("@")) {
-          return errorResponse(
-            "A Mail.app account label cannot select an SMTP identity. Use a configured sender email address, omit account to use the configured SMTP sender, or explicitly select transport=applescript."
-          );
-        }
-        const smtpFrom = account?.includes("@") ? account : void 0;
-        const result = await sendViaSmtp({
-          to,
-          subject,
-          body,
-          cc,
-          bcc,
-          from: smtpFrom,
-          attachments,
-          replyTo,
-          ...threading.headers
-        });
-        if (!result.success) {
-          return errorResponse(result.error ?? "Failed to send email via SMTP.");
-        }
-        const copyNote = result.sentCopy === true ? result.sentCopyAlreadyFiled ? " (Sent-folder copy already filed by the server)" : " (Sent-folder copy filed)" : result.sentCopy === false ? ` (Sent-folder copy NOT filed: ${result.sentCopyError ?? "unknown error"})` : "";
-        return successResponse(`Email sent via SMTP to ${to.join(", ")}${attachInfo}${copyNote}`, {
-          ok: true,
-          recipients: to,
-          attachmentCount,
-          transport: "smtp",
-          ...result.messageId ? { messageId: result.messageId } : {},
-          ...result.sentCopy !== void 0 ? { sentCopy: result.sentCopy } : {},
-          ...result.sentCopyError !== void 0 ? { sentCopyError: result.sentCopyError } : {},
-          ...result.sentCopyAlreadyFiled ? { sentCopyAlreadyFiled: true } : {}
-        });
-      }
-      const sent = composition ? mailManager.sendEmail(to, subject, body, cc, bcc, account, attachments, true) : mailManager.sendEmail(to, subject, body, cc, bcc, account, attachments);
-      if (!sent.success) {
-        return errorResponse(sent.error ?? "Failed to send email. Check Mail.app configuration.");
-      }
-      return successResponse(
-        `Email sent to ${to.join(", ")}${attachInfo}${sent.from ? ` from ${sent.from}` : ""}`,
-        {
-          ok: true,
-          recipients: to,
-          attachmentCount,
-          transport: "applescript",
-          from: sent.from
-        }
-      );
-    },
-    "Error sending email"
-  )
-);
-registerTool(
-  "send-serial-email",
-  {
-    description: "Use when: the user has confirmed a mail-merge \u2014 sending individually personalized copies to many recipients (max 100), with {{Key}} placeholders in subject/body replaced per-recipient from each recipient's variables. Recipients do not see each other.\nReturns: a per-recipient sent/failed report with counts.\nDo not use when: sending one message to a shared recipient list (use send-email) or saving for review (use create-draft).\nSafety: this SENDS many real emails immediately and they cannot be unsent \u2014 require explicit user confirmation of the recipient list, the subject/body template, and the placeholder substitutions before calling.",
-    inputSchema: {
-      recipients: external_exports.array(
-        external_exports.object({
-          email: external_exports.string().min(1, "Recipient email is required"),
-          variables: external_exports.record(external_exports.string(), external_exports.string()).describe("Placeholder values, e.g. { Name: 'Alice', Company: 'Acme' }")
-        })
-      ).min(1, "At least one recipient is required").max(100, "Cannot send to more than 100 recipients in a single batch").describe("List of recipients with personalization variables (max 100)"),
-      subject: external_exports.string().min(1, "Subject is required").describe("Subject line \u2014 use {{Key}} for placeholders"),
-      body: external_exports.string().min(1, "Body is required").describe("Email body \u2014 use {{Key}} for placeholders"),
-      account: SEND_ACCOUNT_SCHEMA,
-      transport: external_exports.enum(["applescript", "smtp"]).optional().describe(
-        "Send transport for the whole batch. 'smtp' sends clean MIME without Mail.app quote wrapping and requires matching SMTP configuration; errors never fall back to AppleScript. SMTP accepts an allowed sender email address in account, not a Mail.app account label. 'applescript' explicitly uses Mail.app. If omitted, configured SMTP is used unless account is a Mail.app account label."
-      ),
-      delayMs: external_exports.number().min(0).max(1e4).optional().describe("Delay between sends in ms (default: 500, max: 10000)")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      sent: external_exports.number().optional(),
-      failed: external_exports.number().optional(),
-      transport: external_exports.enum(["smtp", "applescript"]).optional().describe("Transport used for this batch"),
-      results: external_exports.array(
-        external_exports.object({
-          email: external_exports.string().optional(),
-          success: external_exports.boolean().optional(),
-          error: external_exports.string().optional()
-        }).passthrough()
-      ).optional()
-    }
-  },
-  createSerialEmailHandler({
-    smtpConfigured: isSmtpConfigured,
-    smtpConfig: resolveSmtpConfig,
-    smtpSend: sendSerialViaSmtp,
-    appleScriptSend: (...args) => mailManager.sendSerialEmail(...args)
-  })
 );
 registerTool(
   "create-draft",
@@ -107563,440 +100365,6 @@ var threadedDraftDeps = {
   compose: composeRawMime,
   append: (account, raw) => imapAppendDraft(account, raw)
 };
-async function toNumericMailId(id) {
-  const ref = decodeImapId(id);
-  if (!ref) return { numericId: id };
-  const messageId = await imapFetchMessageId(id);
-  if (!messageId) {
-    return {
-      error: `could not read the RFC Message-ID for "${id}" over IMAP, which is what maps it to a Mail.app id. Pass the numeric id instead (see the resolve-message-id tool).`
-    };
-  }
-  const numericId = mailManager.findNumericIdByMessageId(messageId, ref.account);
-  if (!numericId) {
-    return {
-      error: `Mail.app has no message with Message-ID <${messageId}> in account "${ref.account}", so this IMAP message has no numeric id to reply to or forward. It may not have synced to Mail.app yet.`
-    };
-  }
-  return { numericId };
-}
-var composeDeps = {
-  mail: mailManager,
-  imapSource: imapGetMessageSource,
-  numericId: toNumericMailId,
-  smtpConfigured: isSmtpConfigured,
-  smtpConfig: resolveSmtpConfig,
-  smtpSend: sendViaSmtp
-};
-var COMPOSE_TRANSPORT_SCHEMA = external_exports.enum(["applescript", "smtp"]).optional().describe(
-  "SMTP sends clean MIME and preserves reply threading; requires SMTP configuration. AppleScript uses Mail.app and may quote-wrap the new body on macOS 15+. Omit to prefer configured SMTP when sending; drafts use AppleScript. A selected SMTP transport never silently falls back. SMTP with send=false is rejected."
-);
-registerTool(
-  "reply-to-message",
-  {
-    description: "Use when: replying to an existing message by id, preserving its threading headers and quoting the original, optionally with attachments (same rules as send-email). Set replyAll for all recipients; set send=false to save as a draft instead of sending.\nReturns: a confirmation that the reply was sent or saved as a draft, with the attachment count; over SMTP, also whether a Sent-folder copy was filed (sentCopy).\nDo not use when: composing a brand-new message (use send-email / create-draft) or forwarding to new recipients (use forward-message).\nSafety: with the default send=true this SENDS real email immediately and cannot be unsent \u2014 require explicit user confirmation of the recipients and body, or pass send=false to let the user review.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA,
-      transport: COMPOSE_TRANSPORT_SCHEMA,
-      composition: COMPOSITION_SCHEMA,
-      body: external_exports.string().min(1, "Reply body is required").describe("Reply body (plain text; HTML tags such as <br> are not rendered)"),
-      replyAll: external_exports.boolean().optional().default(false).describe("Reply to all recipients"),
-      send: external_exports.boolean().optional().default(true).describe("Send immediately (false = save as draft)"),
-      attachments: ATTACHMENTS_SCHEMA
-    },
-    outputSchema: {
-      transport: external_exports.enum(["smtp", "applescript"]).optional(),
-      messageId: external_exports.string().optional(),
-      ok: external_exports.boolean().optional(),
-      sent: external_exports.boolean().optional(),
-      id: external_exports.string().optional(),
-      attachmentCount: external_exports.number().optional(),
-      sentCopy: SENT_COPY_SCHEMA,
-      sentCopyError: SENT_COPY_ERROR_SCHEMA,
-      sentCopyAlreadyFiled: SENT_COPY_ALREADY_FILED_SCHEMA
-    }
-  },
-  withErrorHandling((args) => runReply(composeDeps, args), "Error replying to message")
-);
-registerTool(
-  "forward-message",
-  {
-    description: "Use when: forwarding an existing message (by id) to new recipients (to is an array), with an optional body to prepend and optional extra attachments (same rules as send-email). Set send=false to save as a draft.\nReturns: a confirmation that the message was forwarded or saved as a draft, with the attachment count; over SMTP, also whether a Sent-folder copy was filed (sentCopy).\nDo not use when: replying to the sender/recipients (use reply-to-message) or composing a new message (use send-email / create-draft).\nSafety: with the default send=true this SENDS real email immediately and cannot be unsent \u2014 require explicit user confirmation of the recipients and any prepended body, or pass send=false to let the user review.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA,
-      transport: COMPOSE_TRANSPORT_SCHEMA,
-      composition: COMPOSITION_SCHEMA,
-      to: external_exports.array(external_exports.string()).min(1, "At least one recipient is required"),
-      body: external_exports.string().optional().describe("Optional message to prepend (plain text)"),
-      send: external_exports.boolean().optional().default(true).describe("Send immediately (false = save as draft)"),
-      attachments: ATTACHMENTS_SCHEMA
-    },
-    outputSchema: {
-      transport: external_exports.enum(["smtp", "applescript"]).optional(),
-      messageId: external_exports.string().optional(),
-      ok: external_exports.boolean().optional(),
-      sent: external_exports.boolean().optional(),
-      recipients: external_exports.array(external_exports.string()).optional(),
-      id: external_exports.string().optional(),
-      attachmentCount: external_exports.number().optional(),
-      sentCopy: SENT_COPY_SCHEMA,
-      sentCopyError: SENT_COPY_ERROR_SCHEMA,
-      sentCopyAlreadyFiled: SENT_COPY_ALREADY_FILED_SCHEMA
-    }
-  },
-  withErrorHandling((args) => runForward(composeDeps, args), "Error forwarding message")
-);
-registerTool(
-  "mark-as-read",
-  {
-    description: "Use when: marking a single message (by id) as read.\nReturns: a confirmation that the message was marked read.\nDo not use when: marking several at once (use batch-mark-as-read) or marking unread (use mark-as-unread). Get the id from search-messages or list-messages first.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA
-    },
-    outputSchema: { ok: external_exports.boolean().optional(), id: external_exports.string().optional() }
-  },
-  withErrorHandling(
-    ({ id }) => routeMessage(id, {
-      imap: () => imapMarkRead(id),
-      apple: () => mailManager.markAsRead(id) ? successResponse("Message marked as read", { ok: true, id }) : errorResponse(`Failed to mark message "${id}" as read`),
-      ok: "Message marked as read",
-      fail: `Failed to mark message "${id}" as read`,
-      structured: { ok: true, id }
-    }),
-    "Error marking message as read"
-  )
-);
-registerTool(
-  "mark-as-unread",
-  {
-    description: "Use when: marking a single message (by id) as unread.\nReturns: a confirmation that the message was marked unread.\nDo not use when: marking several at once (use batch-mark-as-unread) or marking read (use mark-as-read). Get the id from search-messages or list-messages first.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA
-    },
-    outputSchema: { ok: external_exports.boolean().optional(), id: external_exports.string().optional() }
-  },
-  withErrorHandling(
-    ({ id }) => routeMessage(id, {
-      imap: () => imapMarkUnread(id),
-      apple: () => mailManager.markAsUnread(id) ? successResponse("Message marked as unread", { ok: true, id }) : errorResponse(`Failed to mark message "${id}" as unread`),
-      ok: "Message marked as unread",
-      fail: `Failed to mark message "${id}" as unread`,
-      structured: { ok: true, id }
-    }),
-    "Error marking message as unread"
-  )
-);
-registerTool(
-  "flag-message",
-  {
-    description: "Use when: flagging a single message (by id), optionally with a color (red/orange/yellow/green/blue/purple/gray).\nReturns: a confirmation that the message was flagged (and the color, when applied).\nDo not use when: flagging several at once (use batch-flag-messages) or removing a flag (use unflag-message). Get the id from search-messages or list-messages first.\nNote: the color is applied on both routes \u2014 AppleScript sets the flag index, IMAP writes the equivalent $MailFlagBit0/1/2 keywords Mail.app reads \u2014 and search-messages' flagColor filter finds colored messages again later, so a color works as a cross-mailbox label.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA,
-      color: FLAG_COLOR_SCHEMA
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      id: external_exports.string().optional(),
-      color: external_exports.string().optional(),
-      colorApplied: external_exports.boolean().optional()
-    }
-  },
-  withErrorHandling(({ id, color }) => {
-    const colorIndex = color ? FLAG_COLOR_INDEX[color] : void 0;
-    return routeMessage(id, {
-      imap: () => imapFlagMessage(id, colorIndex),
-      apple: () => mailManager.flagMessage(id, colorIndex) ? successResponse(color ? `Message flagged (${color})` : "Message flagged", {
-        ok: true,
-        id,
-        ...color ? { color, colorApplied: true } : {}
-      }) : errorResponse(`Failed to flag message "${id}"`),
-      // IMAP path: imapFlagMessage writes the color as $MailFlagBit0/1/2 keywords,
-      // so the outcome matches the AppleScript route above.
-      ok: color ? `Message flagged (${color})` : "Message flagged",
-      fail: `Failed to flag message "${id}"`,
-      structured: color ? { ok: true, id, color, colorApplied: true } : { ok: true, id }
-    });
-  }, "Error flagging message")
-);
-registerTool(
-  "unflag-message",
-  {
-    description: "Use when: removing the flag from a single message (by id).\nReturns: a confirmation that the message was unflagged.\nDo not use when: unflagging several at once (use batch-unflag-messages) or adding a flag (use flag-message). Get the id from search-messages or list-messages first.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA
-    },
-    outputSchema: { ok: external_exports.boolean().optional(), id: external_exports.string().optional() }
-  },
-  withErrorHandling(
-    ({ id }) => routeMessage(id, {
-      imap: () => imapUnflagMessage(id),
-      apple: () => mailManager.unflagMessage(id) ? successResponse("Message unflagged", { ok: true, id }) : errorResponse(`Failed to unflag message "${id}"`),
-      ok: "Message unflagged",
-      fail: `Failed to unflag message "${id}"`,
-      structured: { ok: true, id }
-    }),
-    "Error unflagging message"
-  )
-);
-registerTool(
-  "delete-message",
-  {
-    description: "Use when: deleting a single message by id (moves it to Trash).\nReturns: a confirmation that the message was deleted.\nDo not use when: deleting several at once (use batch-delete-messages) or just filing it away (use move-message).\nSafety: destructive \u2014 require explicit user confirmation, and search-messages/list-messages first to confirm you have the right id before deleting.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      id: external_exports.string().optional(),
-      countDelta: COUNT_DELTA_OUTPUT_SCHEMA,
-      verification: VERIFICATION_OUTPUT_SCHEMA
-    }
-  },
-  withErrorHandling(
-    ({ id }) => routeMessage(id, {
-      imap: () => imapDeleteMessageById(id),
-      apple: () => {
-        const { success: success2, error: error63 } = mailManager.deleteMessage(id);
-        const { countDelta, warnings } = collectForensics("delete-message", { id });
-        return success2 ? successResponse(
-          `Message deleted${warnings.length ? `
-
-${warnings.join("\n")}` : ""}`,
-          {
-            ok: true,
-            id,
-            ...countDelta ? { countDelta } : {}
-          }
-        ) : errorResponse(error63 || `Failed to delete message "${id}"`);
-      },
-      ok: "Message deleted",
-      fail: `Failed to delete message "${id}"`,
-      structured: { ok: true, id }
-    }),
-    "Error deleting message"
-  )
-);
-registerTool(
-  "move-message",
-  {
-    description: "Use when: moving a single message (by id) into another mailbox/folder, e.g. archiving or filing.\nReturns: a confirmation naming the destination mailbox.\nDo not use when: moving several at once (use batch-move-messages) or deleting (use delete-message). Use list-mailboxes to confirm the destination name exists.\nSafety: moves a real message between folders \u2014 confirm the destination mailbox, and search-messages/list-messages first to confirm the id.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA,
-      mailbox: external_exports.string().min(1, "Destination mailbox is required"),
-      account: external_exports.string().optional().describe("Account containing the destination mailbox")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      id: external_exports.string().optional(),
-      mailbox: external_exports.string().optional(),
-      countDelta: COUNT_DELTA_OUTPUT_SCHEMA,
-      verification: VERIFICATION_OUTPUT_SCHEMA
-    }
-  },
-  withErrorHandling(
-    ({ id, mailbox, account }) => routeMessage(id, {
-      imap: () => imapMoveMessageById(id, mailbox),
-      apple: () => {
-        const { success: success2, error: error63 } = mailManager.moveMessage(id, mailbox, account);
-        const { countDelta, warnings } = collectForensics("move-message", {
-          id,
-          mailbox,
-          account
-        });
-        return success2 ? successResponse(
-          `Message moved to "${mailbox}"${warnings.length ? `
-
-${warnings.join("\n")}` : ""}`,
-          { ok: true, id, mailbox, ...countDelta ? { countDelta } : {} }
-        ) : errorResponse(error63 || `Failed to move message to "${mailbox}"`);
-      },
-      ok: `Message moved to "${mailbox}"`,
-      fail: `Failed to move message to "${mailbox}"`,
-      structured: { ok: true, id, mailbox }
-    }),
-    "Error moving message"
-  )
-);
-var batchMutationDeps = {
-  batchDeleteMessages: (ids, scope) => mailManager.batchDeleteMessages(ids, scope),
-  batchMoveMessages: (ids, mailbox, account, scope) => mailManager.batchMoveMessages(ids, mailbox, account, scope),
-  imapBatchDelete: (ids) => imapBatchDelete(ids),
-  imapBatchMove: (ids, mailbox, opts) => imapBatchMove(ids, mailbox, opts),
-  collectForensics: (tool, args) => collectForensics(tool, args)
-};
-registerTool(
-  "batch-delete-messages",
-  {
-    description: "Use when: deleting multiple messages in one call (1\u2013100 ids; moves them to Trash).\nReturns: counts of how many were deleted and how many failed, plus the distinct reasons for any failures.\nDo not use when: deleting just one (use delete-message) or filing messages away (use batch-move-messages).\nSafety: destructive and applies to many messages at once \u2014 require explicit user confirmation, and search-messages/list-messages first to confirm every id is correct before deleting. Pass sourceMailbox/sourceAccount (the mailbox you listed the ids from) so each numeric id is pinned to that mailbox; an id that matches in several mailboxes is refused, not guessed.",
-    inputSchema: {
-      ids: BATCH_IDS_SCHEMA,
-      sourceMailbox: BATCH_SOURCE_MAILBOX_SCHEMA,
-      sourceAccount: BATCH_SOURCE_ACCOUNT_SCHEMA
-    },
-    outputSchema: { ...BATCH_COUNT_OUTPUT_SCHEMA, countDelta: COUNT_DELTA_OUTPUT_SCHEMA }
-  },
-  withErrorHandling(
-    async ({ ids, sourceMailbox, sourceAccount }) => runBatchDelete(batchMutationDeps, { ids, sourceMailbox, sourceAccount }),
-    "Error batch deleting messages"
-  )
-);
-registerTool(
-  "batch-move-messages",
-  {
-    description: "Use when: moving multiple messages (1\u2013100 ids) into the same destination mailbox/folder in one call, e.g. bulk archiving.\nReturns: counts of how many were moved and how many failed, plus the distinct reasons for any failures.\nDo not use when: moving just one (use move-message) or deleting (use batch-delete-messages). Use list-mailboxes to confirm the destination name exists.\nSafety: moves many real messages at once \u2014 confirm the destination mailbox, and search-messages/list-messages first to confirm the ids. Pass sourceMailbox/sourceAccount (the mailbox you listed the ids from \u2014 not the destination) so each numeric id is pinned to that mailbox; an id that matches in several mailboxes is refused, not guessed.",
-    inputSchema: {
-      ids: BATCH_IDS_SCHEMA,
-      mailbox: external_exports.string().min(1, "Destination mailbox is required"),
-      account: external_exports.string().optional().describe("Account containing the destination mailbox"),
-      sourceMailbox: BATCH_SOURCE_MAILBOX_SCHEMA,
-      sourceAccount: BATCH_SOURCE_ACCOUNT_SCHEMA
-    },
-    outputSchema: { ...BATCH_COUNT_OUTPUT_SCHEMA, countDelta: COUNT_DELTA_OUTPUT_SCHEMA }
-  },
-  withErrorHandling(
-    async ({ ids, mailbox, account, sourceMailbox, sourceAccount }) => runBatchMove(batchMutationDeps, { ids, mailbox, account, sourceMailbox, sourceAccount }),
-    "Error batch moving messages"
-  )
-);
-registerTool(
-  "batch-mark-as-read",
-  {
-    description: "Use when: marking multiple messages (1\u2013100 ids) as read in one call.\nReturns: counts of how many were marked read and how many failed.\nDo not use when: marking just one (use mark-as-read) or marking unread (use batch-mark-as-unread). Get the ids from search-messages or list-messages first. Pass sourceMailbox/sourceAccount (the mailbox you listed the ids from) so each numeric id is pinned to that mailbox; an id that matches in several mailboxes is refused, not guessed.",
-    inputSchema: {
-      ids: BATCH_IDS_SCHEMA,
-      sourceMailbox: BATCH_SOURCE_MAILBOX_SCHEMA,
-      sourceAccount: BATCH_SOURCE_ACCOUNT_SCHEMA
-    },
-    outputSchema: BATCH_COUNT_OUTPUT_SCHEMA
-  },
-  withErrorHandling(async ({ ids, sourceMailbox, sourceAccount }) => {
-    const counts = await hybridBatchCounts(
-      ids,
-      (n) => mailManager.batchMarkAsRead(n, { account: sourceAccount, mailbox: sourceMailbox }),
-      (im) => imapBatchMarkRead(im)
-    );
-    return batchResponse(counts, {
-      allSucceeded: (n) => `Successfully marked ${n} message(s) as read`,
-      allFailed: (n) => `Failed to mark all ${n} message(s) as read`,
-      partial: (ok, failed) => `Marked ${ok} message(s) as read, ${failed} failed`
-    });
-  }, "Error batch marking messages as read")
-);
-registerTool(
-  "batch-mark-as-unread",
-  {
-    description: "Use when: marking multiple messages (1\u2013100 ids) as unread in one call.\nReturns: counts of how many were marked unread and how many failed.\nDo not use when: marking just one (use mark-as-unread) or marking read (use batch-mark-as-read). Get the ids from search-messages or list-messages first. Pass sourceMailbox/sourceAccount (the mailbox you listed the ids from) so each numeric id is pinned to that mailbox; an id that matches in several mailboxes is refused, not guessed.",
-    inputSchema: {
-      ids: BATCH_IDS_SCHEMA,
-      sourceMailbox: BATCH_SOURCE_MAILBOX_SCHEMA,
-      sourceAccount: BATCH_SOURCE_ACCOUNT_SCHEMA
-    },
-    outputSchema: BATCH_COUNT_OUTPUT_SCHEMA
-  },
-  withErrorHandling(async ({ ids, sourceMailbox, sourceAccount }) => {
-    const counts = await hybridBatchCounts(
-      ids,
-      (n) => mailManager.batchMarkAsUnread(n, { account: sourceAccount, mailbox: sourceMailbox }),
-      (im) => imapBatchMarkUnread(im)
-    );
-    return batchResponse(counts, {
-      allSucceeded: (n) => `Successfully marked ${n} message(s) as unread`,
-      allFailed: (n) => `Failed to mark all ${n} message(s) as unread`,
-      partial: (ok, failed) => `Marked ${ok} message(s) as unread, ${failed} failed`
-    });
-  }, "Error batch marking messages as unread")
-);
-registerTool(
-  "batch-flag-messages",
-  {
-    description: "Use when: flagging multiple messages (1\u2013100 ids) in one call, optionally with a color (red/orange/yellow/green/blue/purple/gray).\nReturns: counts of how many were flagged and how many failed.\nDo not use when: flagging just one (use flag-message) or removing flags (use batch-unflag-messages). Get the ids from search-messages or list-messages first. Pass sourceMailbox/sourceAccount (the mailbox you listed the ids from) so each numeric id is pinned to that mailbox; an id that matches in several mailboxes is refused, not guessed.\nNote: the color is applied on both routes \u2014 AppleScript sets the flag index, IMAP writes the equivalent $MailFlagBit0/1/2 keywords Mail.app reads \u2014 so a mixed batch of numeric and `imap:` ids all end up colored, and search-messages' flagColor filter finds the whole set again later regardless of mailbox.",
-    inputSchema: {
-      ids: BATCH_IDS_SCHEMA,
-      color: FLAG_COLOR_SCHEMA,
-      sourceMailbox: BATCH_SOURCE_MAILBOX_SCHEMA,
-      sourceAccount: BATCH_SOURCE_ACCOUNT_SCHEMA
-    },
-    outputSchema: BATCH_COUNT_OUTPUT_SCHEMA
-  },
-  withErrorHandling(async ({ ids, color, sourceMailbox, sourceAccount }) => {
-    const colorIndex = color ? FLAG_COLOR_INDEX[color] : void 0;
-    const counts = await hybridBatchCounts(
-      ids,
-      (n) => mailManager.batchFlagMessages(n, colorIndex, {
-        account: sourceAccount,
-        mailbox: sourceMailbox
-      }),
-      (im) => imapBatchFlag(im, colorIndex)
-    );
-    return batchResponse(counts, {
-      allSucceeded: (n) => `Successfully flagged ${n} message(s)`,
-      allFailed: (n) => `Failed to flag all ${n} message(s)`,
-      partial: (ok, failed) => `Flagged ${ok} message(s), ${failed} failed`
-    });
-  }, "Error batch flagging messages")
-);
-registerTool(
-  "batch-unflag-messages",
-  {
-    description: "Use when: removing flags from multiple messages (1\u2013100 ids) in one call.\nReturns: counts of how many were unflagged and how many failed.\nDo not use when: unflagging just one (use unflag-message) or adding flags (use batch-flag-messages). Get the ids from search-messages or list-messages first. Pass sourceMailbox/sourceAccount (the mailbox you listed the ids from) so each numeric id is pinned to that mailbox; an id that matches in several mailboxes is refused, not guessed.",
-    inputSchema: {
-      ids: BATCH_IDS_SCHEMA,
-      sourceMailbox: BATCH_SOURCE_MAILBOX_SCHEMA,
-      sourceAccount: BATCH_SOURCE_ACCOUNT_SCHEMA
-    },
-    outputSchema: BATCH_COUNT_OUTPUT_SCHEMA
-  },
-  withErrorHandling(async ({ ids, sourceMailbox, sourceAccount }) => {
-    const counts = await hybridBatchCounts(
-      ids,
-      (n) => mailManager.batchUnflagMessages(n, { account: sourceAccount, mailbox: sourceMailbox }),
-      (im) => imapBatchUnflag(im)
-    );
-    return batchResponse(counts, {
-      allSucceeded: (n) => `Successfully unflagged ${n} message(s)`,
-      allFailed: (n) => `Failed to unflag all ${n} message(s)`,
-      partial: (ok, failed) => `Unflagged ${ok} message(s), ${failed} failed`
-    });
-  }, "Error batch unflagging messages")
-);
-registerTool(
-  "resolve-message-id",
-  {
-    description: "Use when: you have `imap:` message id(s) and genuinely need the numeric Mail.app id(s) \u2014 e.g. for reply-to-message/forward-message, which are numeric-id only. NOTE: as of 2.10.0 you no longer need this to apply a flag COLOR \u2014 flag-message/batch-flag-messages write the color over IMAP directly via Mail.app's $MailFlagBit0/1/2 keywords, so a smart mailbox keyed on flag color matches an IMAP-flagged message. Each imap: id is resolved via its RFC822 Message-ID.\nReturns: for each input id, its `numericId` (the AppleScript id) or null when it can't be resolved, plus the `messageId` used; and a `resolvedCount`.\nDo not use when: your ids are already numeric (they pass straight through), or you don't need a color \u2014 flag/move/mark tools operate on `imap:` ids directly.",
-    inputSchema: {
-      ids: BATCH_IDS_SCHEMA
-    },
-    outputSchema: {
-      resolved: external_exports.array(
-        external_exports.object({
-          id: external_exports.string(),
-          numericId: external_exports.string().nullable(),
-          messageId: external_exports.string().nullable()
-        })
-      ).optional(),
-      count: external_exports.number().optional(),
-      resolvedCount: external_exports.number().optional()
-    }
-  },
-  withErrorHandling(async ({ ids }) => {
-    const resolved = [];
-    for (const id of ids) {
-      const ref = decodeImapId(id);
-      if (!ref) {
-        resolved.push({ id, numericId: id, messageId: null });
-        continue;
-      }
-      const messageId = await imapFetchMessageId(id);
-      const numericId = messageId ? mailManager.findNumericIdByMessageId(messageId, ref.account) : null;
-      resolved.push({ id, numericId, messageId });
-    }
-    const resolvedCount = resolved.filter((r) => r.numericId !== null).length;
-    return successResponse(
-      `Resolved ${resolvedCount}/${ids.length} message id(s) to numeric Mail.app id(s)`,
-      { resolved, count: ids.length, resolvedCount }
-    );
-  }, "Error resolving message ids")
-);
 registerTool(
   "list-attachments",
   {
@@ -108030,54 +100398,6 @@ ${attachmentList}`,
       structured
     );
   }, "Error listing attachments")
-);
-registerTool(
-  "save-attachment",
-  {
-    description: "Use when: writing one of a message's attachments to disk, by message id and attachmentName, into the savePath directory (saved as savePath/attachmentName).\nReturns: a confirmation of the saved file path.\nDo not use when: you don't know the attachment name (use list-attachments first) or want the bytes inline rather than on disk (use fetch-attachment).\nSafety: writes a file to disk \u2014 savePath must be a directory inside the configured allowed roots, and attachmentName may not contain path separators or '..'; calls outside those constraints are rejected.",
-    inputSchema: {
-      id: MESSAGE_ID_SCHEMA,
-      attachmentName: external_exports.string().min(1, "Attachment name is required"),
-      savePath: external_exports.string().min(1, "Save directory path is required")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      attachmentName: external_exports.string().optional(),
-      savedPath: external_exports.string().optional()
-    }
-  },
-  withErrorHandling(async ({ id, attachmentName, savePath }) => {
-    if (id.startsWith("imap:")) {
-      if (/[/\\\0]/.test(attachmentName) || attachmentName.includes("..")) {
-        return errorResponse(`Invalid attachment name: "${attachmentName}"`);
-      }
-      let target;
-      try {
-        target = resolveAttachmentSaveTarget(savePath, attachmentName);
-      } catch (error63) {
-        return errorResponse(error63 instanceof Error ? error63.message : String(error63));
-      }
-      const r = await imapFetchAttachment(id, attachmentName);
-      if (!r.success || !r.base64) {
-        return errorResponse(r.error || `Failed to fetch attachment "${attachmentName}"`);
-      }
-      writeFileSync5(target.savedPath, Buffer.from(r.base64, "base64"), { flag: "wx", mode: 384 });
-      return successResponse(`Attachment "${attachmentName}" saved to ${savePath}`, {
-        ok: true,
-        attachmentName,
-        savedPath: target.savedPath
-      });
-    }
-    const success2 = mailManager.saveAttachment(id, attachmentName, savePath);
-    if (!success2) {
-      return errorResponse(`Failed to save attachment "${attachmentName}"`);
-    }
-    return successResponse(`Attachment "${attachmentName}" saved to ${savePath}`, {
-      ok: true,
-      attachmentName,
-      savedPath: joinPath(savePath, attachmentName)
-    });
-  }, "Error saving attachment")
 );
 registerTool(
   "fetch-attachment",
@@ -108313,225 +100633,6 @@ registerTool(
   }, "Error getting unread count")
 );
 registerTool(
-  "create-mailbox",
-  {
-    description: "Use when: creating a new mailbox/folder in an account.\nReturns: a confirmation that the mailbox was created.\nDo not use when: renaming an existing one (use rename-mailbox) or deleting one (use delete-mailbox). Use list-mailboxes to see what already exists.\nSafety: creates a real folder in the mail account \u2014 confirm the name and target account first.",
-    inputSchema: {
-      name: external_exports.string().min(1, "Mailbox name is required"),
-      account: external_exports.string().optional().describe("Account to create the mailbox in")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      name: external_exports.string().optional()
-    }
-  },
-  withErrorHandling(async ({ name: name2, account }) => {
-    if (isImapAccount(account)) {
-      const r = await imapCreateMailbox(name2, { account });
-      if (!r.success) return errorResponse(r.error || `Failed to create mailbox "${name2}"`);
-      return successResponse(r.info || `Mailbox "${name2}" created`, { ok: true, name: name2 });
-    }
-    const { success: success2, error: error63 } = mailManager.createMailbox(name2, account);
-    if (!success2) {
-      return errorResponse(error63 || `Failed to create mailbox "${name2}"`);
-    }
-    return successResponse(`Mailbox "${name2}" created`, { ok: true, name: name2 });
-  }, "Error creating mailbox")
-);
-registerTool(
-  "delete-mailbox",
-  {
-    description: "Use when: deleting a mailbox/folder from an account.\nReturns: a confirmation that the mailbox was deleted.\nDo not use when: renaming it (use rename-mailbox) or deleting messages within it (use delete-message / batch-delete-messages).\nSafety: destructive \u2014 deleting a mailbox removes the folder and any messages it contains. Require explicit user confirmation and use list-mailboxes first to confirm the exact name.",
-    inputSchema: {
-      name: external_exports.string().min(1, "Mailbox name is required"),
-      account: external_exports.string().optional().describe("Account containing the mailbox")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      name: external_exports.string().optional()
-    }
-  },
-  withErrorHandling(async ({ name: name2, account }) => {
-    if (isImapAccount(account)) {
-      const r = await imapDeleteMailbox(name2, { account });
-      if (!r.success) return errorResponse(r.error || `Failed to delete mailbox "${name2}"`);
-      return successResponse(r.info || `Mailbox "${name2}" deleted`, { ok: true, name: name2 });
-    }
-    const { success: success2, error: error63 } = mailManager.deleteMailbox(name2, account);
-    if (!success2) {
-      return errorResponse(error63 || `Failed to delete mailbox "${name2}"`);
-    }
-    return successResponse(`Mailbox "${name2}" deleted`, { ok: true, name: name2 });
-  }, "Error deleting mailbox")
-);
-registerTool(
-  "rename-mailbox",
-  {
-    description: "Use when: renaming an existing mailbox/folder from oldName to newName within an account.\nReturns: a confirmation naming the old and new mailbox names.\nDo not use when: creating a new folder (use create-mailbox) or deleting one (use delete-mailbox). Use list-mailboxes to confirm the current name.\nSafety: renames a real folder in the mail account \u2014 confirm oldName matches exactly (case-sensitive) before calling.",
-    inputSchema: {
-      oldName: external_exports.string().min(1, "Current mailbox name is required"),
-      newName: external_exports.string().min(1, "New mailbox name is required"),
-      account: external_exports.string().optional().describe("Account containing the mailbox")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      oldName: external_exports.string().optional(),
-      newName: external_exports.string().optional()
-    }
-  },
-  withErrorHandling(async ({ oldName, newName, account }) => {
-    if (isImapAccount(account)) {
-      const r = await imapRenameMailbox(oldName, newName, { account });
-      if (!r.success) {
-        return errorResponse(r.error || `Failed to rename mailbox "${oldName}" to "${newName}"`);
-      }
-      return successResponse(r.info || `Mailbox renamed from "${oldName}" to "${newName}"`, {
-        ok: true,
-        oldName,
-        newName
-      });
-    }
-    const { success: success2, error: error63 } = mailManager.renameMailbox(oldName, newName, account);
-    if (!success2) {
-      return errorResponse(error63 || `Failed to rename mailbox "${oldName}" to "${newName}"`);
-    }
-    return successResponse(`Mailbox renamed from "${oldName}" to "${newName}"`, {
-      ok: true,
-      oldName,
-      newName
-    });
-  }, "Error renaming mailbox")
-);
-registerTool(
-  "list-smart-mailboxes",
-  {
-    description: "Use when: listing Apple Mail smart mailboxes (criteria-based virtual views), including on German-localized macOS where AppleScript's smart-mailbox terms do not compile.\nReturns: each smart mailbox's name and a short criteria summary.\nDo not use when: listing real folders/mailboxes (use list-mailboxes).",
-    inputSchema: {},
-    outputSchema: {
-      count: external_exports.number().optional(),
-      smartMailboxes: external_exports.array(
-        external_exports.object({
-          name: external_exports.string(),
-          id: external_exports.string().optional(),
-          criteriaSummary: external_exports.string().optional()
-        })
-      ).optional()
-    }
-  },
-  withErrorHandling(() => {
-    const list = mailManager.listSmartMailboxes();
-    if (list.length === 0) {
-      return successResponse("No smart mailboxes found", { count: 0, smartMailboxes: [] });
-    }
-    const lines = list.map((s) => `  - ${s.name}${s.criteriaSummary ? ` (${s.criteriaSummary})` : ""}`).join("\n");
-    return successResponse(`Found ${list.length} smart mailbox(es):
-${lines}`, {
-      count: list.length,
-      smartMailboxes: list.map((s) => ({
-        name: s.name,
-        id: s.id,
-        criteriaSummary: s.criteriaSummary
-      }))
-    });
-  }, "Error listing smart mailboxes")
-);
-registerTool(
-  "create-smart-mailbox",
-  {
-    description: "Use when: creating an Apple Mail smart mailbox (a criteria-based virtual view) that matches a sender, subject, or body substring \u2014 works on German-localized macOS where AppleScript's smart-mailbox terms fail.\nReturns: confirmation of creation, or a note that a smart mailbox with that name already existed.\nDo not use when: creating a real folder (use create-mailbox).\nSafety: edits Apple Mail's SyncedSmartMailboxes.plist directly. It backs the file up (.bak) and writes atomically, and never rewrites your existing smart mailboxes. It does not quit Mail \u2014 quit Mail first for reliable results, since a running Mail may not show the new smart mailbox until relaunched and can overwrite plist edits it did not make.",
-    inputSchema: {
-      name: external_exports.string().min(1, "Smart mailbox name is required"),
-      fromContains: external_exports.string().optional().describe("Match sender (From contains)"),
-      subjectContains: external_exports.string().optional().describe("Match subject (contains)"),
-      bodyContains: external_exports.string().optional().describe("Match body (contains)")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      name: external_exports.string().optional(),
-      alreadyExisted: external_exports.boolean().optional()
-    }
-  },
-  withErrorHandling(({ name: name2, fromContains, subjectContains, bodyContains }) => {
-    if (!fromContains && !subjectContains && !bodyContains) {
-      return errorResponse("Provide at least one of fromContains / subjectContains / bodyContains");
-    }
-    const r = mailManager.createSmartMailbox(
-      name2,
-      fromContains || "",
-      subjectContains || "",
-      bodyContains || ""
-    );
-    if (r.alreadyExisted) {
-      return successResponse(`Smart mailbox "${name2}" already exists`, {
-        ok: true,
-        name: name2,
-        alreadyExisted: true
-      });
-    }
-    if (!r.created) {
-      return errorResponse(r.error || `Failed to create smart mailbox "${name2}"`);
-    }
-    return successResponse(`Smart mailbox "${name2}" created. Quit and reopen Mail to see it.`, {
-      ok: true,
-      name: name2,
-      alreadyExisted: false
-    });
-  }, "Error creating smart mailbox")
-);
-registerTool(
-  "delete-smart-mailbox",
-  {
-    description: "Use when: deleting an Apple Mail smart mailbox (virtual view) by name.\nReturns: confirmation of deletion.\nDo not use when: deleting a real folder (use delete-mailbox) or messages (use delete-message / batch-delete-messages).\nSafety: destructive \u2014 removes the smart mailbox from Apple Mail's SyncedSmartMailboxes.plist. It backs the file up (.bak) and writes atomically, preserving every other smart mailbox, but the removal is not undoable in-app. Confirm the exact name with list-smart-mailboxes first, and quit Mail first for reliable results.",
-    inputSchema: {
-      name: external_exports.string().min(1, "Smart mailbox name is required")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      name: external_exports.string().optional()
-    }
-  },
-  withErrorHandling(({ name: name2 }) => {
-    const r = mailManager.deleteSmartMailbox(name2);
-    if (!r.deleted) {
-      return errorResponse(r.error || `Failed to delete smart mailbox "${name2}"`);
-    }
-    return successResponse(`Smart mailbox "${name2}" deleted. Quit and reopen Mail to refresh.`, {
-      ok: true,
-      name: name2
-    });
-  }, "Error deleting smart mailbox")
-);
-registerTool(
-  "create-newsletter-smart-mailboxes",
-  {
-    description: `Use when: auto-discovering newsletter/bulk senders in your INBOX(es) and (optionally) creating a dedicated smart mailbox per sender (named "NL: <sender>"). Defaults to a safe dry run that only proposes.
-Returns: the proposed or created smart mailboxes with their match scores.
-Do not use when: you already know the exact sender (use create-smart-mailbox) or want real folders (use create-mailbox).
-Safety: with dryRun=false it edits Apple Mail's SyncedSmartMailboxes.plist (backed up, atomic, existing entries preserved) and can create many smart mailboxes at once \u2014 review a dryRun first. It scans up to ~400 recent messages per inbox via AppleScript, which can be slow on large mailboxes.`,
-    inputSchema: {
-      dryRun: external_exports.boolean().default(true).describe("If true (default), only propose; if false, actually create"),
-      minCount: integerNumber().min(1).default(3).describe("Minimum messages from sender in the period"),
-      days: integerNumber().min(1).default(90).describe("Look back this many days in INBOXes")
-    },
-    outputSchema: {
-      dryRun: external_exports.boolean().optional(),
-      count: external_exports.number().optional()
-    }
-  },
-  withErrorHandling(({ dryRun, minCount, days }) => {
-    const result = mailManager.createNewsletterSmartMailboxes(!!dryRun, minCount, days);
-    const lines = result.createdOrProposed.map(
-      (c) => `  - ${c.name || c.suggestedName || c.email} (score ${c.score ?? "?"}${c.wouldCreate ? ", dry-run" : c.alreadyExisted ? ", already existed" : c.error ? `, error: ${c.error}` : ""})`
-    ).join("\n");
-    const prefix = result.dryRun ? "DRY RUN - would create" : "Created";
-    return successResponse(
-      `${prefix} ${result.count} newsletter smart mailbox(es):
-${lines || "  (none met the threshold)"}`,
-      { dryRun: result.dryRun, count: result.count }
-    );
-  }, "Error creating newsletter smart mailboxes")
-);
-registerTool(
   "list-accounts",
   {
     description: "Use when: discovering the configured Mail accounts (e.g. iCloud, Gmail) so you can pass an exact account name to other tools.\nReturns: the account names and a count. If the AppleScript transport fails (timeout / wedged Mail / missing Automation grant) this returns an ERROR rather than an empty list \u2014 an empty list always means Mail really has no accounts.\nDo not use when: you want the folders within an account (use list-mailboxes) or messages (use list-messages / search-messages).",
@@ -108558,298 +100659,6 @@ registerTool(
     return successResponse(`Found ${accounts.length} account(s):
 ${accountList}`, structured);
   }, "Error listing accounts")
-);
-registerTool(
-  "list-rules",
-  {
-    description: "Use when: discovering the Mail rules that exist and whether each is enabled or disabled, e.g. before enabling/disabling/deleting one.\nReturns: each rule's name and enabled/disabled state.\nDo not use when: you want to change a rule (use enable-rule / disable-rule / create-rule / delete-rule).",
-    inputSchema: {},
-    outputSchema: {
-      rules: external_exports.array(external_exports.object({}).passthrough()).optional(),
-      count: external_exports.number().optional()
-    }
-  },
-  withErrorHandling(() => {
-    const rules = mailManager.listRules();
-    const structured = {
-      rules: rules.map((r) => ({ name: r.name, enabled: r.enabled })),
-      count: rules.length
-    };
-    if (rules.length === 0) {
-      return successResponse("No mail rules found", structured);
-    }
-    const ruleList = rules.map((r) => `  - ${r.name} [${r.enabled ? "enabled" : "disabled"}]`).join("\n");
-    return successResponse(`Found ${rules.length} rule(s):
-${ruleList}`, structured);
-  }, "Error listing rules")
-);
-registerTool(
-  "enable-rule",
-  {
-    description: "Use when: turning on an existing Mail rule by name.\nReturns: a confirmation that the rule was enabled.\nDo not use when: turning a rule off (use disable-rule), creating one (use create-rule), or deleting one (use delete-rule). Use list-rules to confirm the exact rule name.",
-    inputSchema: {
-      name: external_exports.string().min(1, "Rule name is required")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      name: external_exports.string().optional(),
-      enabled: external_exports.boolean().optional()
-    }
-  },
-  withErrorHandling(({ name: name2 }) => {
-    const success2 = mailManager.setRuleEnabled(name2, true);
-    if (!success2) {
-      return errorResponse(`Failed to enable rule "${name2}"`);
-    }
-    return successResponse(`Rule "${name2}" enabled`, { ok: true, name: name2, enabled: true });
-  }, "Error enabling rule")
-);
-registerTool(
-  "disable-rule",
-  {
-    description: "Use when: turning off an existing Mail rule by name (without deleting it).\nReturns: a confirmation that the rule was disabled.\nDo not use when: turning a rule on (use enable-rule), creating one (use create-rule), or removing it permanently (use delete-rule). Use list-rules to confirm the exact rule name.",
-    inputSchema: {
-      name: external_exports.string().min(1, "Rule name is required")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      name: external_exports.string().optional(),
-      enabled: external_exports.boolean().optional()
-    }
-  },
-  withErrorHandling(({ name: name2 }) => {
-    const success2 = mailManager.setRuleEnabled(name2, false);
-    if (!success2) {
-      return errorResponse(`Failed to disable rule "${name2}"`);
-    }
-    return successResponse(`Rule "${name2}" disabled`, { ok: true, name: name2, enabled: false });
-  }, "Error disabling rule")
-);
-registerTool(
-  "create-rule",
-  {
-    description: "Use when: creating a new Mail rule with one or more conditions (field/operator/value) and at least one action (markRead, markFlagged, delete, or moveTo). Set matchAll to require all conditions vs. any.\nReturns: a confirmation naming the rule and its condition count.\nDo not use when: toggling an existing rule (use enable-rule / disable-rule) or removing one (use delete-rule). Use list-rules to avoid duplicating an existing rule.\nSafety: creates a rule that automatically acts on real mail (including delete/move actions) on an ongoing basis \u2014 confirm the conditions and actions with the user before calling.",
-    inputSchema: {
-      name: external_exports.string().min(1, "Rule name is required"),
-      conditions: external_exports.array(
-        external_exports.object({
-          field: external_exports.enum(["from", "to", "cc", "subject", "content"]),
-          operator: external_exports.enum(["contains", "notContains", "equals", "beginsWith", "endsWith"]).default("contains"),
-          value: external_exports.string().min(1, "Condition value is required")
-        })
-      ).min(1, "At least one condition is required"),
-      actions: external_exports.object({
-        markRead: external_exports.boolean().optional(),
-        markFlagged: external_exports.boolean().optional(),
-        delete: external_exports.boolean().optional(),
-        moveTo: external_exports.string().optional(),
-        moveToAccount: external_exports.string().optional()
-      }).refine(
-        (a) => a.markRead || a.markFlagged || a.delete || a.moveTo,
-        "At least one action is required (markRead, markFlagged, delete, or moveTo)"
-      ),
-      matchAll: external_exports.boolean().default(true),
-      enabled: external_exports.boolean().default(false).describe("Enable immediately; defaults to false so the rule must be reviewed first")
-    },
-    outputSchema: {
-      name: external_exports.string().optional(),
-      created: external_exports.boolean().optional()
-    }
-  },
-  withErrorHandling((args) => {
-    const result = mailManager.createRule(args);
-    if (!result.success) {
-      return errorResponse(`Failed to create rule "${args.name}": ${result.error}`);
-    }
-    return successResponse(
-      `Rule "${args.name}" created with ${args.conditions.length} condition(s).`,
-      { name: args.name, created: true }
-    );
-  }, "Error creating rule")
-);
-registerTool(
-  "delete-rule",
-  {
-    description: "Use when: permanently removing a Mail rule by name.\nReturns: a confirmation that the rule was deleted.\nDo not use when: you only want to pause it (use disable-rule) or create one (use create-rule).\nSafety: destructive \u2014 the rule is removed permanently. Require explicit user confirmation and use list-rules first to confirm the exact name.",
-    inputSchema: {
-      name: external_exports.string().min(1, "Rule name is required")
-    },
-    outputSchema: {
-      name: external_exports.string().optional(),
-      deleted: external_exports.boolean().optional()
-    }
-  },
-  withErrorHandling(({ name: name2 }) => {
-    const success2 = mailManager.deleteRule(name2);
-    if (!success2) {
-      return errorResponse(`Failed to delete rule "${name2}" (not found?)`);
-    }
-    return successResponse(`Rule "${name2}" deleted`, { name: name2, deleted: true });
-  }, "Error deleting rule")
-);
-registerTool(
-  "search-contacts",
-  {
-    description: "Use when: looking up a person in Contacts by name, organization, nickname, or email to find their email address(es)/phone(s) before composing or sending mail. Reads the macOS Contacts database directly (needs Full Disk Access; does NOT require Contacts.app to be running or an Automation / Apple-Events grant).\nReturns: matching contacts with their names, email addresses, and phone numbers.\nDo not use when: searching email messages (use search-messages) \u2014 this queries Contacts, not the mailbox.",
-    inputSchema: {
-      query: external_exports.string().min(1, "Search query is required")
-    },
-    outputSchema: {
-      contacts: external_exports.array(external_exports.object({}).passthrough()).optional(),
-      count: external_exports.number().optional()
-    }
-  },
-  withErrorHandling(({ query }) => {
-    const contacts = mailManager.searchContacts(query);
-    const structured = {
-      contacts: contacts.map((c) => ({ name: c.name, emails: c.emails, phones: c.phones })),
-      count: contacts.length
-    };
-    if (contacts.length === 0) {
-      return successResponse("No contacts found", structured);
-    }
-    const contactList = contacts.map((c) => {
-      const emails = c.emails.length > 0 ? c.emails.join(", ") : "no email";
-      const phones = c.phones.length > 0 ? `; ${c.phones.join(", ")}` : "";
-      return `  - ${c.name} (${emails}${phones})`;
-    }).join("\n");
-    return successResponse(`Found ${contacts.length} contact(s):
-${contactList}`, structured);
-  }, "Error searching contacts")
-);
-registerTool(
-  "save-template",
-  {
-    description: "Use when: creating a reusable email template (name, subject, body, optional default to/cc), or updating one by passing its existing id. Subject/body may contain placeholders for later use.\nReturns: the saved template's name and id (reuse the id with use-template / get-template / delete-template).\nDo not use when: composing a one-off message (use create-draft / send-email) or filling in a template to send (use use-template).\nSafety: writes the template to the on-disk templates store (APPLE_MAIL_MCP_TEMPLATES_FILE) and persists across restarts; passing an existing id overwrites that template.",
-    inputSchema: {
-      name: external_exports.string().min(1, "Template name is required"),
-      subject: external_exports.string().min(1, "Subject is required"),
-      body: external_exports.string().min(1, "Body is required"),
-      to: external_exports.array(external_exports.string()).optional().describe("Default recipients"),
-      cc: external_exports.array(external_exports.string()).optional().describe("Default CC recipients"),
-      id: external_exports.string().optional().describe("Template ID (for updating existing template)")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      id: external_exports.string().optional(),
-      name: external_exports.string().optional()
-    }
-  },
-  withErrorHandling(({ name: name2, subject, body, to, cc, id }) => {
-    const template = mailManager.saveTemplate(name2, subject, body, to, cc, id);
-    return successResponse(`Template "${template.name}" saved with ID: ${template.id}`, {
-      ok: true,
-      id: template.id,
-      name: template.name
-    });
-  }, "Error saving template")
-);
-registerTool(
-  "list-templates",
-  {
-    description: "Use when: discovering the saved email templates and their ids, e.g. before using or editing one.\nReturns: each template's id, name, and subject.\nDo not use when: you want a single template's full body (use get-template) or want to apply one (use use-template).",
-    inputSchema: {},
-    outputSchema: {
-      templates: external_exports.array(external_exports.object({}).passthrough()).optional(),
-      count: external_exports.number().optional()
-    }
-  },
-  withErrorHandling(() => {
-    const templates = mailManager.listTemplates();
-    const structured = {
-      templates: templates.map((t) => ({ id: t.id, name: t.name, subject: t.subject })),
-      count: templates.length
-    };
-    if (templates.length === 0) {
-      return successResponse("No templates saved", structured);
-    }
-    const templateList = templates.map((t) => `  - [${t.id}] ${t.name} \u2014 "${t.subject}"`).join("\n");
-    return successResponse(`Found ${templates.length} template(s):
-${templateList}`, structured);
-  }, "Error listing templates")
-);
-registerTool(
-  "get-template",
-  {
-    description: "Use when: reading the full contents of one saved template by id \u2014 its name, subject, default to/cc, and body.\nReturns: the template's name, subject, default recipients, and body text.\nDo not use when: you don't have the id (use list-templates first) or want to apply the template into a draft (use use-template).",
-    inputSchema: {
-      id: external_exports.string().min(1, "Template ID is required")
-    },
-    outputSchema: {
-      id: external_exports.string().optional(),
-      name: external_exports.string().optional(),
-      subject: external_exports.string().optional(),
-      to: external_exports.array(external_exports.string()).optional(),
-      cc: external_exports.array(external_exports.string()).optional(),
-      body: external_exports.string().optional()
-    }
-  },
-  withErrorHandling(({ id }) => {
-    const template = mailManager.getTemplate(id);
-    if (!template) {
-      return errorResponse(`Template "${id}" not found`);
-    }
-    const lines = [
-      `Name: ${template.name}`,
-      `Subject: ${template.subject}`,
-      template.to ? `To: ${template.to.join(", ")}` : null,
-      template.cc ? `CC: ${template.cc.join(", ")}` : null,
-      `
-${template.body}`
-    ].filter(Boolean).join("\n");
-    return successResponse(lines, {
-      id: template.id,
-      name: template.name,
-      subject: template.subject,
-      to: template.to ?? [],
-      cc: template.cc ?? [],
-      body: template.body
-    });
-  }, "Error getting template")
-);
-registerTool(
-  "delete-template",
-  {
-    description: "Use when: permanently removing a saved email template by id.\nReturns: a confirmation that the template was deleted.\nDo not use when: you only want to view it (use get-template) or update it (use save-template with the existing id).\nSafety: destructive \u2014 removes the template from the on-disk store permanently. Require explicit user confirmation and use list-templates first to confirm the id.",
-    inputSchema: {
-      id: external_exports.string().min(1, "Template ID is required")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      id: external_exports.string().optional()
-    }
-  },
-  withErrorHandling(({ id }) => {
-    const success2 = mailManager.deleteTemplate(id);
-    if (!success2) {
-      return errorResponse(`Template "${id}" not found`);
-    }
-    return successResponse(`Template "${id}" deleted`, { ok: true, id });
-  }, "Error deleting template")
-);
-registerTool(
-  "use-template",
-  {
-    description: "Use when: composing a new draft from a saved template (by id), optionally overriding the recipients, subject, or body. Creates a draft in Mail.app for the user to review and send.\nReturns: a confirmation that a draft was created from the template.\nDo not use when: you want to inspect the template without composing (use get-template) or send immediately without a draft (use send-email).",
-    inputSchema: {
-      id: external_exports.string().min(1, "Template ID is required"),
-      to: external_exports.array(external_exports.string()).optional().describe("Override recipients"),
-      cc: external_exports.array(external_exports.string()).optional().describe("Override CC recipients"),
-      subject: external_exports.string().optional().describe("Override subject"),
-      body: external_exports.string().optional().describe("Override body")
-    },
-    outputSchema: {
-      ok: external_exports.boolean().optional(),
-      id: external_exports.string().optional()
-    }
-  },
-  withErrorHandling(({ id, to, cc, subject, body }) => {
-    const success2 = mailManager.useTemplate(id, { to, cc, subject, body });
-    if (!success2) {
-      return errorResponse(`Failed to use template "${id}". Template not found or no recipients.`);
-    }
-    return successResponse(`Draft created from template "${id}"`, { ok: true, id });
-  }, "Error using template")
 );
 registerTool(
   "health-check",
